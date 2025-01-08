@@ -15,7 +15,7 @@ interface Size {
 interface Props {
     children: React.ReactElement
     isPresent: boolean
-    parentDom?: HTMLElement | ShadowRoot
+    root?: HTMLElement | ShadowRoot
 }
 
 interface MeasureProps extends Props {
@@ -51,7 +51,7 @@ class PopChildMeasure extends React.Component<MeasureProps> {
     }
 }
 
-export function PopChild({ children, isPresent, parentDom }: Props) {
+export function PopChild({ children, isPresent, root }: Props) {
     const id = useId()
     const ref = useRef<HTMLElement>(null)
     const size = useRef<Size>({
@@ -79,7 +79,7 @@ export function PopChild({ children, isPresent, parentDom }: Props) {
 
         const style = document.createElement("style")
         if (nonce) style.nonce = nonce
-        const parent = parentDom ?? document.head;
+        const parent = root ?? document.head;
         parent.appendChild(style)
         if (style.sheet) {
             style.sheet.insertRule(`

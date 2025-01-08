@@ -53,7 +53,7 @@ export const AnimatePresence: React.FunctionComponent<
     onExitComplete,
     presenceAffectsLayout = true,
     mode = "sync",
-    parentDom,
+    root,
 }) => {
     invariant(!exitBeforeEnter, "Replace exitBeforeEnter with mode='wait'")
 
@@ -208,7 +208,7 @@ export const AnimatePresence: React.FunctionComponent<
                         custom={isPresent ? undefined : custom}
                         presenceAffectsLayout={presenceAffectsLayout}
                         mode={mode}
-                        parentDom={parentDom}
+                        root={root}
                         onExitComplete={isPresent ? undefined : onExit}
                     >
                         {child}
