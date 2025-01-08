@@ -80,11 +80,12 @@ export function createRenderStep(runNextFrame: () => void): Step {
             // Swap this frame and the next to avoid GC
             ;[thisFrame, nextFrame] = [nextFrame, thisFrame]
 
-            // Clear the next frame queue
-            nextFrame.clear()
-
             // Execute this frame
             thisFrame.forEach(triggerCallback)
+
+            // Clear the frame so no callbacks remain. This is to avoid
+            // memory leaks should this render step not run for a while.
+            thisFrame.clear()
 
             isProcessing = false
 

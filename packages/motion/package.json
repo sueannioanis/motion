@@ -1,6 +1,6 @@
 {
     "name": "motion",
-    "version": "11.13.1",
+    "version": "11.16.0",
     "description": "An animation library for JavaScript and React.",
     "main": "dist/cjs/index.js",
     "module": "dist/es/motion/lib/index.mjs",
@@ -46,7 +46,7 @@
     "types": "dist/index.d.ts",
     "author": "Matt Perry",
     "license": "MIT",
-    "repository": "https://github.com/framer/motion/",
+    "repository": "https://github.com/motiondivision/motion",
     "sideEffects": false,
     "keywords": [
         "javascript animation",
@@ -70,13 +70,13 @@
         "postpublish": "git push --tags"
     },
     "dependencies": {
-        "framer-motion": "^11.13.1",
+        "framer-motion": "^11.16.0",
         "tslib": "^2.4.0"
     },
     "peerDependencies": {
         "@emotion/is-prop-valid": "*",
-        "react": "^18.0.0",
-        "react-dom": "^18.0.0"
+        "react": "^18.0.0 || ^19.0.0",
+        "react-dom": "^18.0.0 || ^19.0.0"
     },
     "peerDependenciesMeta": {
         "@emotion/is-prop-valid": {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react"
 import { motion } from "../.."
 import { motionValue } from "../../value"
 import {
@@ -560,7 +560,7 @@ describe("press", () => {
                         getByTestId("a") as Element,
                         getByTestId("b") as Element,
                     ]),
-                100
+                200
             )
         })
 

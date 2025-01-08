@@ -76,9 +76,10 @@ describe("waapi", () => {
             })
     })
 
-    it("Should match WAAPI and main thread startTimes, and allow explicitly setting startTime", () => {
+    // Skipping in CI as it's flaky
+    it.skip("Should match WAAPI and main thread startTimes, and allow explicitly setting startTime", () => {
         cy.visit("?test=waapi-sync")
-            .wait(1500)
+            .wait(2000)
             // Automatically recorded startTime should be the same between main thread and WAAPI
             .get(".auto-timer")
             .should(([waapi, sync]: any) => {

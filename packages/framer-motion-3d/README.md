@@ -32,9 +32,6 @@
   <a href="https://twitter.com/motiondotdev" target="_blank">
   <img src="https://img.shields.io/twitter/follow/framer.svg?style=social&label=Follow"  />
   </a>
-  <a href="https://discord.gg/DfkSpYe" target="_blank">
-  <img src="https://img.shields.io/discord/308323056592486420.svg?logo=discord&logoColor=white" alt="Chat on Discord">
-  </a>
 </p>
 
 <br>
@@ -63,7 +60,7 @@ Or check out [our examples](https://www.framer.com/docs/three-introduction/#exam
 
 ### 🛠 Contribute
 
-Want to contribute to Motion 3D? Our [contributing guide](https://github.com/framer/motion/blob/master/CONTRIBUTING.md) has you covered.
+Want to contribute to Motion 3D? Our [contributing guide](https://github.com/motiondivision/motion/blob/master/CONTRIBUTING.md) has you covered.
 
 ### 👩🏻‍⚖️ License
 

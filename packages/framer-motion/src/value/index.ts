@@ -1,9 +1,9 @@
+import { AnimationPlaybackControls } from "motion-dom"
 import { frame } from "../frameloop"
+import { time } from "../frameloop/sync-time"
 import { SubscriptionManager } from "../utils/subscription-manager"
 import { velocityPerSecond } from "../utils/velocity-per-second"
 import { warnOnce } from "../utils/warn-once"
-import { AnimationPlaybackControls } from "../animation/types"
-import { time } from "../frameloop/sync-time"
 
 export type Transformer<T> = (v: T) => T
 
@@ -92,12 +92,12 @@ export class MotionValue<V = any> {
     /**
      * The last time the `MotionValue` was updated.
      */
-    private updatedAt: number
+    updatedAt: number
 
     /**
      * The time `prevFrameValue` was updated.
      */
-    private prevUpdatedAt: number | undefined
+    prevUpdatedAt: number | undefined
 
     /**
      * Add a passive effect to this `MotionValue`.
