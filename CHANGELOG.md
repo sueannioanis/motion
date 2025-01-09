@@ -4,11 +4,18 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
-## [11.16.1] 2025-01-08
+## [11.16.2] 2025-01-09
 
 ### Fixed
 
 -   Allowing custom DOM element for injecting styles when using AnimatePresence with mode === `popLayout`. Fixes shadow DOM issue [#2508](https://github.com/framer/motion/issues/2508) by passing the shadow root into the new `root` prop.
+
+## [11.16.1] 2024-01-08
+
+### Fixed
+
+-   Adding `displayName` to `motion` components.
+-   Ensure `press` doesn't override `tabindex` when explicitly set.
 
 ## [11.16.0] 2024-01-06
 
