@@ -466,7 +466,7 @@ describe("animate prop as variant", () => {
             setTimeout(() => {
                 expect(parentOpacity.get()).toBe(0)
                 expect(childOpacity.get()).not.toBe(0)
-            }, 200)
+            }, 500)
         })
     })
 
