@@ -4,20 +4,291 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
-## [11.16.2] 2025-01-09
+## [12.5.1] 2025-03-18
 
 ### Fixed
 
 -   Allowing custom DOM element for injecting styles when using AnimatePresence with mode === `popLayout`. Fixes shadow DOM issue [#2508](https://github.com/framer/motion/issues/2508) by passing the shadow root into the new `root` prop.
 
-## [11.16.1] 2024-01-08
+## [12.5.0] 2025-03-11
+
+### Added
+
+-   Added `motionValue` to vanilla JS entrypoint.
+
+### Removed
+
+-   Removed `framer-motion-3d` package.
+
+## [12.4.13] 2025-03-11
+
+### Fixed
+
+-   Fixed reading initial transform values from elements.
+
+## [12.4.12] 2025-03-11
+
+### Fixed
+
+-   Removed pointer capture from pan and drag gestures.
+
+## [12.4.11] 2025-03-10
+
+### Fixed
+
+-   Preventing flattening of scroll animations when `type` or `ease` are explicitly set.
+
+## [12.4.10] 2025-03-03
+
+### Fixed
+
+-   Adding UMD bundles for `motion-dom` and `motion-utils`.
+
+## [12.4.9] 2025-03-03
+
+### Fixed
+
+-   Fixed `Reorder.Item` reordering causing `lostpointercapture` event to fire.
+
+## [12.4.8] 2025-02-26
+
+### Fixed
+
+-   Fixed exiting children with `layoutDependency` not animating layout changes because of a stale layout dependency.
+
+## [12.4.7] 2025-02-20
+
+### Fixed
+
+-   Fixed `AnimatePresence` not triggering exit animations when a child with `layout` or `drag` is removed.
+
+## [12.4.6] 2025-02-20
+
+### Fixed
+
+-   Fixed drag gesture on child elements.
+
+## [12.4.5] 2025-02-19
+
+### Fixed
+
+-   Fixed `onClick` handlers not working inside `press` events.
+
+## [12.4.4] 2025-02-18
+
+### Fixed
+
+-   Changed press, drag and pan gestures to use pointer capturing for better usage within `iframe` embeds.
+
+## [12.4.3] 2025-02-12
+
+### Fixed
+
+-   Restored warning for when animating more than two keyframes with a spring.
+
+## [12.4.2] 2025-02-10
+
+### Fixed
+
+-   Preventing `press` from triggering when an element is disabled.
+
+## [12.4.1] 2025-02-06
+
+### Fixed
+
+-   Check for `transition` in `initial` when animating removed values.
+
+## [12.4.0] 2025-02-06
+
+### Added
+
+-   Added `initial` option to `useInView`.
+
+## [12.3.1] 2025-02-05
+
+### Fixed
+
+-   Correctly applying CSS variables at the end of a mini `animate` animation.
+
+## [12.3.0] 2025-02-05
+
+### Added
+
+-   Added `usePresenceData` to get custom data passed to `AnimatePresence` in descendant components.
+
+## [12.2.0] 2025-02-05
+
+### Added
+
+-   Added unit support to `useSpring`.
+
+## [12.1.0] 2025-02-04
+
+### Fixed
+
+-   Bug with `AnimatePresence` in React 19 strict mode.
+
+### Deprecated
+
+-   Motion 3D.
+
+## [12.0.11] 2025-02-03
+
+### Fixed
+
+-   Moving `updateSVGDimensions` to its own file to help with tree-shaking.
+
+## [12.0.10] 2025-02-03
+
+### Fixed
+
+-   Providing `MotionValue` to `motion` component from `motion/react-client` entrypoint.
+
+## [12.0.9] 2025-02-03
+
+### Fixed
+
+-   Removing React from bundle.
+
+## [12.0.8] 2025-02-03
+
+### Fixed
+
+-   Infer type of `children` prop for `motion.create`.
+
+## [12.0.7] 2025-01-28
+
+### Fixed
+
+-   Fixed SVG transform animations via `animate`.
+
+## [12.0.6] 2025-01-27
+
+### Fixed
+
+-   Discard layout projection snapshots if 0x0.
+
+## [12.0.5] 2025-01-24
+
+### Fixed
+
+-   Fix scale correction for CSS variables.
+
+## [12.0.4] 2025-01-24
+
+### Fixed
+
+-   Add scale correction for CSS variables.
+
+## [12.0.3] 2025-01-23
+
+### Fixed
+
+-   Fixed toggling between shared layout animations multiple times.
+
+### Added
+
+-   Added private `anchorX` prop to `AnimatePresence`.
+
+### Changed
+
+-   Simplified `useSpring` for smaller bundlesize.
+
+## [12.0.1] 2025-01-21
+
+### Fixed
+
+-   Prevent relative animations from restarting layout animations unnecessarily.
+
+## [12.0.0] 2025-01-20
+
+### Changed
+
+-   `press`, `hover` and `inView` now pass the target element as the first argument to the gesture start callback.
+
+## [11.18.2] 2025-01-20
+
+### Fixed
+
+-   Animations with `transformTemplate` not hardware accelerated.
+
+## [11.18.1] 2025-01-17
+
+### Fixed
+
+-   `AnimatePresence` types in React 19.
+-   SVG with `transform` not always setting styles correctly on mount.
+
+## [11.18.0] 2025-01-14
+
+### Added
+
+-   Adding `animateSequence` to perform animation sequences via WAAPI for a tiny bundlesize.
+
+### Fixed
+
+-   Missing `AnimationControls` type export.
+
+## [11.17.1] 2025-01-13
+
+### Fixed
+
+-   Remeasure SVG when size/position changes to ensure correct `transform-origin`.
+
+## [11.17.0] 2025-01-10
+
+### Added
+
+-   Added `propagate` to `AnimatePresence`. This prop allows parent exit animations to be propagated to children.
+
+### Removed
+
+-   Removed `exitBeforeEnter` from `AnimatePresence`.
+
+## [11.16.7] 2025-01-10
+
+### Fixed
+
+-   Fixing timelines where a string label is used as the first segment.
+
+## [11.16.6] 2025-01-10
+
+### Changed
+
+-   More movement values like `height` and `top` are now blocked by reduced motion.
+
+## [11.16.5] 2025-01-09
+
+### Fixed
+
+-   Fixed `scroll` progress being stuck at `1` when a `target` is `100vh`.
+
+## [11.16.4] 2025-01-09
+
+### Fixed
+
+-   Fix type of `attachTimeline` when `skipLibCheck` is disabled.
+
+## [11.16.3] 2025-01-09
+
+### Fixed
+
+-   Checking return of `press`, `hover`, and `inView` callbacks before calling.
+
+## [11.16.2] 2025-01-09
+
+### Fixed
+
+-   Restoring missing type exports.
+
+## [11.16.1] 2025-01-08
 
 ### Fixed
 
 -   Adding `displayName` to `motion` components.
 -   Ensure `press` doesn't override `tabindex` when explicitly set.
 
-## [11.16.0] 2024-01-06
+## [11.16.0] 2025-01-06
 
 ### Added
 

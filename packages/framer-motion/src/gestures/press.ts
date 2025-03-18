@@ -1,8 +1,7 @@
-import { Feature } from "../motion/features/Feature"
-import { press } from "motion-dom"
-import { VisualElement } from "../render/VisualElement"
-import { frame } from "../frameloop"
+import { frame, press } from "motion-dom"
 import { extractEventInfo } from "../events/event-info"
+import { Feature } from "../motion/features/Feature"
+import { VisualElement } from "../render/VisualElement"
 
 function handlePressEvent(
     node: VisualElement<Element>,
@@ -10,6 +9,10 @@ function handlePressEvent(
     lifecycle: "Start" | "End" | "Cancel"
 ) {
     const { props } = node
+
+    if (node.current instanceof HTMLButtonElement && node.current.disabled) {
+        return
+    }
 
     if (node.animationState && props.whileTap) {
         node.animationState.setActive("whileTap", lifecycle === "Start")
@@ -33,7 +36,7 @@ export class PressGesture extends Feature<Element> {
 
         this.unmount = press(
             current,
-            (startEvent) => {
+            (_element, startEvent) => {
                 handlePressEvent(this.node, startEvent, "Start")
 
                 return (endEvent, { success }) =>

@@ -12,6 +12,56 @@ function expectBbox(element: HTMLElement, expectedBbox: BoundingBox) {
     expect(bbox.width).to.equal(expectedBbox.width)
     expect(bbox.height).to.equal(expectedBbox.height)
 }
+
+describe("Shared layout: Toggle multiple times", () => {
+    it("Should allow multiple toggles", () => {
+        cy.visit("?test=layout-shared-toggle-multiple")
+            .wait(50)
+            .get("button")
+            .click()
+            .wait(200)
+            .get("#a")
+            .should(([$box]: any) => {
+                const bbox = $box.getBoundingClientRect()
+                expect(bbox.left).not.to.equal(0)
+            })
+            .get("#b")
+            .should(([$box]: any) => {
+                const bbox = $box.getBoundingClientRect()
+                expect(bbox.left).not.to.equal(0)
+            })
+            .get("button")
+            .click()
+            .wait(200)
+            .get("#a")
+            .should(([$box]: any) => {
+                const bbox = $box.getBoundingClientRect()
+                expect(bbox.left).not.to.equal(0)
+            })
+            .get("button")
+            .click()
+            .wait(200)
+            .get("#a")
+            .should(([$box]: any) => {
+                const bbox = $box.getBoundingClientRect()
+                expect(bbox.left).not.to.equal(0)
+            })
+            .get("#b")
+            .should(([$box]: any) => {
+                const bbox = $box.getBoundingClientRect()
+                expect(bbox.left).not.to.equal(0)
+            })
+            .get("button")
+            .click()
+            .wait(200)
+            .get("#a")
+            .should(([$box]: any) => {
+                const bbox = $box.getBoundingClientRect()
+                expect(bbox.left).not.to.equal(0)
+            })
+    })
+})
+
 describe("Shared layout: A -> B transition", () => {
     it("When performing crossfade animation, removed element isn't removed until animation is complete", () => {
         cy.visit("?test=layout-shared-animate-presence")
@@ -1131,6 +1181,24 @@ describe("Shared layout: Measures rotated elements correctly when animation is i
             .get("#box")
             .should(([$box]: any) => {
                 expectBbox($box, boundingBox)
+            })
+    })
+})
+
+describe("Shared layout: Border radius", () => {
+    it("Should animate border radius", () => {
+        cy.visit("?test=layout-shared-border-radius")
+            .wait(50)
+            .get("#next")
+            .click()
+            .wait(200)
+            .get(".measure-box")
+            .should(([$boxA, $boxB]: any) => {
+                const boxAStyle = window.getComputedStyle($boxA)
+                const boxBStyle = window.getComputedStyle($boxB)
+                expect(boxAStyle.borderRadius).not.to.equal("0%")
+                expect(boxBStyle.borderRadius).not.to.equal("0%")
+                expect(boxBStyle.borderRadius).to.equal(boxAStyle.borderRadius)
             })
     })
 })

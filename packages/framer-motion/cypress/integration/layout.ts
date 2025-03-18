@@ -176,6 +176,29 @@ describe("Layout animation", () => {
             })
     })
 
+    it("Exiting children correctly animate when layoutDependency changes", () => {
+        let initialBbox: BoundingBox
+
+        cy.visit("?test=layout-dependency-child")
+            .wait(50)
+            .get("#child")
+            .should(([$child]: any) => {
+                initialBbox = $child.getBoundingClientRect()
+            })
+            .get("button")
+            .trigger("click")
+            .wait(100)
+            .get("#child")
+            .should(([$childAfter]: any) => {
+                const afterBbox = $childAfter.getBoundingClientRect()
+
+                expect(afterBbox.top).to.equal(initialBbox.top)
+                expect(afterBbox.left).to.equal(initialBbox.left)
+                expect(afterBbox.width).to.equal(initialBbox.width)
+                expect(afterBbox.height).to.equal(initialBbox.height)
+            })
+    })
+
     it("Has a correct bounding box when a transform is applied", () => {
         cy.visit("?test=layout-scaled-child-in-transformed-parent")
             .wait(50)
@@ -298,6 +321,30 @@ describe("Layout animation", () => {
                     width: 100,
                     height: 100,
                 })
+            })
+    })
+
+    it("A new layout animation isn't started if the target doesn't change", () => {
+        cy.visit("?test=layout-rerender")
+            .wait(50)
+            .get("button")
+            .trigger("click")
+            .wait(200)
+            .get("#render-count")
+            .should(([$count]: any) => {
+                expect($count.textContent).to.equal("1")
+            })
+    })
+
+    it("A new layout animation isn't started if the target doesn't change, even if parent starts layout animation", () => {
+        cy.visit("?test=layout-rerender&parent=true")
+            .wait(50)
+            .get("button")
+            .trigger("click")
+            .wait(200)
+            .get("#render-count")
+            .should(([$count]: any) => {
+                expect($count.textContent).to.equal("1")
             })
     })
 })

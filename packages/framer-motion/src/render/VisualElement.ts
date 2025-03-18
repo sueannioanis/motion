@@ -1,21 +1,37 @@
-import { frame, cancelFrame } from "../frameloop"
+import {
+    cancelFrame,
+    frame,
+    motionValue,
+    time,
+    type MotionValue,
+} from "motion-dom"
+import { SubscriptionManager, warnOnce } from "motion-utils"
 import {
     MotionConfigContext,
     ReducedMotionConfig,
 } from "../context/MotionConfigContext"
+import type { PresenceContextProps } from "../context/PresenceContext"
+import { featureDefinitions } from "../motion/features/definitions"
+import { Feature } from "../motion/features/Feature"
 import { FeatureDefinitions } from "../motion/features/types"
 import { MotionProps, MotionStyle } from "../motion/types"
+import { OnUpdateSettings } from "../motion/utils/use-visual-state"
+import { createBox } from "../projection/geometry/models"
 import type { Box } from "../projection/geometry/types"
 import { IProjectionNode } from "../projection/node/types"
+import { isNumericalString } from "../utils/is-numerical-string"
+import { isZeroValueString } from "../utils/is-zero-value-string"
 import { initPrefersReducedMotion } from "../utils/reduced-motion"
 import {
     hasReducedMotionListener,
     prefersReducedMotion,
 } from "../utils/reduced-motion/state"
-import { SubscriptionManager } from "../utils/subscription-manager"
-import { motionValue, MotionValue } from "../value"
+import { complex } from "../value/types/complex"
 import { isMotionValue } from "../value/utils/is-motion-value"
-import { transformProps } from "./html/utils/transform"
+import { getAnimatableNone } from "./dom/value-types/animatable-none"
+import { findValueType } from "./dom/value-types/find"
+import { transformProps } from "./html/utils/keys-transform"
+import { visualElementStore } from "./store"
 import {
     ResolvedValues,
     VisualElementEventCallbacks,
@@ -26,21 +42,9 @@ import {
     isControllingVariants as checkIsControllingVariants,
     isVariantNode as checkIsVariantNode,
 } from "./utils/is-controlling-variants"
+import { KeyframeResolver } from "./utils/KeyframesResolver"
 import { updateMotionValuesFromProps } from "./utils/motion-values"
 import { resolveVariantFromProps } from "./utils/resolve-variants"
-import { warnOnce } from "../utils/warn-once"
-import { featureDefinitions } from "../motion/features/definitions"
-import { Feature } from "../motion/features/Feature"
-import type { PresenceContextProps } from "../context/PresenceContext"
-import { visualElementStore } from "./store"
-import { KeyframeResolver } from "./utils/KeyframesResolver"
-import { isNumericalString } from "../utils/is-numerical-string"
-import { isZeroValueString } from "../utils/is-zero-value-string"
-import { findValueType } from "./dom/value-types/find"
-import { complex } from "../value/types/complex"
-import { getAnimatableNone } from "./dom/value-types/animatable-none"
-import { createBox } from "../projection/geometry/models"
-import { time } from "../frameloop/sync-time"
 
 const propEventHandlers = [
     "AnimationStart",
@@ -134,6 +138,12 @@ export abstract class VisualElement<
         styleProp?: MotionStyle,
         projection?: IProjectionNode
     ): void
+
+    /**
+     * This method is called when a transform property is bound to a motion value.
+     * It's currently used to measure SVG elements when a new transform property is bound.
+     */
+    onBindTransform?(): void
 
     /**
      * If the component child is provided as a motion value, handle subscriptions
@@ -320,6 +330,10 @@ export abstract class VisualElement<
         [key: string]: VoidFunction
     } = {}
 
+    private onUpdate?: (
+        settings: OnUpdateSettings<Instance, RenderState>
+    ) => void
+
     constructor(
         {
             parent,
@@ -331,7 +345,8 @@ export abstract class VisualElement<
         }: VisualElementOptions<Instance, RenderState>,
         options: Options = {} as any
     ) {
-        const { latestValues, renderState } = visualState
+        const { latestValues, renderState, onUpdate } = visualState
+        this.onUpdate = onUpdate
         this.latestValues = latestValues
         this.baseTarget = { ...latestValues }
         this.initialValues = props.initial ? { ...latestValues } : {}
@@ -412,7 +427,6 @@ export abstract class VisualElement<
     }
 
     unmount() {
-        visualElementStore.delete(this.current)
         this.projection && this.projection.unmount()
         cancelFrame(this.notifyUpdate)
         cancelFrame(this.render)
@@ -441,6 +455,10 @@ export abstract class VisualElement<
         }
 
         const valueIsTransform = transformProps.has(key)
+
+        if (valueIsTransform && this.onBindTransform) {
+            this.onBindTransform()
+        }
 
         const removeOnChange = value.on(
             "change",
@@ -613,6 +631,8 @@ export abstract class VisualElement<
         if (this.handleChildMotionValue) {
             this.handleChildMotionValue()
         }
+
+        this.onUpdate && this.onUpdate(this)
     }
 
     getProps() {

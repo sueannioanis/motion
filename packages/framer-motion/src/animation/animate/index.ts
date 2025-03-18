@@ -1,14 +1,14 @@
-import {
+import type {
     AnimationPlaybackControls,
     AnimationScope,
     DOMKeyframesDefinition,
     AnimationOptions as DynamicAnimationOptions,
     ElementOrSelector,
-    GroupPlaybackControls,
+    MotionValue,
     ValueAnimationTransition,
 } from "motion-dom"
+import { GroupPlaybackControls } from "motion-dom"
 import { GenericKeyframesTarget } from "../../types"
-import type { MotionValue } from "../../value"
 import {
     AnimationSequence,
     ObjectTarget,
@@ -18,7 +18,7 @@ import { animateSequence } from "./sequence"
 import { animateSubject } from "./subject"
 
 function isSequence(value: unknown): value is AnimationSequence {
-    return Array.isArray(value) && Array.isArray(value[0])
+    return Array.isArray(value) && value.some(Array.isArray)
 }
 
 /**

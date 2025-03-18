@@ -1,10 +1,10 @@
 "use client"
 
 import * as React from "react"
-import { useId, useMemo, useCallback } from "react"
+import { useCallback, useId, useMemo } from "react"
 import {
     PresenceContext,
-    PresenceContextProps,
+    type PresenceContextProps,
 } from "../../context/PresenceContext"
 import { VariantLabels } from "../../motion/types"
 import { useConstant } from "../../utils/use-constant"
@@ -18,6 +18,7 @@ interface PresenceChildProps {
     custom?: any
     presenceAffectsLayout: boolean
     mode: "sync" | "popLayout" | "wait"
+    anchorX?: "left" | "right"
     root?: HTMLElement | ShadowRoot
 }
 
@@ -29,6 +30,7 @@ export const PresenceChild = ({
     custom,
     presenceAffectsLayout,
     mode,
+    anchorX,
     root
 }: PresenceChildProps) => {
     const presenceChildren = useConstant(newChildrenMap)
@@ -85,7 +87,11 @@ export const PresenceChild = ({
     }, [isPresent])
 
     if (mode === "popLayout") {
-        children = <PopChild isPresent={isPresent} root={root}>{children}</PopChild>
+        children = (
+            <PopChild isPresent={isPresent} anchorX={anchorX} root={root}>
+                {children}
+            </PopChild>
+        )
     }
 
     return (

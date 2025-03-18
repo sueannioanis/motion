@@ -82,3 +82,51 @@ describe("SVG", () => {
             })
     })
 })
+
+describe("SVG origin", () => {
+    it("Correctly animates origin", () => {
+        cy.visit("?test=svg-origin")
+            .wait(500)
+            .get("circle")
+            .should(([$circle]: any) => {
+                expect($circle.style.transformOrigin).to.equal("100px 100px")
+                expect($circle.style.transform).to.equal("scale(0.5)")
+            })
+            .get("rect")
+            .should(([$rect]: any) => {
+                expect($rect.style.transformOrigin).to.equal("300px 150px")
+                expect($rect.style.transform).to.equal("scale(0.5)")
+            })
+            .get("#new-transform")
+            .should(([$circle]: any) => {
+                expect($circle.style.transformOrigin).to.equal("400px 100px")
+                expect($circle.style.transform).to.equal("scale(0.5)")
+            })
+    })
+})
+
+describe("SVG measures", () => {
+    it("Correctly measures SVG and renders on mount", () => {
+        cy.visit("?test=svg-initial-render")
+            .wait(200)
+            .get("path")
+            .should(([$path]: any) => {
+                expect($path.style.transform).to.equal(
+                    "translateX(5px) translateY(5px)"
+                )
+                expect($path.style.transformOrigin).to.equal("20px 20px")
+            })
+    })
+
+    it("Measure SVG and renders on mount when encountering new transforms", () => {
+        cy.visit("?test=svg-animate-transform")
+            .wait(200)
+            .get("path")
+            .should(([$path]: any) => {
+                expect($path.style.transform).to.equal(
+                    "translateX(5px) translateY(5px)"
+                )
+                expect($path.style.transformOrigin).to.equal("20px 20px")
+            })
+    })
+})

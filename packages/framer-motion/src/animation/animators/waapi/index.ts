@@ -1,4 +1,8 @@
-import { mapEasingToNativeEasing } from "motion-dom"
+import {
+    activeAnimations,
+    mapEasingToNativeEasing,
+    statsBuffer,
+} from "motion-dom"
 import { NativeAnimationOptions } from "./types"
 
 export function startWaapiAnimation(
@@ -24,7 +28,11 @@ export function startWaapiAnimation(
      */
     if (Array.isArray(easing)) keyframeOptions.easing = easing
 
-    return element.animate(keyframeOptions, {
+    if (statsBuffer.value) {
+        activeAnimations.waapi++
+    }
+
+    const animation = element.animate(keyframeOptions, {
         delay,
         duration,
         easing: !Array.isArray(easing) ? easing : "linear",
@@ -32,4 +40,12 @@ export function startWaapiAnimation(
         iterations: repeat + 1,
         direction: repeatType === "reverse" ? "alternate" : "normal",
     })
+
+    if (statsBuffer.value) {
+        animation.finished.finally(() => {
+            activeAnimations.waapi--
+        })
+    }
+
+    return animation
 }

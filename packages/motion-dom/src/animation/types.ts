@@ -79,7 +79,11 @@ export interface AnimationPlaybackControls {
      */
     attachTimeline?: (
         timeline: ProgressTimeline,
-        fallback?: (animation: AnimationPlaybackControls) => VoidFunction
+        fallback?: (
+            animation:
+                | AnimationPlaybackControls
+                | AnimationPlaybackControlsWithFinished
+        ) => VoidFunction
     ) => VoidFunction
 
     /**
@@ -113,6 +117,7 @@ export interface ValueAnimationOptions<V extends string | number = number>
     name?: string
     from?: V
     isGenerator?: boolean
+    allowFlatten?: boolean
 }
 
 export type GeneratorFactory = (

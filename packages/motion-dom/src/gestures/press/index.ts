@@ -1,6 +1,7 @@
 import { ElementOrSelector } from "../../utils/resolve-elements"
 import { isDragActive } from "../drag/state/is-active"
 import { EventOptions } from "../types"
+import { capturePointer } from "../utils/capture-pointer"
 import { isNodeOrChild } from "../utils/is-node-or-child"
 import { isPrimaryPointer } from "../utils/is-primary-pointer"
 import { setupGesture } from "../utils/setup"
@@ -41,72 +42,126 @@ export interface PointerEventOptions extends EventOptions {
  * @public
  */
 export function press(
-    elementOrSelector: ElementOrSelector,
+    targetOrSelector: ElementOrSelector,
     onPressStart: OnPressStartEvent,
     options: PointerEventOptions = {}
 ): VoidFunction {
-    const [elements, eventOptions, cancelEvents] = setupGesture(
-        elementOrSelector,
+    const [targets, eventOptions, cancelEvents] = setupGesture(
+        targetOrSelector,
         options
     )
 
     const startPress = (startEvent: PointerEvent) => {
-        const element = startEvent.currentTarget as Element
+        const target = startEvent.currentTarget as Element
 
-        if (!isValidPressEvent(startEvent) || isPressing.has(element)) return
+        if (!target || !isValidPressEvent(startEvent) || isPressing.has(target))
+            return
 
-        isPressing.add(element)
+        isPressing.add(target)
 
-        const onPressEnd = onPressStart(startEvent)
+        capturePointer(startEvent, "set")
+
+        const onPressEnd = onPressStart(target, startEvent)
 
         const onPointerEnd = (endEvent: PointerEvent, success: boolean) => {
-            window.removeEventListener("pointerup", onPointerUp)
-            window.removeEventListener("pointercancel", onPointerCancel)
+            target.removeEventListener("pointerup", onPointerUp)
+            target.removeEventListener("pointercancel", onPointerCancel)
 
-            if (!isValidPressEvent(endEvent) || !isPressing.has(element)) {
+            capturePointer(endEvent, "release")
+
+            if (!isValidPressEvent(endEvent) || !isPressing.has(target)) {
                 return
             }
 
-            isPressing.delete(element)
+            isPressing.delete(target)
 
-            if (onPressEnd) {
+            if (typeof onPressEnd === "function") {
                 onPressEnd(endEvent, { success })
             }
         }
 
         const onPointerUp = (upEvent: PointerEvent) => {
-            onPointerEnd(
-                upEvent,
-                options.useGlobalTarget ||
-                    isNodeOrChild(element, upEvent.target as Element)
-            )
+            const isOutside = !upEvent.isTrusted
+                ? false
+                : checkOutside(
+                      upEvent,
+                      target instanceof Element
+                          ? target.getBoundingClientRect()
+                          : {
+                                left: 0,
+                                top: 0,
+                                right: window.innerWidth,
+                                bottom: window.innerHeight,
+                            }
+                  )
+
+            if (isOutside) {
+                onPointerEnd(upEvent, false)
+            } else {
+                onPointerEnd(
+                    upEvent,
+                    !(target instanceof Element) ||
+                        isNodeOrChild(target, upEvent.target as Element)
+                )
+            }
         }
 
         const onPointerCancel = (cancelEvent: PointerEvent) => {
             onPointerEnd(cancelEvent, false)
         }
 
-        window.addEventListener("pointerup", onPointerUp, eventOptions)
-        window.addEventListener("pointercancel", onPointerCancel, eventOptions)
-    }
-
-    elements.forEach((element: HTMLElement) => {
-        if (
-            !isElementKeyboardAccessible(element) &&
-            element.getAttribute("tabindex") === null
-        ) {
-            element.tabIndex = 0
-        }
-
-        const target = options.useGlobalTarget ? window : element
-        target.addEventListener("pointerdown", startPress, eventOptions)
-
-        element.addEventListener(
-            "focus",
-            (event) => enableKeyboardPress(event, eventOptions),
+        target.addEventListener("pointerup", onPointerUp, eventOptions)
+        target.addEventListener("pointercancel", onPointerCancel, eventOptions)
+        target.addEventListener(
+            "lostpointercapture",
+            onPointerCancel,
             eventOptions
         )
+    }
+
+    targets.forEach((target: EventTarget) => {
+        target = options.useGlobalTarget ? window : target
+
+        let canAddKeyboardAccessibility = false
+
+        if (target instanceof HTMLElement) {
+            canAddKeyboardAccessibility = true
+
+            if (
+                !isElementKeyboardAccessible(target) &&
+                target.getAttribute("tabindex") === null
+            ) {
+                target.tabIndex = 0
+            }
+        }
+
+        target.addEventListener(
+            "pointerdown",
+            startPress as EventListener,
+            eventOptions
+        )
+
+        if (canAddKeyboardAccessibility) {
+            target.addEventListener(
+                "focus",
+                (event) =>
+                    enableKeyboardPress(event as FocusEvent, eventOptions),
+                eventOptions
+            )
+        }
     })
 
     return cancelEvents
+}
+
+function checkOutside(
+    event: PointerEvent,
+    rect: { left: number; top: number; right: number; bottom: number }
+) {
+    return (
+        event.clientX < rect.left ||
+        event.clientX > rect.right ||
+        event.clientY < rect.top ||
+        event.clientY > rect.bottom
+    )
 }

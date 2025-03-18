@@ -1,6 +1,7 @@
+import { fireEvent } from "@testing-library/dom"
+import { motionValue } from "motion-dom"
 import { useState } from "react"
 import { motion } from "../.."
-import { motionValue } from "../../value"
 import {
     pointerDown,
     pointerEnter,
@@ -9,7 +10,6 @@ import {
     render,
 } from "../../../jest.setup"
 import { drag, MockDrag } from "../drag/__tests__/utils"
-import { fireEvent } from "@testing-library/dom"
 import { nextFrame } from "./utils"
 
 const enterKey = {
@@ -30,6 +30,21 @@ describe("press", () => {
         await nextFrame()
 
         expect(press).toBeCalledTimes(1)
+    })
+
+    test("press event listeners don't fire if element is disabled", async () => {
+        const press = jest.fn()
+        const Component = () => <motion.button disabled onTap={() => press()} />
+
+        const { container, rerender } = render(<Component />)
+        rerender(<Component />)
+
+        pointerDown(container.firstChild as Element)
+        pointerUp(container.firstChild as Element)
+
+        await nextFrame()
+
+        expect(press).toBeCalledTimes(0)
     })
 
     test("global press event listeners fire", async () => {
@@ -248,7 +263,8 @@ describe("press", () => {
         expect(press).toBeCalledTimes(1)
     })
 
-    test("press cancel fires if press released outside element", async () => {
+    // Replaced with end to end test but ideally would also run here
+    test.skip("press cancel fires if press released outside element", async () => {
         const pressCancel = jest.fn()
         const Component = () => (
             <motion.div>
@@ -720,5 +736,20 @@ describe("press", () => {
         return expect(promise).resolves.toEqual([
             0.5, 0.75, 1, 1, 1, 1, 1, 1, 1,
         ])
+    })
+
+    test("ignore press event when button is disabled", async () => {
+        const press = jest.fn()
+        const Component = () => <motion.button onTap={() => press()} disabled />
+
+        const { container, rerender } = render(<Component />)
+        rerender(<Component />)
+
+        pointerDown(container.firstChild as Element)
+        pointerUp(container.firstChild as Element)
+
+        await nextFrame()
+
+        expect(press).toBeCalledTimes(0)
     })
 })

@@ -1,20 +1,15 @@
-import { SpringOptions } from "motion-dom"
+import { MotionValue, SpringOptions, frame } from "motion-dom"
+import { noop } from "motion-utils"
 import { useContext, useInsertionEffect, useRef } from "react"
 import {
     MainThreadAnimation,
     animateValue,
 } from "../animation/animators/MainThreadAnimation"
 import { MotionConfigContext } from "../context/MotionConfigContext"
-import { frame, frameData } from "../frameloop"
+import { useConstant } from "../utils/use-constant"
 import { useIsomorphicLayoutEffect } from "../utils/use-isomorphic-effect"
-import { MotionValue } from "../value"
 import { useMotionValue } from "./use-motion-value"
 import { isMotionValue } from "./utils/is-motion-value"
-
-function toNumber(v: string | number) {
-    if (typeof v === "number") return v
-    return parseFloat(v)
-}
 
 /**
  * Creates a `MotionValue` that, when `set`, will use a spring animation to animate to its new state.
@@ -36,33 +31,48 @@ function toNumber(v: string | number) {
  * @public
  */
 export function useSpring(
-    source: MotionValue<string> | MotionValue<number> | number,
+    source: MotionValue<string>,
+    config?: SpringOptions
+): MotionValue<string>
+export function useSpring(
+    source: string,
+    config?: SpringOptions
+): MotionValue<string>
+export function useSpring(
+    source: MotionValue<number>,
+    config?: SpringOptions
+): MotionValue<number>
+export function useSpring(
+    source: number,
+    config?: SpringOptions
+): MotionValue<number>
+export function useSpring(
+    source: MotionValue<string> | MotionValue<number> | string | number,
     config: SpringOptions = {}
 ) {
     const { isStatic } = useContext(MotionConfigContext)
     const activeSpringAnimation = useRef<MainThreadAnimation<number> | null>(
         null
     )
-    const value = useMotionValue(
-        isMotionValue(source) ? toNumber(source.get()) : source
+
+    const initialValue = useConstant(() =>
+        isMotionValue(source) ? source.get() : source
     )
-    const latestValue = useRef<number>(value.get())
-    const latestSetter = useRef<(v: number) => void>(() => {})
+    const unit = useConstant(() =>
+        typeof initialValue === "string"
+            ? initialValue.replace(/[\d.-]/g, "")
+            : undefined
+    )
+
+    const value = useMotionValue(initialValue)
+    const latestValue = useRef<number | string>(initialValue)
+    const latestSetter = useRef<(v: number) => void>(noop)
 
     const startAnimation = () => {
-        /**
-         * If the previous animation hasn't had the chance to even render a frame, render it now.
-         */
-        const animation = activeSpringAnimation.current
-
-        if (animation && animation.time === 0) {
-            animation.sample(frameData.delta)
-        }
-
         stopAnimation()
 
         activeSpringAnimation.current = animateValue({
-            keyframes: [value.get(), latestValue.current],
+            keyframes: [asNumber(value.get()), asNumber(latestValue.current)],
             velocity: value.getVelocity(),
             type: "spring",
             restDelta: 0.001,
@@ -80,16 +90,12 @@ export function useSpring(
 
     useInsertionEffect(() => {
         return value.attach((v, set) => {
-            /**
-             * A more hollistic approach to this might be to use isStatic to fix VisualElement animations
-             * at that level, but this will work for now
-             */
             if (isStatic) return set(v)
 
             latestValue.current = v
-            latestSetter.current = set
+            latestSetter.current = (latest) => set(parseValue(latest, unit))
 
-            frame.update(startAnimation)
+            frame.postRender(startAnimation)
 
             return value.get()
         }, stopAnimation)
@@ -97,9 +103,17 @@ export function useSpring(
 
     useIsomorphicLayoutEffect(() => {
         if (isMotionValue(source)) {
-            return source.on("change", (v) => value.set(toNumber(v)))
+            return source.on("change", (v) => value.set(parseValue(v, unit)))
         }
-    }, [value])
+    }, [value, unit])
 
     return value
+}
+
+function parseValue(v: string | number, unit?: string) {
+    return unit ? v + unit : v
+}
+
+function asNumber(v: string | number) {
+    return typeof v === "number" ? v : parseFloat(v)
 }

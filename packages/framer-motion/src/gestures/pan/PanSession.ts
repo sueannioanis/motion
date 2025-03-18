@@ -1,9 +1,8 @@
-import { isPrimaryPointer } from "motion-dom"
+import { cancelFrame, frame, frameData, isPrimaryPointer } from "motion-dom"
 import { millisecondsToSeconds, secondsToMilliseconds } from "motion-utils"
 import { addPointerEvent } from "../../events/add-pointer-event"
 import { extractEventInfo } from "../../events/event-info"
 import { EventInfo } from "../../events/types"
-import { cancelFrame, frame, frameData } from "../../frameloop"
 import { Point, TransformPoint } from "../../projection/geometry/types"
 import { distance2D } from "../../utils/distance"
 import { pipe } from "../../utils/pipe"
@@ -95,8 +94,8 @@ interface PanSessionHandlers {
 
 interface PanSessionOptions {
     transformPagePoint?: TransformPoint
-    contextWindow?: (Window & typeof globalThis) | null
     dragSnapToOrigin?: boolean
+    contextWindow?: (Window & typeof globalThis) | null
 }
 
 interface TimestampedPoint extends Point {

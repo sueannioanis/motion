@@ -1,18 +1,18 @@
-import { HTMLRenderState } from "./types"
-import { DOMVisualElementOptions } from "../dom/types"
-import { buildHTMLStyles } from "./utils/build-styles"
-import { isCSSVariableName } from "../dom/utils/is-css-variable"
-import { transformProps } from "./utils/transform"
-import { scrapeMotionValuesFromProps } from "./utils/scrape-motion-values"
-import { renderHTML } from "./utils/render"
-import { getDefaultValueType } from "../dom/value-types/defaults"
-import { measureViewportBox } from "../../projection/utils/measure"
+import { MotionConfigContext } from "../../context/MotionConfigContext"
 import { MotionProps } from "../../motion/types"
 import type { Box } from "../../projection/geometry/types"
+import { measureViewportBox } from "../../projection/utils/measure"
 import { DOMVisualElement } from "../dom/DOMVisualElement"
-import { MotionConfigContext } from "../../context/MotionConfigContext"
+import { DOMVisualElementOptions } from "../dom/types"
+import { isCSSVariableName } from "../dom/utils/is-css-variable"
 import type { ResolvedValues } from "../types"
 import { VisualElement } from "../VisualElement"
+import { HTMLRenderState } from "./types"
+import { buildHTMLStyles } from "./utils/build-styles"
+import { transformProps } from "./utils/keys-transform"
+import { readTransformValue } from "./utils/parse-transform"
+import { renderHTML } from "./utils/render"
+import { scrapeMotionValuesFromProps } from "./utils/scrape-motion-values"
 
 export function getComputedStyle(element: HTMLElement) {
     return window.getComputedStyle(element)
@@ -30,8 +30,7 @@ export class HTMLVisualElement extends DOMVisualElement<
         key: string
     ): string | number | null | undefined {
         if (transformProps.has(key)) {
-            const defaultType = getDefaultValueType(key)
-            return defaultType ? defaultType.default || 0 : 0
+            return readTransformValue(instance, key)
         } else {
             const computedStyle = getComputedStyle(instance)
             const value =

@@ -1,8 +1,7 @@
-import type { VisualElement } from "../render/VisualElement"
-import { Feature } from "../motion/features/Feature"
-import { frame } from "../frameloop"
-import { hover } from "motion-dom"
+import { frame, hover } from "motion-dom"
 import { extractEventInfo } from "../events/event-info"
+import { Feature } from "../motion/features/Feature"
+import type { VisualElement } from "../render/VisualElement"
 
 function handleHoverEvent(
     node: VisualElement<Element>,
@@ -27,7 +26,7 @@ export class HoverGesture extends Feature<Element> {
         const { current } = this.node
         if (!current) return
 
-        this.unmount = hover(current, (startEvent) => {
+        this.unmount = hover(current, (_element, startEvent) => {
             handleHoverEvent(this.node, startEvent, "Start")
 
             return (endEvent) => handleHoverEvent(this.node, endEvent, "End")

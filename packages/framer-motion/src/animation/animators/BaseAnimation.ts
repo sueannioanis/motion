@@ -1,9 +1,9 @@
-import {
+import type {
     AnimationPlaybackControls,
     RepeatType,
     ValueAnimationOptions,
 } from "motion-dom"
-import { time } from "../../frameloop/sync-time"
+import { time } from "motion-dom"
 import {
     KeyframeResolver,
     ResolvedKeyframes,
@@ -166,10 +166,11 @@ export abstract class BaseAnimation<T extends string | number, Resolved>
         if (!isGenerator && !canAnimate(keyframes, name, type, velocity)) {
             // Finish immediately
             if (instantAnimationState.current || !delay) {
-                onUpdate?.(
-                    getFinalKeyframe(keyframes, this.options, finalKeyframe)
-                )
-                onComplete?.()
+                onUpdate &&
+                    onUpdate(
+                        getFinalKeyframe(keyframes, this.options, finalKeyframe)
+                    )
+                onComplete && onComplete()
                 this.resolveFinishedPromise()
 
                 return
@@ -205,6 +206,7 @@ export abstract class BaseAnimation<T extends string | number, Resolved>
     }
 
     flatten() {
+        if (!this.options.allowFlatten) return
         this.options.type = "keyframes"
         this.options.ease = "linear"
     }
