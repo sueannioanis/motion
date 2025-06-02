@@ -1,6 +1,5 @@
-import { cancelFrame, frame, frameData } from "motion-dom"
+import { cancelFrame, frame, frameData, resize } from "motion-dom"
 import { noop } from "motion-utils"
-import { resize } from "../resize"
 import { createScrollInfo } from "./info"
 import { createOnScrollHandler } from "./on-scroll-handler"
 import { OnScrollHandler, OnScrollInfo, ScrollInfoOptions } from "./types"

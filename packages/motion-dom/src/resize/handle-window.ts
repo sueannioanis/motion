@@ -6,18 +6,16 @@ let windowResizeHandler: VoidFunction | undefined
 
 function createWindowResizeHandler() {
     windowResizeHandler = () => {
-        const size = {
-            width: window.innerWidth,
-            height: window.innerHeight,
-        }
-
         const info = {
-            target: window,
-            size,
-            contentSize: size,
+            get width() {
+                return window.innerWidth
+            },
+            get height() {
+                return window.innerHeight
+            },
         }
 
-        windowCallbacks.forEach((callback) => callback(info))
+        windowCallbacks.forEach((callback) => callback(window, info))
     }
 
     window.addEventListener("resize", windowResizeHandler)

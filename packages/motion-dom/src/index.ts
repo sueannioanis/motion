@@ -63,6 +63,8 @@ export * from "./render/svg/types"
 export * from "./render/utils/keys-position"
 export * from "./render/utils/keys-transform"
 
+export * from "./resize"
+
 export * from "./scroll/observe"
 
 export * from "./stats"
