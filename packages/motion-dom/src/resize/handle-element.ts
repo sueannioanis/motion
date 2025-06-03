@@ -1,3 +1,4 @@
+import { frame } from "../frameloop"
 import { isSVGElement } from "../utils/is-svg-element"
 import { ElementOrSelector, resolveElements } from "../utils/resolve-elements"
 import { ResizeHandler } from "./types"
@@ -44,10 +45,14 @@ function notifyAll(entries: ResizeObserverEntry[]) {
     entries.forEach(notifyTarget)
 }
 
+function scheduleNotifyAll(entries: ResizeObserverEntry[]) {
+    frame.render(() => notifyAll(entries))
+}
+
 function createResizeObserver() {
     if (typeof ResizeObserver === "undefined") return
 
-    observer = new ResizeObserver(notifyAll)
+    observer = new ResizeObserver(scheduleNotifyAll)
 }
 
 export function resizeElement(

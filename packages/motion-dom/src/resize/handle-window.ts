@@ -1,3 +1,4 @@
+import { frame } from "../frameloop"
 import { ResizeHandler } from "./types"
 
 const windowCallbacks = new Set<ResizeHandler<Window>>()
@@ -18,7 +19,11 @@ function createWindowResizeHandler() {
         windowCallbacks.forEach((callback) => callback(window, info))
     }
 
-    window.addEventListener("resize", windowResizeHandler)
+    window.addEventListener("resize", scheduleWindowResize)
+}
+
+function scheduleWindowResize() {
+    windowResizeHandler && frame.render(windowResizeHandler)
 }
 
 export function resizeWindow(callback: ResizeHandler<Window>) {
@@ -33,7 +38,7 @@ export function resizeWindow(callback: ResizeHandler<Window>) {
             !windowCallbacks.size &&
             typeof windowResizeHandler === "function"
         ) {
-            window.removeEventListener("resize", windowResizeHandler)
+            window.removeEventListener("resize", scheduleWindowResize)
             windowResizeHandler = undefined
         }
     }

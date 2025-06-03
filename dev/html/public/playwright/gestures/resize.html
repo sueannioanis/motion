@@ -24,7 +24,7 @@
         <div id="rect-status">error</div>
         <script type="module" src="/src/inc.js"></script>
         <script type="module">
-            const { resize } = window.MotionDOM
+            const { resize, frame } = window.MotionDOM
 
             const stop = resize("#box", (element, { width, height }) => {
                 if (width === 200 && height === 200) {
@@ -50,8 +50,8 @@
             box.style.width = "200px"
             box.style.height = "200px"
 
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
+            frame.postRender(() => {
+                frame.postRender(() => {
                     stop()
                     box.style.width = "300px"
                     box.style.height = "300px"
