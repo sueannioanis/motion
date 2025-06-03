@@ -1,4 +1,4 @@
-import { ElementOrSelector } from "motion-dom"
+import { ElementOrSelector } from "../utils/resolve-elements"
 import { resizeElement } from "./handle-element"
 import { resizeWindow } from "./handle-window"
 import { ResizeHandler } from "./types"
