@@ -29,7 +29,11 @@ export function resizeWindow(callback: ResizeHandler<Window>) {
     return () => {
         windowCallbacks.delete(callback)
 
-        if (!windowCallbacks.size && windowResizeHandler) {
+        if (
+            !windowCallbacks.size &&
+            typeof windowResizeHandler === "function"
+        ) {
+            window.removeEventListener("resize", windowResizeHandler)
             windowResizeHandler = undefined
         }
     }
