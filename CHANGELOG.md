@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.17.0] 2025-06-08
+
+### Added
+
+-   Support for defining timeline position relative to the start of the most recently-added animation (e.g. `<0.5`, `<-1`)
+
 ## [12.16.0] 2025-06-03
 
 ### Added
