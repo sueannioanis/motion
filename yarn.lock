@@ -7069,13 +7069,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "framer-motion@^12.17.2, framer-motion@workspace:packages/framer-motion":
+=======
+"framer-motion@^12.16.1-alpha.0, framer-motion@workspace:packages/framer-motion":
+>>>>>>> 21072701f (v12.16.1-alpha.0)
   version: 0.0.0-use.local
   resolution: "framer-motion@workspace:packages/framer-motion"
   dependencies:
     "@thednp/dommatrix": ^2.0.11
     "@types/three": 0.137.0
+<<<<<<< HEAD
     motion-dom: ^12.17.2
+=======
+    motion-dom: ^12.16.1-alpha.0
+>>>>>>> 21072701f (v12.16.1-alpha.0)
     motion-utils: ^12.12.1
     three: 0.137.0
     tslib: ^2.4.0
@@ -7840,9 +7848,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "html-env@workspace:dev/html"
   dependencies:
+<<<<<<< HEAD
     framer-motion: ^12.17.2
     motion: ^12.17.2
     motion-dom: ^12.17.2
+=======
+    framer-motion: ^12.16.1-alpha.0
+    motion: ^12.16.1-alpha.0
+    motion-dom: ^12.16.1-alpha.0
+>>>>>>> 21072701f (v12.16.1-alpha.0)
     react: ^18.3.1
     react-dom: ^18.3.1
     vite: ^5.2.0
@@ -10627,6 +10641,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "motion-ai@workspace:packages/mcp":
   version: 0.0.0-use.local
   resolution: "motion-ai@workspace:packages/mcp"
@@ -10641,6 +10656,9 @@ __metadata:
   linkType: soft
 
 "motion-dom@^12.17.2, motion-dom@workspace:packages/motion-dom":
+=======
+"motion-dom@^12.16.1-alpha.0, motion-dom@workspace:packages/motion-dom":
+>>>>>>> 21072701f (v12.16.1-alpha.0)
   version: 0.0.0-use.local
   resolution: "motion-dom@workspace:packages/motion-dom"
   dependencies:
@@ -10715,11 +10733,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+<<<<<<< HEAD
 "motion@^12.17.2, motion@workspace:packages/motion":
   version: 0.0.0-use.local
   resolution: "motion@workspace:packages/motion"
   dependencies:
     framer-motion: ^12.17.2
+=======
+"motion@^12.16.1-alpha.0, motion@workspace:packages/motion":
+  version: 0.0.0-use.local
+  resolution: "motion@workspace:packages/motion"
+  dependencies:
+    framer-motion: ^12.16.1-alpha.0
+>>>>>>> 21072701f (v12.16.1-alpha.0)
     tslib: ^2.4.0
   peerDependencies:
     "@emotion/is-prop-valid": "*"
@@ -10836,7 +10862,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "next-env@workspace:dev/next"
   dependencies:
+<<<<<<< HEAD
     motion: ^12.17.2
+=======
+    motion: ^12.16.1-alpha.0
+>>>>>>> 21072701f (v12.16.1-alpha.0)
     next: 14.x
     react: ^18.3.1
     react-dom: ^18.3.1
@@ -12358,7 +12388,11 @@ __metadata:
     "@typescript-eslint/parser": ^7.2.0
     "@vitejs/plugin-react-swc": ^3.5.0
     eslint-plugin-react-refresh: ^0.4.6
+<<<<<<< HEAD
     motion: ^12.17.2
+=======
+    motion: ^12.16.1-alpha.0
+>>>>>>> 21072701f (v12.16.1-alpha.0)
     react: ^19.0.0
     react-dom: ^19.0.0
     vite: ^5.2.0
@@ -12430,7 +12464,11 @@ __metadata:
     "@typescript-eslint/parser": ^7.2.0
     "@vitejs/plugin-react-swc": ^3.5.0
     eslint-plugin-react-refresh: ^0.4.6
+<<<<<<< HEAD
     framer-motion: ^12.17.2
+=======
+    framer-motion: ^12.16.1-alpha.0
+>>>>>>> 21072701f (v12.16.1-alpha.0)
     react: ^18.3.1
     react-dom: ^18.3.1
     vite: ^5.2.0
