@@ -1,5 +1,5 @@
 {
-    "name": "motion-mcp",
+    "name": "motion-ai",
     "version": "12.17.0-alpha.0",
     "author": "Matt Perry",
     "description": "MCP server for allowing AI agents to perform actions using Motion, like generating CSS spring easing curves.",
@@ -27,5 +27,6 @@
         "clean": "rm -rf types dist lib",
         "build": "yarn clean && tsc -p . && rollup -c",
         "dev": "concurrently -c blue,red -n tsc,rollup --kill-others \"tsc --watch -p . --preserveWatchOutput\" \"rollup --config --watch --no-watch.clearScreen\""
-    }
+    },
+    "gitHead": "0d3c11b5f54647ecc5d1ee93e827651291fe7ce3"
 }
