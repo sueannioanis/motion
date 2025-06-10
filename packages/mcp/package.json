@@ -7,6 +7,7 @@
     "repository": "https://github.com/motiondivision/motion",
     "main": "./dist/es/index.mjs",
     "types": "./dist/index.d.ts",
+    "bin": "./dist/es/index.mjs",
     "module": "./dist/es/index.mjs",
     "sideEffects": false,
     "exports": {
@@ -25,7 +26,6 @@
     "scripts": {
         "clean": "rm -rf types dist lib",
         "build": "yarn clean && tsc -p . && rollup -c",
-        "dev": "concurrently -c blue,red -n tsc,rollup --kill-others \"tsc --watch -p . --preserveWatchOutput\" \"rollup --config --watch --no-watch.clearScreen\"",
-        "test": "jest --config jest.config.json --max-workers=2"
+        "dev": "concurrently -c blue,red -n tsc,rollup --kill-others \"tsc --watch -p . --preserveWatchOutput\" \"rollup --config --watch --no-watch.clearScreen\""
     }
 }
