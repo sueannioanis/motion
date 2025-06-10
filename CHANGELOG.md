@@ -10,6 +10,10 @@ Undocumented APIs should be considered internal and may change without warning.
 
 -   MCP server.
 
+### Fixed
+
+-   Improved rounding for `linear()` easing curves.
+
 ## [12.16.0] 2025-06-03
 
 ### Added
