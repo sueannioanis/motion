@@ -26,6 +26,9 @@ be prepended with "transition: <value-name> " to be used in a CSS stylesheet.
 
 Quick or snappy durations are around 0.2 seconds, a normal animation between 0.3 and 0.4 seconds, while slow or sluggish durations
 are around 1 second.
+
+Note: Only use when generating CSS easing functions. Motion can import spring
+directly from "motion".
 `
 
 const args = {
