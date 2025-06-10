@@ -22,16 +22,6 @@ initGenerateBounceEasingTool(server)
 
 initDocsResources(server)
 
-// Static resource
-server.resource("motion", "motion://app", async (uri) => ({
-    contents: [
-        {
-            uri: uri.href,
-            text: "Hello this is motion!",
-        },
-    ],
-}))
-
 // Start receiving messages on stdin and sending messages on stdout
 const transport = new StdioServerTransport()
 await server.connect(transport)
