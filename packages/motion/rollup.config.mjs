@@ -31,6 +31,13 @@ const external = [
     ...Object.keys(pkg.peerDependencies || {}),
     ...Object.keys(pkg.optionalDependencies || {}),
     "react/jsx-runtime",
+    "framer-motion/dom",
+    "framer-motion/client",
+    "framer-motion/m",
+    "framer-motion/mini",
+    "framer-motion/debug",
+    "framer-motion/dom-mini",
+    
 ]
 
 const pureClass = {

@@ -4,6 +4,16 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.17.0] 2025-06-10
+
+### Added
+
+-   MCP server.
+
+### Fixed
+
+-   Improved rounding for `linear()` easing curves.
+
 ## [12.16.0] 2025-06-03
 
 ### Added
