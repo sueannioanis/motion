@@ -36,9 +36,11 @@ const args = {
         .number()
         .min(0)
         .max(1)
+        .default(0.2)
         .describe("Bounce, defined as a number between 0 and 1."),
     duration: z
         .number()
+        .default(0.4)
         .describe("Perceptual duration of the spring, defined in seconds."),
 }
 
