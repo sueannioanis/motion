@@ -21,4 +21,9 @@ export const color = {
             ? rgba.transform(v as RGBA)
             : hsla.transform(v as HSLA)
     },
+    getAnimatableNone: (v: string) => {
+        const parsed = color.parse(v)
+        parsed.alpha = 0
+        return color.transform(parsed)
+    },
 }
