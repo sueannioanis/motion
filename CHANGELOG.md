@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.17.1] 2025-06-12
+
+### Fixed
+
+-   Fixes `isValidProp` check with Rolldown.
+
 ## [12.17.0] 2025-06-10
 
 ### Added
