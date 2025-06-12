@@ -1,14 +1,14 @@
-import { complex } from "../complex"
-import { hex } from "../color/hex"
-import { rgba, rgbUnit } from "../color/rgba"
-import { hsla } from "../color/hsla"
 import { color } from "../color"
-import { degrees, percent, progressPercentage, px } from "../numbers/units"
-import { alpha } from "../numbers"
+import { hex } from "../color/hex"
+import { hsla } from "../color/hsla"
+import { rgba, rgbUnit } from "../color/rgba"
+import { complex } from "../complex"
 import { filter } from "../complex/filter"
-import { singleColorRegex } from "../utils/single-color-regex"
+import { alpha } from "../numbers"
+import { degrees, percent, progressPercentage, px } from "../numbers/units"
 import { colorRegex } from "../utils/color-regex"
 import { floatRegex } from "../utils/float-regex"
+import { singleColorRegex } from "../utils/single-color-regex"
 
 const PATH = "M150 0 L75 200 L225 200 Z"
 const GREYSCALE = "greyscale(100%)"
@@ -146,7 +146,15 @@ describe("complex value type", () => {
     it('can create an animatable "none"', () => {
         expect(
             complex.getAnimatableNone("100% 0px var(--grey, 100) #fff")
-        ).toBe("0% 0px var(--grey, 100) rgba(255, 255, 255, 1)")
+        ).toBe("0% 0px var(--grey, 100) rgba(255, 255, 255, 0)")
+
+        expect(
+            complex.getAnimatableNone(
+                "linear-gradient(1turn, rgba(255, 255, 255, 1)) 200px, rgba(0, 255, 255, 1)) 200px"
+            )
+        ).toBe(
+            "linear-gradient(0turn, rgba(255, 255, 255, 0)) 0px, rgba(0, 255, 255, 0)) 0px"
+        )
     })
 })
 
@@ -350,6 +358,16 @@ describe("color()", () => {
         expect(color.test("hsla(180, 360%, 360%, 0.5) 0px")).toBe(false)
         expect(color.test("greensock")).toBe(false)
         expect(color.test("filter(190deg)")).toBe(false)
+    })
+
+    it("should create animatable none", () => {
+        expect(color.getAnimatableNone("rgba(255, 0, 0, 1)")).toBe(
+            "rgba(255, 0, 0, 0)"
+        )
+        expect(color.getAnimatableNone("#f00")).toBe("rgba(255, 0, 0, 0)")
+        expect(color.getAnimatableNone("hsla(170, 50%, 45%, 1)")).toBe(
+            "hsla(170, 50%, 45%, 0)"
+        )
     })
 })
 

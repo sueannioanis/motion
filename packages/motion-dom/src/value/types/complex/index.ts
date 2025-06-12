@@ -103,7 +103,7 @@ function createTransformer(source: string | number) {
 }
 
 const convertNumbersToZero = (v: number | string) =>
-    typeof v === "number" ? 0 : v
+    typeof v === "number" ? 0 : color.test(v) ? color.getAnimatableNone(v) : v
 
 function getAnimatableNone(v: string | number) {
     const parsed = parseComplexValue(v)

@@ -10,6 +10,34 @@ Undocumented APIs should be considered internal and may change without warning.
 
 -   Support for defining a timeline position relative to the start of the most recently added animation (e.g. `<0.5`, `<-1`)
 
+## [12.17.3] 2025-06-12
+
+### Changed
+
+-   Refactored `MotionProps` into vanilla `MotionNodeOptions` type within `"motion-dom"` package.
+
+## [12.17.2] 2025-06-12
+
+### Changed
+
+-   Handle colors when creating animatable `"none"` keyframes for complex strings.
+
+## [12.17.1] 2025-06-12
+
+### Fixed
+
+-   Fixes `isValidProp` check with Rolldown.
+
+## [12.17.0] 2025-06-10
+
+### Added
+
+-   MCP server.
+
+### Fixed
+
+-   Improved rounding for `linear()` easing curves.
+
 ## [12.16.0] 2025-06-03
 
 ### Added
