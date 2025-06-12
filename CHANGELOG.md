@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.17.3] 2025-06-12
+
+### Changed
+
+-   Refactored `MotionProps` into vanilla `MotionNodeOptions` type within `"motion-dom"` package.
+
 ## [12.17.2] 2025-06-12
 
 ### Changed
