@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.17.2] 2025-06-12
+
+### Changed
+
+-   Handle colors when creating animatable `"none"` keyframes for complex strings.
+
 ## [12.17.1] 2025-06-12
 
 ### Fixed
