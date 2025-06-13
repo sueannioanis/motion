@@ -4,15 +4,17 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.18.1] 2025-06-13
+
+### Fixed
+
+-   Removed `"react"` import from `"motion-dom"`.
+
 ## [12.18.0] 2025-06-13
 
 ### Added
 
 -   Support for defining a timeline position relative to the start of the most recently added animation (e.g. `<+0.5`, `<-1`)
-
-### Fixed
-
--   Removed `"react"` import from `"motion-dom"`.
 
 ## [12.17.3] 2025-06-12
 
