@@ -42,9 +42,6 @@ export interface TransformOptions<T> {
  * Every value in the output range must be of the same type and in the same format.
  *
  * ```jsx
- * import * as React from "react"
- * import { transform } from "framer-motion"
- *
  * export function MyComponent() {
  *    const inputRange = [0, 200]
  *    const outputRange = [0, 1]
@@ -79,9 +76,6 @@ export function transform<T>(
  * Every value in the output range must be of the same type and in the same format.
  *
  * ```jsx
- * import * as React from "react"
- * import { Frame, transform } from "framer"
- *
  * export function MyComponent() {
  *     const inputRange = [-200, -100, 100, 200]
  *     const outputRange = [0, 1, 1, 0]

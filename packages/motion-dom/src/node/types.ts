@@ -1,5 +1,4 @@
 import type { BoundingBox, Box, Point } from "motion-utils"
-import { RefObject } from "react"
 import type {
     DOMKeyframesDefinition,
     InertiaOptions,
@@ -559,7 +558,7 @@ export type ViewportEventHandler = (
 ) => void
 
 export interface ViewportOptions {
-    root?: RefObject<Element | null>
+    root?: { current: Element | null }
     once?: boolean
     margin?: string
     amount?: "some" | "all" | number
@@ -641,7 +640,7 @@ export interface MotionNodeDraggableOptions {
      * }
      * ```
      */
-    dragConstraints?: false | Partial<BoundingBox> | RefObject<Element | null>
+    dragConstraints?: false | Partial<BoundingBox> | { current: Element | null }
 
     /**
      * The degree of movement allowed outside constraints. 0 = no movement, 1 =
