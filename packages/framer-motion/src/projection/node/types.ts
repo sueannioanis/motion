@@ -1,11 +1,10 @@
-import { AnimationPlaybackControls } from "motion-dom"
+import type { JSAnimation, Transition, ValueTransition } from "motion-dom"
+import { Box, Delta, Point } from "motion-utils"
 import { InitialPromotionConfig } from "../../context/SwitchLayoutGroupContext"
 import { MotionStyle } from "../../motion/types"
 import { ResolvedValues } from "../../render/types"
 import { FlatTree } from "../../render/utils/flat-tree"
 import type { VisualElement } from "../../render/VisualElement"
-import { Transition } from "../../types"
-import { Box, Delta, Point } from "../geometry/types"
 import { NodeStack } from "../shared/stack"
 
 export interface Measurements {
@@ -45,7 +44,7 @@ export interface IProjectionNode<I = unknown> {
     path: IProjectionNode[]
     nodes?: FlatTree
     depth: number
-    instance: I
+    instance: I | undefined
     mount: (node: I, isLayoutDirty?: boolean) => void
     unmount: () => void
     options: ProjectionNodeOptions
@@ -109,12 +108,12 @@ export interface IProjectionNode<I = unknown> {
 
     isProjecting(): boolean
     animationValues?: ResolvedValues
-    currentAnimation?: AnimationPlaybackControls
+    currentAnimation?: JSAnimation<number>
     isTreeAnimating?: boolean
     isAnimationBlocked?: boolean
     isTreeAnimationBlocked: () => boolean
     setAnimationOrigin(delta: Delta): void
-    startAnimation(transition: Transition): void
+    startAnimation(transition: ValueTransition): void
     finishAnimation(): void
     hasCheckedOptimisedAppear: boolean
 

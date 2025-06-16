@@ -1,12 +1,10 @@
 import { SubscriptionManager, velocityPerSecond, warnOnce } from "motion-utils"
 import {
-    AnimationPlaybackControls,
+    AnimationPlaybackControlsWithThen,
     TransformProperties,
 } from "../animation/types"
 import { frame } from "../frameloop"
 import { time } from "../frameloop/sync-time"
-
-export type Transformer<T> = (v: T) => T
 
 /**
  * @public
@@ -20,7 +18,7 @@ export type PassiveEffect<T> = (v: T, safeSetter: (v: T) => void) => void
 
 export type StartAnimation = (
     complete: () => void
-) => AnimationPlaybackControls | undefined
+) => AnimationPlaybackControlsWithThen | undefined
 
 export interface MotionValueEventCallbacks<V> {
     animationStart: () => void
@@ -28,6 +26,7 @@ export interface MotionValueEventCallbacks<V> {
     animationCancel: () => void
     change: (latestValue: V) => void
     renderRequest: () => void
+    destroy: () => void
 }
 
 /**
@@ -69,12 +68,6 @@ export const collectMotionValues: { current: MotionValue[] | undefined } = {
  * @public
  */
 export class MotionValue<V = any> {
-    /**
-     * This will be replaced by the build step with the latest version number.
-     * When MotionValues are provided to motion components, warn if versions are mixed.
-     */
-    version = "__VERSION__"
-
     /**
      * If a MotionValue has an owner, it was created internally within Motion
      * and therefore has no external listeners. It is therefore safe to animate via WAAPI.
@@ -119,9 +112,14 @@ export class MotionValue<V = any> {
     private stopPassiveEffect?: VoidFunction
 
     /**
+     * Whether the passive effect is active.
+     */
+    isEffectActive?: boolean
+
+    /**
      * A reference to the currently-controlling animation.
      */
-    animation?: AnimationPlaybackControls
+    animation?: AnimationPlaybackControlsWithThen
 
     /**
      * Tracks whether this value can output a velocity. Currently this is only true
@@ -131,6 +129,12 @@ export class MotionValue<V = any> {
      * @internal
      */
     private canTrackVelocity: boolean | null = null
+
+    /**
+     * A list of MotionValues whose values are computed from this one.
+     * This is a rough start to a proper signal-like dirtying system.
+     */
+    private dependents: Set<MotionValue> | undefined
 
     /**
      * Tracks whether this value should be removed
@@ -304,6 +308,23 @@ export class MotionValue<V = any> {
         if (this.stopPassiveEffect) this.stopPassiveEffect()
     }
 
+    dirty() {
+        this.events.change?.notify(this.current)
+    }
+
+    addDependent(dependent: MotionValue) {
+        if (!this.dependents) {
+            this.dependents = new Set()
+        }
+        this.dependents.add(dependent)
+    }
+
+    removeDependent(dependent: MotionValue) {
+        if (this.dependents) {
+            this.dependents.delete(dependent)
+        }
+    }
+
     updateAndNotify = (v: V, render = true) => {
         const currentTime = time.now()
 
@@ -321,13 +342,19 @@ export class MotionValue<V = any> {
         this.setCurrent(v)
 
         // Update update subscribers
-        if (this.current !== this.prev && this.events.change) {
-            this.events.change.notify(this.current)
+        if (this.current !== this.prev) {
+            this.events.change?.notify(this.current)
+
+            if (this.dependents) {
+                for (const dependent of this.dependents) {
+                    dependent.dirty()
+                }
+            }
         }
 
         // Update render subscribers
-        if (render && this.events.renderRequest) {
-            this.events.renderRequest.notify(this.current)
+        if (render) {
+            this.events.renderRequest?.notify(this.current)
         }
     }
 
@@ -452,6 +479,8 @@ export class MotionValue<V = any> {
      * @public
      */
     destroy() {
+        this.dependents?.clear()
+        this.events.destroy?.notify()
         this.clearListeners()
         this.stop()
 

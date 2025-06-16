@@ -1,12 +1,13 @@
 import { secondsToMilliseconds } from "motion-utils"
-import { BaseGroupPlaybackControls } from "../animation/controls/BaseGroup"
-import { AnimationPlaybackControlsWithFinished } from "../animation/types"
+import { GroupAnimation } from "../animation/GroupAnimation"
+import { NativeAnimation } from "../animation/NativeAnimation"
+import { NativeAnimationWrapper } from "../animation/NativeAnimationWrapper"
+import { AnimationPlaybackControls } from "../animation/types"
 import { getValueTransition } from "../animation/utils/get-value-transition"
-import { NativeAnimationControls } from "../animation/waapi/NativeAnimationControls"
-import { PseudoAnimation } from "../animation/waapi/PseudoAnimation"
-import { applyGeneratorOptions } from "../animation/waapi/utils/convert-options"
-import { mapEasingToNativeEasing } from "../animation/waapi/utils/easing"
-import { Target, ViewTransitionOptions, ViewTransitionTarget } from "./types"
+import { mapEasingToNativeEasing } from "../animation/waapi/easing/map-easing"
+import { applyGeneratorOptions } from "../animation/waapi/utils/apply-generator"
+import type { ViewTransitionBuilder } from "./index"
+import { ViewTransitionTarget } from "./types"
 import { chooseLayerType } from "./utils/choose-layer-type"
 import { css } from "./utils/css"
 import { getLayerName } from "./utils/get-layer-name"
@@ -16,14 +17,14 @@ import { hasTarget } from "./utils/has-target"
 const definitionNames = ["layout", "enter", "exit", "new", "old"] as const
 
 export function startViewAnimation(
-    update: () => void | Promise<void>,
-    defaultOptions: ViewTransitionOptions,
-    targets: Map<Target, ViewTransitionTarget>
-): Promise<BaseGroupPlaybackControls> {
+    builder: ViewTransitionBuilder
+): Promise<GroupAnimation> {
+    const { update, targets, options: defaultOptions } = builder
+
     if (!document.startViewTransition) {
         return new Promise(async (resolve) => {
             await update()
-            resolve(new BaseGroupPlaybackControls([]))
+            resolve(new GroupAnimation([]))
         })
     }
 
@@ -67,15 +68,14 @@ export function startViewAnimation(
         transition.ready.then(() => {
             const generatedViewAnimations = getViewAnimations()
 
-            const animations: AnimationPlaybackControlsWithFinished[] = []
+            const animations: AnimationPlaybackControls[] = []
 
             /**
-             * Create animations for our definitions
+             * Create animations for each of our explicitly-defined subjects.
              */
             targets.forEach((definition, target) => {
                 // TODO: If target is not "root", resolve elements
                 // and iterate over each
-
                 for (const key of definitionNames) {
                     if (!definition[key]) continue
                     const { keyframes, options } =
@@ -117,13 +117,21 @@ export function startViewAnimation(
                             valueOptions.delay = valueOptions.delay(0, 1)
                         }
 
-                        const animation = new PseudoAnimation(
-                            document.documentElement,
-                            `::view-transition-${type}(${target})`,
-                            valueName,
-                            valueKeyframes,
-                            valueOptions
+                        valueOptions.duration &&= secondsToMilliseconds(
+                            valueOptions.duration
                         )
+
+                        valueOptions.delay &&= secondsToMilliseconds(
+                            valueOptions.delay
+                        )
+
+                        const animation = new NativeAnimation({
+                            ...valueOptions,
+                            element: document.documentElement,
+                            name: valueName,
+                            pseudoElement: `::view-transition-${type}(${target})`,
+                            keyframes: valueKeyframes,
+                        })
 
                         animations.push(animation)
                     }
@@ -154,11 +162,16 @@ export function startViewAnimation(
                      * the above method.
                      */
                     const transitionName = name.type === "group" ? "layout" : ""
-                    const animationTransition = {
+                    let animationTransition = {
                         ...getValueTransition(defaultOptions, transitionName),
                     }
 
-                    applyGeneratorOptions(animationTransition)
+                    animationTransition.duration &&= secondsToMilliseconds(
+                        animationTransition.duration
+                    )
+
+                    animationTransition =
+                        applyGeneratorOptions(animationTransition)
 
                     const easing = mapEasingToNativeEasing(
                         animationTransition.ease,
@@ -173,7 +186,7 @@ export function startViewAnimation(
                         easing,
                     })
 
-                    animations.push(new NativeAnimationControls(animation))
+                    animations.push(new NativeAnimationWrapper(animation))
                 } else if (
                     hasOpacity(targetDefinition, "enter") &&
                     hasOpacity(targetDefinition, "exit") &&
@@ -181,13 +194,13 @@ export function startViewAnimation(
                         .getKeyframes()
                         .some((keyframe) => keyframe.mixBlendMode)
                 ) {
-                    animations.push(new NativeAnimationControls(animation))
+                    animations.push(new NativeAnimationWrapper(animation))
                 } else {
                     animation.cancel()
                 }
             }
 
-            resolve(new BaseGroupPlaybackControls(animations))
+            resolve(new GroupAnimation(animations))
         })
     })
 }

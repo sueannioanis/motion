@@ -1,5 +1,6 @@
-import { frame, setDragLock } from "motion-dom"
-import { invariant } from "motion-utils"
+import type { PanInfo, ResolvedConstraints, Transition } from "motion-dom"
+import { frame, mixNumber, percent, setDragLock } from "motion-dom"
+import { Axis, Point, invariant } from "motion-utils"
 import { animateMotionValue } from "../../animation/interfaces/motion-value"
 import { addDomEvent } from "../../events/add-dom-event"
 import { addPointerEvent } from "../../events/add-pointer-event"
@@ -11,19 +12,14 @@ import {
 } from "../../projection/geometry/conversion"
 import { calcLength } from "../../projection/geometry/delta-calc"
 import { createBox } from "../../projection/geometry/models"
-import { Axis, Point } from "../../projection/geometry/types"
 import { LayoutUpdateData } from "../../projection/node/types"
 import { eachAxis } from "../../projection/utils/each-axis"
 import { measurePageBox } from "../../projection/utils/measure"
 import type { VisualElement } from "../../render/VisualElement"
-import { Transition } from "../../types"
 import { getContextWindow } from "../../utils/get-context-window"
 import { isRefObject } from "../../utils/is-ref-object"
-import { mixNumber } from "../../utils/mix/number"
-import { percent } from "../../value/types/numbers/units"
 import { addValueToWillChange } from "../../value/use-will-change/add-will-change"
-import { PanInfo, PanSession } from "../pan/PanSession"
-import { ResolvedConstraints } from "./types"
+import { PanSession } from "../pan/PanSession"
 import {
     applyConstraints,
     calcOrigin,
@@ -33,6 +29,7 @@ import {
     rebaseAxisConstraints,
     resolveDragElastic,
 } from "./utils/constraints"
+
 export const elementDragControls = new WeakMap<
     VisualElement,
     VisualElementDragControls
@@ -415,7 +412,7 @@ export class VisualElementDragControls {
             const bounceStiffness = dragElastic ? 200 : 1000000
             const bounceDamping = dragElastic ? 40 : 10000000
 
-            const inertia = {
+            const inertia: Transition = {
                 type: "inertia",
                 velocity: dragMomentum ? velocity[axis] : 0,
                 bounceStiffness,

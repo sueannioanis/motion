@@ -2,19 +2,23 @@ import type { MotionValue } from "motion-dom"
 import {
     AnimationScope,
     createGeneratorEasing,
+    defaultOffset,
     DOMKeyframesDefinition,
     AnimationOptions as DynamicAnimationOptions,
+    fillOffset,
     GeneratorFactory,
     isGenerator,
+    isMotionValue,
     Transition,
     UnresolvedValueKeyframe,
 } from "motion-dom"
-import { invariant, progress, secondsToMilliseconds } from "motion-utils"
-import { Easing } from "../../easing/types"
-import { getEasingForSegment } from "../../easing/utils/get-easing-for-segment"
-import { defaultOffset } from "../../utils/offsets/default"
-import { fillOffset } from "../../utils/offsets/fill"
-import { isMotionValue } from "../../value/utils/is-motion-value"
+import {
+    Easing,
+    getEasingForSegment,
+    invariant,
+    progress,
+    secondsToMilliseconds,
+} from "motion-utils"
 import { resolveSubjects } from "../animate/resolve-subjects"
 import {
     AnimationSequence,
@@ -127,7 +131,7 @@ export function createAnimationsFromSequence(
             const numKeyframes = valueKeyframesAsList.length
             const createGenerator = isGenerator(type)
                 ? type
-                : generators?.[type]
+                : generators?.[type || "keyframes"]
 
             if (numKeyframes <= 2 && createGenerator) {
                 /**

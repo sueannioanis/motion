@@ -1,7 +1,7 @@
 import { fireEvent } from "@testing-library/react"
 import { motion } from "framer-motion"
 import * as React from "react"
-import { render } from "../../../jest.setup"
+import { render } from "../../jest.setup"
 
 describe("motion component rendering and styles", () => {
     it("renders", () => {
@@ -307,5 +307,41 @@ describe("motion component rendering and styles", () => {
 
         const { container } = render(<Test />)
         expect(container.firstChild).toBeTruthy()
+    })
+
+    it("layout animations interrupt jump", async () => {
+        const promise = new Promise((r)=>{
+            const Component = ()=>{
+                const [open,setOpen] = React.useState(false)
+                const divRef = React.useRef<HTMLDivElement>(null)
+                async function handleLayoutJump(){
+                    setOpen(true)
+                    await new Promise(resolve => setTimeout(resolve, 1500))
+                    const firstSize = divRef.current?.getBoundingClientRect().width||0
+                    setOpen(false)
+                    const secondSize = divRef.current?.getBoundingClientRect().width||0
+                    r(Math.abs(firstSize - secondSize))
+                }
+                React.useEffect(()=>{
+                    handleLayoutJump()
+                },[])
+                return <motion.div layout="size">
+                <motion.div
+                    layout="size"
+                    ref={divRef}
+                    style={{ width:open? "200px" : "50px" }}
+                    transition={{
+                        layout: {
+                            duration: 2,
+                            ease: "linear",
+                        },
+                    }}
+                />
+            </motion.div>
+            }
+            render(<Component />)
+        })
+
+        expect(promise).resolves.toBeLessThan(50)
     })
 })

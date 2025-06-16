@@ -1,5 +1,4 @@
-import { progress } from "motion-utils"
-import { EasingFunction } from "../../types"
+import { EasingFunction } from "motion-utils"
 
 export const generateLinearEasing = (
     easing: EasingFunction,
@@ -10,7 +9,7 @@ export const generateLinearEasing = (
     const numPoints = Math.max(Math.round(duration / resolution), 2)
 
     for (let i = 0; i < numPoints; i++) {
-        points += easing(progress(0, numPoints - 1, i)) + ", "
+        points += Math.round(easing(i / (numPoints - 1)) * 10000) / 10000 + ", "
     }
 
     return `linear(${points.substring(0, points.length - 2)})`

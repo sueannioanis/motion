@@ -1,10 +1,10 @@
 import alias from "@rollup/plugin-alias"
 import resolve from "@rollup/plugin-node-resolve"
 import replace from "@rollup/plugin-replace"
+import terser from "@rollup/plugin-terser"
 import path from "node:path"
 import dts from "rollup-plugin-dts"
 import preserveDirectives from "rollup-plugin-preserve-directives"
-import { terser } from "rollup-plugin-terser"
 import { fileURLToPath } from 'url'
 import pkg from "./package.json" with { type: "json" }
 import tsconfig from "./tsconfig.json" with { type: "json" }
@@ -23,8 +23,6 @@ export const replaceSettings = (env) => {
               preventAssignment: false,
           }
 
-    replaceConfig.__VERSION__ = `${pkg.version}`
-
     return replace(replaceConfig)
 }
 
@@ -33,6 +31,13 @@ const external = [
     ...Object.keys(pkg.peerDependencies || {}),
     ...Object.keys(pkg.optionalDependencies || {}),
     "react/jsx-runtime",
+    "framer-motion/dom",
+    "framer-motion/client",
+    "framer-motion/m",
+    "framer-motion/mini",
+    "framer-motion/debug",
+    "framer-motion/dom-mini",
+    
 ]
 
 const pureClass = {

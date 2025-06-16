@@ -1,5 +1,6 @@
 "use client"
 
+import { isHTMLElement } from "motion-dom"
 import * as React from "react"
 import { useContext, useId, useInsertionEffect, useRef } from "react"
 
@@ -34,8 +35,9 @@ class PopChildMeasure extends React.Component<MeasureProps> {
         const element = this.props.childRef.current
         if (element && prevProps.isPresent && !this.props.isPresent) {
             const parent = element.offsetParent
-            const parentWidth =
-                parent instanceof HTMLElement ? parent.offsetWidth || 0 : 0
+            const parentWidth = isHTMLElement(parent)
+                ? parent.offsetWidth || 0
+                : 0
 
             const size = this.props.sizeRef.current!
             size.height = element.offsetHeight || 0
@@ -89,8 +91,10 @@ export function PopChild({ children, isPresent, anchorX, root }: Props) {
 
         const style = document.createElement("style")
         if (nonce) style.nonce = nonce
+
         const parent = root ?? document.head;
         parent.appendChild(style)
+
         if (style.sheet) {
             style.sheet.insertRule(`
           [data-motion-pop-id="${id}"] {
@@ -105,6 +109,10 @@ export function PopChild({ children, isPresent, anchorX, root }: Props) {
 
         return () => {
             parent.removeChild(style)
+
+            if (parent.contains(style)) {
+                parent.removeChild(style)
+            }
         }
     }, [isPresent])
 

@@ -1,18 +1,18 @@
-import type { MotionValue, StartAnimation } from "motion-dom"
+import type {
+    MotionValue,
+    StartAnimation,
+    UnresolvedKeyframes,
+    ValueTransition,
+} from "motion-dom"
 import {
-    AnimationPlaybackControls,
+    AsyncMotionValueAnimation,
     frame,
     getValueTransition,
-    GroupPlaybackControls,
+    JSAnimation,
     ValueAnimationOptions,
 } from "motion-dom"
 import { MotionGlobalConfig, secondsToMilliseconds } from "motion-utils"
-import type { UnresolvedKeyframes } from "../../render/utils/KeyframesResolver"
 import type { VisualElement } from "../../render/VisualElement"
-import { Transition } from "../../types"
-import { instantAnimationState } from "../../utils/use-instant-transition-state"
-import { AcceleratedAnimation } from "../animators/AcceleratedAnimation"
-import { MainThreadAnimation } from "../animators/MainThreadAnimation"
 import { getFinalKeyframe } from "../animators/waapi/utils/get-final-keyframe"
 import { getDefaultTransition } from "../utils/default-transitions"
 import { isTransitionDefined } from "../utils/is-transition-defined"
@@ -22,11 +22,11 @@ export const animateMotionValue =
         name: string,
         value: MotionValue<V>,
         target: V | UnresolvedKeyframes<V>,
-        transition: Transition & { elapsed?: number } = {},
+        transition: ValueTransition & { elapsed?: number } = {},
         element?: VisualElement<any>,
         isHandoff?: boolean
     ): StartAnimation =>
-    (onComplete): AnimationPlaybackControls => {
+    (onComplete) => {
         const valueTransition = getValueTransition(transition, name) || {}
 
         /**
@@ -43,7 +43,7 @@ export const animateMotionValue =
         let { elapsed = 0 } = transition
         elapsed = elapsed - secondsToMilliseconds(delay)
 
-        let options: ValueAnimationOptions = {
+        const options: ValueAnimationOptions = {
             keyframes: Array.isArray(target) ? target : [null, target],
             ease: "easeOut",
             velocity: value.getVelocity(),
@@ -67,10 +67,7 @@ export const animateMotionValue =
          * unique transition settings for this value.
          */
         if (!isTransitionDefined(valueTransition)) {
-            options = {
-                ...options,
-                ...getDefaultTransition(name, options),
-            }
+            Object.assign(options, getDefaultTransition(name, options))
         }
 
         /**
@@ -78,15 +75,14 @@ export const animateMotionValue =
          * as defined by milliseconds, while our external API defines them
          * as seconds.
          */
-        if (options.duration) {
-            options.duration = secondsToMilliseconds(options.duration)
-        }
-        if (options.repeatDelay) {
-            options.repeatDelay = secondsToMilliseconds(options.repeatDelay)
-        }
+        options.duration &&= secondsToMilliseconds(options.duration)
+        options.repeatDelay &&= secondsToMilliseconds(options.repeatDelay)
 
+        /**
+         * Support deprecated way to set initial value. Prefer keyframe syntax.
+         */
         if (options.from !== undefined) {
-            options.keyframes[0] = options.from
+            options.keyframes[0] = options.from as any
         }
 
         let shouldSkip = false
@@ -103,7 +99,7 @@ export const animateMotionValue =
         }
 
         if (
-            instantAnimationState.current ||
+            MotionGlobalConfig.instantAnimations ||
             MotionGlobalConfig.skipAnimations
         ) {
             shouldSkip = true
@@ -134,20 +130,11 @@ export const animateMotionValue =
                     options.onComplete!()
                 })
 
-                // We still want to return some animation controls here rather
-                // than returning undefined
-                return new GroupPlaybackControls([])
+                return
             }
         }
 
-        /**
-         * Animate via WAAPI if possible. If this is a handoff animation, the optimised animation will be running via
-         * WAAPI. Therefore, this animation must be JS to ensure it runs "under" the
-         * optimised animation.
-         */
-        if (!isHandoff && AcceleratedAnimation.supports(options)) {
-            return new AcceleratedAnimation(options)
-        } else {
-            return new MainThreadAnimation(options)
-        }
+        return valueTransition.isSync
+            ? new JSAnimation(options)
+            : new AsyncMotionValueAnimation(options)
     }

@@ -1,6 +1,5 @@
-import { clamp } from "../../../../utils/clamp"
-import { interpolate } from "../../../../utils/interpolate"
-import { defaultOffset } from "../../../../utils/offsets/default"
+import { defaultOffset, interpolate } from "motion-dom"
+import { clamp } from "motion-utils"
 import { ScrollInfo, ScrollInfoOptions } from "../types"
 import { calcInset } from "./inset"
 import { resolveOffset } from "./offset"
@@ -15,7 +14,7 @@ function getTargetSize(target: Element) {
 }
 
 export function resolveOffsets(
-    container: HTMLElement,
+    container: Element,
     info: ScrollInfo,
     options: ScrollInfoOptions
 ) {

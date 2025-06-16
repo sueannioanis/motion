@@ -1,11 +1,11 @@
-import { motionValue } from "motion-dom"
+import { motionValue, Variants } from "motion-dom"
 import { frame, motion } from "../../"
 import {
     pointerDown,
     pointerEnter,
     pointerLeave,
     render,
-} from "../../../jest.setup"
+} from "../../jest.setup"
 import { nextFrame } from "./utils"
 
 describe("hover", () => {
@@ -172,7 +172,7 @@ describe("hover", () => {
 
     test("Correctly uses transition applied to initial", () => {
         const promise = new Promise(async (resolve) => {
-            const variant = {
+            const variant: Variants = {
                 initial: { opacity: 0.9, transition: { type: false } },
                 hidden: {
                     opacity: 0.5,

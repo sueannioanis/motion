@@ -7,11 +7,10 @@ import {
     Transition,
     UnresolvedValueKeyframe,
 } from "motion-dom"
-import { Easing } from "../../easing/types"
-import { GenericKeyframesTarget } from "../../types"
+import { Easing } from "motion-utils"
 
 export type ObjectTarget<O> = {
-    [K in keyof O]?: O[K] | GenericKeyframesTarget<O[K]>
+    [K in keyof O]?: O[K] | UnresolvedValueKeyframe[]
 }
 
 export type SequenceTime =

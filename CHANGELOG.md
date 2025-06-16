@@ -4,11 +4,372 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
-## [12.5.1] 2025-03-18
+## [12.19.0] 2025-06-17
 
 ### Fixed
 
 -   Allowing custom DOM element for injecting styles when using AnimatePresence with mode === `popLayout`. Fixes shadow DOM issue [#2508](https://github.com/framer/motion/issues/2508) by passing the shadow root into the new `root` prop.
+
+## [12.18.1] 2025-06-13
+
+### Fixed
+
+-   Removed `"react"` import from `"motion-dom"`.
+
+## [12.18.0] 2025-06-13
+
+### Added
+
+-   Support for defining a timeline position relative to the start of the most recently added animation (e.g. `<+0.5`, `<-1`)
+
+## [12.17.3] 2025-06-12
+
+### Changed
+
+-   Refactored `MotionProps` into vanilla `MotionNodeOptions` type within `"motion-dom"` package.
+
+## [12.17.2] 2025-06-12
+
+### Changed
+
+-   Handle colors when creating animatable `"none"` keyframes for complex strings.
+
+## [12.17.1] 2025-06-12
+
+### Fixed
+
+-   Fixes `isValidProp` check with Rolldown.
+
+## [12.17.0] 2025-06-10
+
+### Added
+
+-   MCP server.
+
+### Fixed
+
+-   Improved rounding for `linear()` easing curves.
+
+## [12.16.0] 2025-06-03
+
+### Added
+
+-   `resize()`.
+
+## [12.15.1] 2025-05-30
+
+### Fixed
+
+-   Explicitly set layout animation velocity to zero to prevent persistent `MotionValue` carrying through velocity.
+
+## [12.15.0] 2025-05-27
+
+### Added
+
+-   Support for `pathLength`/`pathSpacing`/`pathOffset` for `svgEffect`.
+-   Auto kebab-casing of `data` and `aria` attributes in `attrEffect`.
+-   `attrEffect` applies attributes via JS property where possible.
+-   Auto `transform-box: fill-box` for SVGs with `transform` in `styleEffect`.
+
+## [12.14.0] 2025-05-26
+
+### Added
+
+-   Support for `originX`/`Y`/`Z` in `styleEffect`.
+
+### Fixed
+
+-   Added markers for pure function calls with effects.
+
+## [12.13.0] 2025-05-26
+
+### Added
+
+-   `svgEffect`, `propEffect` and `attrEffect`.
+
+### Fixed
+
+-   Fixed a jump in layout animations in select circumstances.
+
+## [12.12.2] 2025-05-23
+
+### Fixed
+
+-   Ensure scroll updates are only triggered after a scroll read.
+
+## [12.12.1] 2025-05-16
+
+### Fixed
+
+-   Checks for `instanceof HTMLElement` made compatible with dynamically generated `iframe`s.
+
+## [12.12.0] 2025-05-16
+
+### Added
+
+-   `springValue`
+
+### Fixed
+
+-   Fixed various typos in the type definitions along with a stale documentation link.
+
+## [12.11.4] 2025-05-15
+
+### Fixed
+
+-   Only read `transform` from the DOM for initial independent transforms when there's no active projection.
+
+## [12.11.3] 2025-05-14
+
+### Changed
+
+-   `useWillChange` now only adds `transform` to `will-change` to prevent issues with prematurely flattened `preserve-3d`.
+
+## [12.11.2] 2025-05-14
+
+### Fixed
+
+-   Removed `__VERSION__` placeholder from motion value.
+-   Fixed types for `Reorder` component.
+
+## [12.11.1] 2025-05-14
+
+### Fixed
+
+-   Default `scroll` tracking to `document.scrollingElement`.
+
+## [12.11.0] 2025-05-12
+
+### Added
+
+-   Added `value.isEffectActive` for internal use.
+
+## [12.10.6] 2025-05-09
+
+### Fixed
+
+-   Stop firing `.then()` after `.stop()` and `.cancel()`.
+
+## [12.10.5] 2025-05-09
+
+### Fixed
+
+-   Fixed attaching multiple `press` handlers on the same element.
+
+## [12.10.4] 2025-05-08
+
+### Fixed
+
+-   Fixed layout animations jumping when interrupted.
+-   Lower memory and runtime overhead of layout animations.
+
+## [12.10.3] 2025-05-08
+
+### Fixed
+
+-   Attempting to fix layout animations jumping when interrupted.
+
+## [12.10.2] 2025-05-08
+
+### Fixed
+
+-   Fixed `.cancel()` after `.stop()`.
+
+## [12.10.1] 2025-05-07
+
+### Changed
+
+-   Main thread `scroll` animations are now lazy, resolving after `"scroll"` events instead of every animation frame.
+
+## [12.10.0] 2025-05-06
+
+### Added
+
+-   `styleEffect` now supports:
+    -   Default value types
+    -   Independent transforms
+    -   CSS variables
+
+## [12.9.8] 2025-05-05
+
+### Fixed
+
+-   Fixing press after parent is dragged.
+
+## [12.9.7] 2025-05-05
+
+### Fixed
+
+-   Fix mixing `PopChild` with Astro view transitions.
+
+## [12.9.6] 2025-05-05
+
+### Fixed
+
+-   Fix setting `transformBox` via `style`.
+
+## [12.9.5] 2025-05-05
+
+### Fixed
+
+-   Fixed drag `undefined` error in React 19 Strict Mode.
+-   Skip keyframe measurements for values without support for unit conversion.
+
+## [12.9.4] 2025-05-01
+
+### Fixed
+
+-   Remove version check for `MotionValue`.
+
+## [12.9.3] 2025-05-01
+
+### Fixed
+
+-   Fixed memory leak when unmounting `motion` components.
+
+## [12.9.2] 2025-04-25
+
+### Fixed
+
+-   Fixed scroll timeline cache when defining `offset`.
+-   Detect when page scroll is attached to `document.body` and use this instead of `document.documentElement`.
+
+## [12.9.1] 2025-04-24
+
+### Fixed
+
+-   Restarting a finished main thread animation with a negative `.speed` now works as expected.
+
+## [12.9.0] 2025-04-24
+
+### Added
+
+-   `styleEffect`
+
+## [12.8.3] 2025-04-24
+
+### Changed
+
+-   Animating a `MotionValue` to its current value will skip creating the animation.
+
+### Fixed
+
+-   Ensure `.then()` fires when `.stop()` or `.cancel()` are called. This is undesired but reverts the behaviour to before `12.7.5`.
+
+## [12.8.2] 2025-04-24
+
+### Changed
+
+-   Unifying `transform` behaviour for SVG and CSS switched from element measurements for `transform-box: fill-box`.
+
+## [12.8.1] 2025-04-23
+
+### Fixed
+
+-   Removing errant `console.trace` on `value.set("none")`.
+
+## [12.8.0] 2025-04-23
+
+### Added
+
+-   `mapValue`
+-   `transformValue`
+
+### Changed
+
+-   Removed support for Framer's internal `CustomValueType`.
+
+## [12.7.5] 2025-04-22
+
+### Changed
+
+-   Improved scroll timeline caching.
+-   Replaced WAAPI keyframe generation with `linear()` easing.
+-   Ensure final defined keyframe is always applied to animations when animation finishes.
+-   Moved `instantAnimationState.current` to `MotionGlobalConfig.instantAnimations`.
+-   Changed `delay` from `read` to `setup` frameloop step.
+
+### Fixed
+
+-   Fixed `.then()` and `await` early resolution.
+-   Fixed replaying main thread animations after finished.
+-   `.speed` works correctly across all animation types.
+-   Various imperative animation control fixes.
+
+## [12.7.4] 2025-04-17
+
+### Fixed
+
+-   Removed non-deterministic behaviour from `AnimatePresence`.
+
+## [12.7.3] 2025-04-15
+
+### Fixed
+
+-   Fixing `duration` for `animateView` transitions.
+-   Prevent `.commitStyles()` on `pseudoElement` animations.
+
+## [12.7.2] 2025-04-14
+
+### Fixed
+
+-   Adding `"sideEffects": false` to `motion-dom` and `motion-utils` packages.
+
+## [12.7.1] 2025-04-14
+
+### Fixed
+
+-   Skip `.commitStyles` on `psuedoElement` animations.
+
+## [12.7.0] 2025-04-14
+
+### Added
+
+-   Private `layoutCrossfade` allows disabling crossfade of shared layout elements.
+
+## [12.6.5] 2025-04-11
+
+### Fixed
+
+-   Polyfilled `sync` and `cancelSync` exports.
+
+## [12.6.4] 2025-04-11
+
+### Added
+
+-   Global injection of `WillChangeMotionValue` for internal Framer use.
+
+## [12.6.3] 2025-04-01
+
+### Changed
+
+-   Refactored mini `animate` and `animateView` to share the same `NativeAnimation`. Mini `animate` down to `2.3kb`.
+
+### Fixed
+
+-   Fixed keyboard accessibility of press events.
+
+## [12.6.2] 2025-03-26
+
+### Fixed
+
+-   Fixing hardware acceleration for non-`transform` values when a `motion` component has a defined `transformTemplate`.
+
+## [12.6.1] 2025-03-26
+
+### Fixed
+
+-   Reverting pointer capture for press gesture.
+
+## [12.6.0] 2025-03-25
+
+### Changed
+
+-   Renamed `view` to `animateView`.
+
+### Added
+
+-   New `interrupt: "wait"` mode as `animateView` default.
 
 ## [12.5.0] 2025-03-11
 
