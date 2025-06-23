@@ -4,9 +4,11 @@ export function usePageInView() {
     const [isInView, setIsInView] = useState(true)
 
     useEffect(() => {
-        if (document.hidden) setIsInView(false)
-
         const handleVisibilityChange = () => setIsInView(!document.hidden)
+
+        if (document.hidden) {
+            handleVisibilityChange()
+        }
 
         document.addEventListener("visibilitychange", handleVisibilityChange)
 
