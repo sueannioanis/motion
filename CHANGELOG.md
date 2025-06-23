@@ -4,6 +4,13 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.18.2] 2025-06-23
+
+### Fixed
+
+-   Fixed es bundle dependency imports for `"motion"`.
+-   Restored `translateX`, `originX` etc values in animation targets.
+
 ## [12.18.1] 2025-06-13
 
 ### Fixed
