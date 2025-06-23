@@ -102,6 +102,7 @@ export {
     disableInstantTransitions,
     useInstantTransition,
 } from "./utils/use-instant-transition"
+export { usePageInView } from "./utils/use-page-in-view"
 
 /**
  * Appear animations
