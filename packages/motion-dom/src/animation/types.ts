@@ -225,6 +225,7 @@ export interface VelocityOptions {
      */
     restDelta?: number
 }
+
 export interface DurationSpringOptions {
     /**
      * The total duration of the animation. Set to `0.3` by default.
@@ -285,6 +286,11 @@ export interface SpringOptions extends DurationSpringOptions, VelocityOptions {
      */
     mass?: number
 }
+
+/**
+ * @deprecated Use SpringOptions instead
+ */
+export interface Spring extends SpringOptions {}
 
 export interface DecayOptions extends VelocityOptions {
     keyframes?: number[]
@@ -401,6 +407,12 @@ export interface AnimationOrchestrationOptions {
 }
 
 export interface KeyframeOptions {
+    /**
+     * The total duration of the animation. Set to `0.3` by default.
+     *
+     * @public
+     */
+    duration?: number
     ease?: Easing | Easing[]
     times?: number[]
 }
@@ -447,6 +459,11 @@ export interface ValueTransition
     // @deprecated
     from?: any
 }
+
+/**
+ * @deprecated Use KeyframeOptions instead
+ */
+export interface Tween extends KeyframeOptions {}
 
 export type SVGForcedAttrTransitions = {
     [K in keyof SVGForcedAttrProperties]: ValueTransition
@@ -515,6 +532,12 @@ export interface CSSStyleDeclarationWithTransform
     x: number | string
     y: number | string
     z: number | string
+    originX: number
+    originY: number
+    originZ: number
+    translateX: number | string
+    translateY: number | string
+    translateZ: number | string
     rotateX: number | string
     rotateY: number | string
     rotateZ: number | string
