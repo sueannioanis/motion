@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.19.0] 2025-06-23
+
+### Added
+
+-   React: `usePageInView` for tracking document visibility.
+
 ## [12.18.2] 2025-06-23
 
 ### Fixed
