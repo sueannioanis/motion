@@ -160,6 +160,8 @@ export function createProjectionNode<I>({
          */
         animationId: number = 0
 
+        animationCommitId = 0
+
         /**
          * A reference to the platform-native node (currently this will be a HTMLElement).
          */
@@ -169,12 +171,6 @@ export function createProjectionNode<I>({
          * A reference to the root projection node. There'll only ever be one tree and one root.
          */
         root: IProjectionNode
-
-        /**
-         * A couple of values to ensure multiple didUpdates don't trigger multiple updates.
-         */
-        layoutStartId = 0
-        layoutEndId = 0
 
         /**
          * A reference to this node's parent.
@@ -636,7 +632,6 @@ export function createProjectionNode<I>({
         startUpdate() {
             if (this.isUpdateBlocked()) return
 
-            this.layoutStartId++
             this.isUpdating = true
 
             this.nodes && this.nodes.forEach(resetSkewAndRotation)
@@ -707,7 +702,9 @@ export function createProjectionNode<I>({
         update() {
             this.updateScheduled = false
 
-            const updateWasBlocked = this.isUpdateBlocked()
+            const updateWasBlocked =
+                this.isUpdateBlocked() ||
+                this.animationId <= this.animationCommitId
 
             // When doing an instant transition, we skip the layout update,
             // but should still clean up the measurements so that the next
@@ -722,6 +719,8 @@ export function createProjectionNode<I>({
             if (!this.isUpdating) {
                 this.nodes!.forEach(clearIsLayoutDirty)
             }
+
+            this.animationCommitId = this.animationId
 
             this.isUpdating = false
 
@@ -761,11 +760,7 @@ export function createProjectionNode<I>({
         scheduleUpdate = () => this.update()
 
         didUpdate() {
-            if (
-                !this.updateScheduled &&
-                this.layoutStartId > this.layoutEndId
-            ) {
-                this.layoutEndId = this.layoutStartId
+            if (!this.updateScheduled) {
                 this.updateScheduled = true
                 microtask.read(this.scheduleUpdate)
             }

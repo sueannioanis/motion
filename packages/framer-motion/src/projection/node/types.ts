@@ -37,6 +37,7 @@ export type LayoutEvents =
 export interface IProjectionNode<I = unknown> {
     id: number
     animationId: number
+    animationCommitId: number
     parent?: IProjectionNode
     relativeParent?: IProjectionNode
     root?: IProjectionNode
@@ -59,8 +60,6 @@ export interface IProjectionNode<I = unknown> {
     scroll?: ScrollMeasurements
     treeScale?: Point
     projectionDelta?: Delta
-    layoutStartId: number
-    layoutEndId: number
     projectionDeltaWithTransform?: Delta
     latestValues: ResolvedValues
     isLayoutDirty: boolean
