@@ -702,9 +702,7 @@ export function createProjectionNode<I>({
         update() {
             this.updateScheduled = false
 
-            const updateWasBlocked =
-                this.isUpdateBlocked() ||
-                this.animationId <= this.animationCommitId
+            const updateWasBlocked = this.isUpdateBlocked()
 
             // When doing an instant transition, we skip the layout update,
             // but should still clean up the measurements so that the next
@@ -713,6 +711,13 @@ export function createProjectionNode<I>({
                 this.unblockUpdate()
                 this.clearAllSnapshots()
                 this.nodes!.forEach(clearMeasurements)
+                return
+            }
+
+            /**
+             * If this is a repeat of didUpdate then ignore the animation.
+             */
+            if (this.animationId <= this.animationCommitId) {
                 return
             }
 
@@ -760,7 +765,7 @@ export function createProjectionNode<I>({
         scheduleUpdate = () => this.update()
 
         didUpdate() {
-            if (!this.updateScheduled) {
+            if (!this.updateScheduled && this.isUpdating) {
                 this.updateScheduled = true
                 microtask.read(this.scheduleUpdate)
             }
