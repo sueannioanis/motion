@@ -670,6 +670,7 @@ export function createProjectionNode<I>({
             }
 
             !this.root.isUpdating && this.root.startUpdate()
+
             if (this.isLayoutDirty) return
 
             this.isLayoutDirty = true
@@ -718,6 +719,8 @@ export function createProjectionNode<I>({
              * If this is a repeat of didUpdate then ignore the animation.
              */
             if (this.animationId <= this.animationCommitId) {
+                this.nodes!.forEach(clearMeasurements)
+
                 return
             }
 
