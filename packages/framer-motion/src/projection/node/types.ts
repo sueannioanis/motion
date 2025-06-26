@@ -59,6 +59,8 @@ export interface IProjectionNode<I = unknown> {
     scroll?: ScrollMeasurements
     treeScale?: Point
     projectionDelta?: Delta
+    layoutStartId: number
+    layoutEndId: number
     projectionDeltaWithTransform?: Delta
     latestValues: ResolvedValues
     isLayoutDirty: boolean

@@ -171,6 +171,12 @@ export function createProjectionNode<I>({
         root: IProjectionNode
 
         /**
+         * A couple of values to ensure multiple didUpdates don't trigger multiple updates.
+         */
+        layoutStartId = 0
+        layoutEndId = 0
+
+        /**
          * A reference to this node's parent.
          */
         parent?: IProjectionNode
@@ -630,6 +636,7 @@ export function createProjectionNode<I>({
         startUpdate() {
             if (this.isUpdateBlocked()) return
 
+            this.layoutStartId++
             this.isUpdating = true
 
             this.nodes && this.nodes.forEach(resetSkewAndRotation)
@@ -754,7 +761,11 @@ export function createProjectionNode<I>({
         scheduleUpdate = () => this.update()
 
         didUpdate() {
-            if (!this.updateScheduled) {
+            if (
+                !this.updateScheduled &&
+                this.layoutStartId > this.layoutEndId
+            ) {
+                this.layoutEndId = this.layoutStartId
                 this.updateScheduled = true
                 microtask.read(this.scheduleUpdate)
             }
