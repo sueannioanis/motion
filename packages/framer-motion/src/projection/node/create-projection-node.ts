@@ -719,8 +719,7 @@ export function createProjectionNode<I>({
              * If this is a repeat of didUpdate then ignore the animation.
              */
             if (this.animationId <= this.animationCommitId) {
-                this.nodes!.forEach(clearMeasurements)
-
+                this.nodes!.forEach(clearIsLayoutDirty)
                 return
             }
 
