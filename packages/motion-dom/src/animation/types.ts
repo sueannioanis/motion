@@ -537,7 +537,6 @@ export interface CSSStyleDeclarationWithTransform
         CSSPropertyKeys,
         "direction" | "transition" | "x" | "y" | "z"
     > {
-    [key: string]: number | string
     x: number | string
     y: number | string
     z: number | string
@@ -555,6 +554,7 @@ export interface CSSStyleDeclarationWithTransform
     scaleZ: number
     skewX: number | string
     skewY: number | string
+    transformPerspective: number
 }
 
 export type Transition<V = any> = StyleTransitions &
