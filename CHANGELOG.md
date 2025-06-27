@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.19.2] 2025-06-27
+
+### Fixed
+
+-   React: Prevent duplicate layout animation commits within Suspense boundaries.
+
 ## [12.19.1] 2025-06-23
 
 ### Fixed
