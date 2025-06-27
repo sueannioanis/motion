@@ -539,6 +539,11 @@ export interface MotionNodeTapHandlers {
     globalTapTarget?: boolean
 }
 
+/**
+ * @deprecated - Use MotionNodeTapHandlers
+ */
+export interface TapHandlers extends MotionNodeTapHandlers {}
+
 export interface MotionNodeFocusHandlers {
     /**
      * Properties or variant label to animate to while the focus gesture is recognised.
@@ -961,6 +966,11 @@ export interface MotionNodeLayoutOptions {
      */
     layoutCrossfade?: boolean
 }
+
+/**
+ * @deprecated - Use MotionNodeDragHandlers
+ */
+export interface DraggableProps extends MotionNodeDragHandlers {}
 
 export type TransformTemplate = (
     transform: TransformProperties,
