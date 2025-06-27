@@ -20,8 +20,8 @@ jobs:
               run: |
                   curl -X POST \
                     -H 'Content-type: application/json' \
-                    -H 'Authorization: Bearer ${{ secrets.API_TOKEN }}' \
+                    -H 'Authorization: Bearer ${{ secrets.UPDATE_NOTIFICATION_TOKEN }}' \
                     -d '{"version": "${{ steps.tag.outputs.VERSION }}"}' \
                     http://api.motion.dev/slack/update
               env:
-                  API_TOKEN: ${{ secrets.API_TOKEN }}
+                  UPDATE_NOTIFICATION_TOKEN: ${{ secrets.UPDATE_NOTIFICATION_TOKEN }}
