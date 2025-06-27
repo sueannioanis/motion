@@ -968,9 +968,11 @@ export interface MotionNodeLayoutOptions {
 }
 
 /**
- * @deprecated - Use MotionNodeDragHandlers
+ * @deprecated - Use MotionNodeDragHandlers/MotionNodeDraggableOptions
  */
-export interface DraggableProps extends MotionNodeDragHandlers {}
+export interface DraggableProps
+    extends MotionNodeDragHandlers,
+        MotionNodeDraggableOptions {}
 
 export type TransformTemplate = (
     transform: TransformProperties,

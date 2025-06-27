@@ -524,9 +524,11 @@ export type DOMKeyframesDefinition = StyleKeyframesDefinition &
     SVGForcedAttrKeyframesDefinition &
     VariableKeyframesDefinition
 
+type OnlyStringKeys<T> = Pick<T, Extract<keyof T, string>>
+
 export interface CSSStyleDeclarationWithTransform
     extends Omit<
-        CSSStyleDeclaration,
+        OnlyStringKeys<CSSStyleDeclaration>,
         "direction" | "transition" | "x" | "y" | "z"
     > {
     x: number | string
