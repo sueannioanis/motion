@@ -4,6 +4,14 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.19.3] 2025-06-27
+
+### Fixed
+
+-   Restore some deprecated types.
+-   Add `transformPerspective` to `TargetAndTransition`.
+-   Filter number-indexed and function props from `CSSStyleDeclaration`.
+
 ## [12.19.2] 2025-06-27
 
 ### Fixed
