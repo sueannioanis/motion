@@ -524,9 +524,17 @@ export type DOMKeyframesDefinition = StyleKeyframesDefinition &
     SVGForcedAttrKeyframesDefinition &
     VariableKeyframesDefinition
 
+type CSSPropertyKeys = {
+    [K in keyof CSSStyleDeclaration as K extends string
+        ? CSSStyleDeclaration[K] extends string | number
+            ? K
+            : never
+        : never]: CSSStyleDeclaration[K]
+}
+
 export interface CSSStyleDeclarationWithTransform
     extends Omit<
-        CSSStyleDeclaration,
+        CSSPropertyKeys,
         "direction" | "transition" | "x" | "y" | "z"
     > {
     x: number | string
@@ -546,6 +554,7 @@ export interface CSSStyleDeclarationWithTransform
     scaleZ: number
     skewX: number | string
     skewY: number | string
+    transformPerspective: number
 }
 
 export type Transition<V = any> = StyleTransitions &
