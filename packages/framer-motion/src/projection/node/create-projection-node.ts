@@ -630,8 +630,10 @@ export function createProjectionNode<I>({
 
         // Note: currently only running on root node
         startUpdate() {
+            console.log("update blocked")
             if (this.isUpdateBlocked()) return
 
+            console.log("start update")
             this.isUpdating = true
 
             this.nodes && this.nodes.forEach(resetSkewAndRotation)
@@ -724,31 +726,31 @@ export function createProjectionNode<I>({
                 return
             }
 
-            if (!this.isUpdating) {
-                this.nodes!.forEach(clearIsLayoutDirty)
-                return
-            }
-
             this.animationCommitId = this.animationId
 
-            this.isUpdating = false
+            if (!this.isUpdating) {
+                this.nodes!.forEach(clearIsLayoutDirty)
+            } else {
+                this.isUpdating = false
 
-            /**
-             * Write
-             */
-            this.nodes!.forEach(resetTransformStyle)
+                /**
+                 * Write
+                 */
+                this.nodes!.forEach(resetTransformStyle)
 
-            /**
-             * Read ==================
-             */
-            // Update layout measurements of updated children
-            this.nodes!.forEach(updateLayout)
+                /**
+                 * Read ==================
+                 */
+                // Update layout measurements of updated children
+                this.nodes!.forEach(updateLayout)
 
-            /**
-             * Write
-             */
-            // Notify listeners that the layout is updated
-            this.nodes!.forEach(notifyLayoutUpdate)
+                /**
+                 * Write
+                 */
+                // Notify listeners that the layout is updated
+                this.nodes!.forEach(notifyLayoutUpdate)
+            }
+
             this.clearAllSnapshots()
 
             /**
