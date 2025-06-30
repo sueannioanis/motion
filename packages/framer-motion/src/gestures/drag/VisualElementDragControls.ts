@@ -254,10 +254,9 @@ export class VisualElementDragControls {
      * @internal
      */
     stop(event?: PointerEvent, panInfo?: PanInfo) {
-        const isDragging = this.isDragging
         const finalPanInfo = panInfo || this.latestPanInfo
    
-        if (isDragging && finalPanInfo) {
+        if (this.isDragging && finalPanInfo) {
             this.startAnimation(finalPanInfo.velocity)
         }
 
@@ -268,8 +267,11 @@ export class VisualElementDragControls {
      * @internal
      */
     cancel(event?: PointerEvent, panInfo?: PanInfo) {
-        this.isDragging = false
+        const isDragging = this.isDragging
         const { projection, animationState } = this.visualElement
+
+        this.isDragging = false
+
         if (projection) {
             projection.isAnimationBlocked = false
         }
@@ -285,7 +287,7 @@ export class VisualElementDragControls {
             this.openDragLock = null
         }
 
-        if (onDragEnd && finalEvent && finalPanInfo) {
+        if (isDragging && onDragEnd && finalEvent && finalPanInfo) {
             frame.postRender(() => onDragEnd(finalEvent, finalPanInfo))
         }
 
