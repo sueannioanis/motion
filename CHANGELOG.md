@@ -6,9 +6,9 @@ Undocumented APIs should be considered internal and may change without warning.
 
 ## [12.20.0] 2025-06-30
 
-### Fixed
+### Added
 
--   Allowing custom DOM element for injecting styles when using AnimatePresence with mode === `popLayout`. Fixes shadow DOM issue [#2508](https://github.com/framer/motion/issues/2508) by passing the shadow root into the new `root` prop.
+-   Pass a shadow DOM root element via `AnimatePresence` `root` prop to attach `"popLayout"` styles to a different root element.
 
 ## [12.19.4] 2025-06-30
 
