@@ -1,4 +1,5 @@
 import * as React from "react"
+import { PanInfo } from "motion-dom"
 import { useConstant } from "../../utils/use-constant"
 import {
     VisualElementDragControls,
@@ -71,13 +72,17 @@ export class DragControls {
      *
      * ```jsx
      * dragControls.cancel()
+     * dragControls.cancel(event, panInfo)
      * ```
-
+     * 
+     * @param event - PointerEvent
+     * @param panInfo - PanInfo
+     * 
      * @public
      */
-    cancel() {
+    cancel(event?: React.PointerEvent | PointerEvent, panInfo?: PanInfo) {
         this.componentControls.forEach((controls) => {
-            controls.cancel()
+            controls.cancel((event as React.PointerEvent).nativeEvent || event, panInfo)
         })
     }
 
@@ -85,14 +90,18 @@ export class DragControls {
      * Stops a drag gesture.
      *
      * ```jsx
-     * dragControls.stop(e)
+     * dragControls.stop()
+     * dragControls.stop(event, panInfo)
      * ```
-
+     * 
+     * @param event - PointerEvent
+     * @param panInfo - PanInfo
+     * 
      * @public
      */
-    stop(event: React.PointerEvent | PointerEvent) {
+    stop(event?: React.PointerEvent | PointerEvent, panInfo?: PanInfo) {
         this.componentControls.forEach((controls) => {
-            controls.stop((event as React.PointerEvent).nativeEvent || event)
+            controls.stop((event as React.PointerEvent).nativeEvent || event, panInfo)
         })
     }
 }
