@@ -1,5 +1,6 @@
-import { useEffect } from "react"
+import "@testing-library/jest-dom"
 import { render } from "@testing-library/react"
+import { useEffect } from "react"
 import { useAnimate } from "../use-animate"
 
 describe("useAnimate", () => {
@@ -19,6 +20,41 @@ describe("useAnimate", () => {
         }
 
         render(<Component />)
+    })
+
+    test("Animations removed from scope when finished", () => {
+        return new Promise<void>((resolve) => {
+            const Component = () => {
+                const [scope, animate] = useAnimate()
+
+                useEffect(() => {
+                    const animation = animate(
+                        scope.current,
+                        { opacity: 1 },
+                        { duration: 0.1 }
+                    )
+
+                    requestAnimationFrame(() => {
+                        expect(scope.animations.length).toBe(1)
+                    })
+
+                    animation.finished.then(() => {
+                        requestAnimationFrame(() => {
+                            expect(scope.animations.length).toBe(0)
+                            resolve()
+                        })
+                    })
+
+                    return () => {
+                        animation.stop()
+                    }
+                })
+
+                return <div ref={scope} />
+            }
+
+            render(<Component />)
+        })
     })
 
     test("Animates provided animation", async () => {
