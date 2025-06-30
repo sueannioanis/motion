@@ -1,7 +1,7 @@
 import type { BoundingBox, Box, Point } from "motion-utils"
 import type {
-    DOMKeyframesDefinition,
     InertiaOptions,
+    Target,
     TransformProperties,
     Transition,
 } from "../animation/types"
@@ -45,7 +45,7 @@ export type AnimationDefinition =
  *
  * @public
  */
-export type TargetAndTransition = DOMKeyframesDefinition & {
+export type TargetAndTransition = Target & {
     transition?: Transition
     transitionEnd?: ResolvedValues
 }

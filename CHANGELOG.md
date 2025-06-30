@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.20.1] 2025-06-30
+
+### Fixed
+
+-   Updated `Target` type to match previous definition.
+
 ## [12.20.0] 2025-06-30
 
 ### Added
