@@ -1,4 +1,4 @@
-import type { PanInfo, ResolvedConstraints, Transition } from "motion-dom"
+import { PanInfo, ResolvedConstraints, Transition } from "motion-dom"
 import { frame, mixNumber, percent, setDragLock } from "motion-dom"
 import { Axis, Point, invariant } from "motion-utils"
 import { animateMotionValue } from "../../animation/interfaces/motion-value"
@@ -71,6 +71,8 @@ export class VisualElementDragControls {
      */
     private elastic = createBox()
 
+    private latestPanInfo: PanInfo | null = null;
+
     constructor(visualElement: VisualElement<HTMLElement>) {
         this.visualElement = visualElement
     }
@@ -110,6 +112,7 @@ export class VisualElementDragControls {
                 if (!this.openDragLock) return
             }
 
+            this.latestPanInfo = info;
             this.isDragging = true
 
             this.currentDirection = null
@@ -158,6 +161,7 @@ export class VisualElementDragControls {
         }
 
         const onMove = (event: PointerEvent, info: PanInfo) => {
+            this.latestPanInfo = info;
             // latestPointerEvent = event
 
             const {
@@ -202,9 +206,11 @@ export class VisualElementDragControls {
             onDrag && onDrag(event, info)
         }
 
-        const onSessionEnd = (event: PointerEvent, info: PanInfo) =>
+        const onSessionEnd = (event: PointerEvent, info: PanInfo) => {
             this.stop(event, info)
-
+            this.latestPanInfo = null
+        }
+            
         const resumeAnimation = () =>
             eachAxis(
                 (axis) =>
@@ -230,21 +236,29 @@ export class VisualElementDragControls {
         )
     }
 
-    private stop(event: PointerEvent, info: PanInfo) {
+    /**
+     * @internal
+     */
+    stop(event: PointerEvent, info?: PanInfo) {
         const isDragging = this.isDragging
+        const finalInfo = info || this.latestPanInfo
         this.cancel()
-        if (!isDragging) return
+        if (!isDragging || !finalInfo) return
 
-        const { velocity } = info
+   
+        const { velocity } = finalInfo
         this.startAnimation(velocity)
 
         const { onDragEnd } = this.getProps()
         if (onDragEnd) {
-            frame.postRender(() => onDragEnd(event, info))
+            frame.postRender(() => onDragEnd(event, finalInfo))
         }
     }
 
-    private cancel() {
+    /**
+     * @internal
+     */
+    cancel() {
         this.isDragging = false
         const { projection, animationState } = this.visualElement
         if (projection) {

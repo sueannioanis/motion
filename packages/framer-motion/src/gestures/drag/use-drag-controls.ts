@@ -65,6 +65,36 @@ export class DragControls {
             )
         })
     }
+
+    /**
+     * Cancels a drag gesture on the spot.
+     *
+     * ```jsx
+     * dragControls.cancel()
+     * ```
+
+     * @public
+     */
+    cancel() {
+        this.componentControls.forEach((controls) => {
+            controls.cancel()
+        })
+    }
+
+    /**
+     * Stops a drag gesture.
+     *
+     * ```jsx
+     * dragControls.stop(e)
+     * ```
+
+     * @public
+     */
+    stop(event: React.PointerEvent | PointerEvent) {
+        this.componentControls.forEach((controls) => {
+            controls.stop((event as React.PointerEvent).nativeEvent || event)
+        })
+    }
 }
 
 const createDragControls = () => new DragControls()
