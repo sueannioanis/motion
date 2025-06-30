@@ -2,13 +2,17 @@ import { noop } from "motion-utils"
 import type { GroupAnimation } from "../animation/GroupAnimation"
 import { AnimationOptions, DOMKeyframesDefinition } from "../animation/types"
 import { addToQueue } from "./queue"
-import { Target, ViewTransitionOptions, ViewTransitionTarget } from "./types"
+import {
+    ViewTransitionOptions,
+    ViewTransitionTarget,
+    ViewTransitionTargetDefinition,
+} from "./types"
 import "./types.global"
 
 export class ViewTransitionBuilder {
-    private currentTarget: Target = "root"
+    private currentSubject: ViewTransitionTargetDefinition = "root"
 
-    targets = new Map<Target, ViewTransitionTarget>()
+    targets = new Map<ViewTransitionTargetDefinition, ViewTransitionTarget>()
 
     update: () => void | Promise<void>
 
@@ -32,8 +36,8 @@ export class ViewTransitionBuilder {
         addToQueue(this)
     }
 
-    get(selector: Target) {
-        this.currentTarget = selector
+    get(subject: ViewTransitionTargetDefinition) {
+        this.currentSubject = subject
 
         return this
     }
@@ -80,13 +84,13 @@ export class ViewTransitionBuilder {
         keyframes: DOMKeyframesDefinition,
         options: AnimationOptions = {}
     ) {
-        const { currentTarget, targets } = this
+        const { currentSubject, targets } = this
 
-        if (!targets.has(currentTarget)) {
-            targets.set(currentTarget, {})
+        if (!targets.has(currentSubject)) {
+            targets.set(currentSubject, {})
         }
 
-        const targetData = targets.get(currentTarget)!
+        const targetData = targets.get(currentSubject)!
 
         targetData[target] = { keyframes, options }
     }

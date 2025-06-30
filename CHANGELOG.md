@@ -4,6 +4,24 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.20.1] 2025-06-30
+
+### Fixed
+
+-   Updated `Target` type to match previous definition.
+
+## [12.20.0] 2025-06-30
+
+### Added
+
+-   Pass a shadow DOM root element via `AnimatePresence` `root` prop to attach `"popLayout"` styles to a different root element.
+
+## [12.19.4] 2025-06-30
+
+### Fixed
+
+-   Ensure animations are removed from scope when finished.
+
 ## [12.19.3] 2025-06-27
 
 ### Fixed

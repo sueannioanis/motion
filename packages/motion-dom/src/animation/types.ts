@@ -524,6 +524,8 @@ export type DOMKeyframesDefinition = StyleKeyframesDefinition &
     SVGForcedAttrKeyframesDefinition &
     VariableKeyframesDefinition
 
+export interface Target extends DOMKeyframesDefinition {}
+
 type CSSPropertyKeys = {
     [K in keyof CSSStyleDeclaration as K extends string
         ? CSSStyleDeclaration[K] extends string | number

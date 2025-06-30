@@ -17,4 +17,4 @@ export interface ViewTransitionOptions extends AnimationOptions {
     interrupt?: "wait" | "immediate"
 }
 
-export type Target = string | Element
+export type ViewTransitionTargetDefinition = string | Element

@@ -9,6 +9,7 @@ import type {
     ValueAnimationTransition,
 } from "motion-dom"
 import { GroupAnimationWithThen } from "motion-dom"
+import { removeItem } from "motion-utils"
 import {
     AnimationSequence,
     ObjectTarget,
@@ -120,6 +121,9 @@ export function createScopedAnimate(scope?: AnimationScope) {
 
         if (scope) {
             scope.animations.push(animation)
+            animation.finished.then(() => {
+                removeItem(scope.animations, animation)
+            })
         }
 
         return animation
