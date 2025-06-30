@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.19.4] 2025-06-30
+
+### Fixed
+
+-   Ensure animations are removed from scope when finished.
+
 ## [12.19.3] 2025-06-27
 
 ### Fixed
