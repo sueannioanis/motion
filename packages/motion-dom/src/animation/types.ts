@@ -225,6 +225,7 @@ export interface VelocityOptions {
      */
     restDelta?: number
 }
+
 export interface DurationSpringOptions {
     /**
      * The total duration of the animation. Set to `0.3` by default.
@@ -285,6 +286,11 @@ export interface SpringOptions extends DurationSpringOptions, VelocityOptions {
      */
     mass?: number
 }
+
+/**
+ * @deprecated Use SpringOptions instead
+ */
+export interface Spring extends SpringOptions {}
 
 export interface DecayOptions extends VelocityOptions {
     keyframes?: number[]
@@ -401,6 +407,12 @@ export interface AnimationOrchestrationOptions {
 }
 
 export interface KeyframeOptions {
+    /**
+     * The total duration of the animation. Set to `0.3` by default.
+     *
+     * @public
+     */
+    duration?: number
     ease?: Easing | Easing[]
     times?: number[]
 }
@@ -447,6 +459,11 @@ export interface ValueTransition
     // @deprecated
     from?: any
 }
+
+/**
+ * @deprecated Use KeyframeOptions instead
+ */
+export interface Tween extends KeyframeOptions {}
 
 export type SVGForcedAttrTransitions = {
     [K in keyof SVGForcedAttrProperties]: ValueTransition
@@ -507,14 +524,28 @@ export type DOMKeyframesDefinition = StyleKeyframesDefinition &
     SVGForcedAttrKeyframesDefinition &
     VariableKeyframesDefinition
 
+type CSSPropertyKeys = {
+    [K in keyof CSSStyleDeclaration as K extends string
+        ? CSSStyleDeclaration[K] extends string | number
+            ? K
+            : never
+        : never]: CSSStyleDeclaration[K]
+}
+
 export interface CSSStyleDeclarationWithTransform
     extends Omit<
-        CSSStyleDeclaration,
+        CSSPropertyKeys,
         "direction" | "transition" | "x" | "y" | "z"
     > {
     x: number | string
     y: number | string
     z: number | string
+    originX: number
+    originY: number
+    originZ: number
+    translateX: number | string
+    translateY: number | string
+    translateZ: number | string
     rotateX: number | string
     rotateY: number | string
     rotateZ: number | string
@@ -523,6 +554,7 @@ export interface CSSStyleDeclarationWithTransform
     scaleZ: number
     skewX: number | string
     skewY: number | string
+    transformPerspective: number
 }
 
 export type Transition<V = any> = StyleTransitions &

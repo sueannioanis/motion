@@ -16,4 +16,36 @@ describe("accepts motion values into both motion components from both entry poin
 
         render(<Component />)
     })
+
+    it("accepts expected values", () => {
+        function Component() {
+            return (
+                <motion.div
+                    animate={{
+                        x: 100,
+                        translateX: 100,
+                        originX: 0.5,
+                        backgroundColor: "red",
+                        pathOffset: 0.5,
+                        transition: {
+                            originX: {},
+                            x: {},
+                            translateX: {},
+                            backgroundColor: {},
+                            pathOffset: {},
+                        },
+                    }}
+                    transition={{
+                        originX: {},
+                        x: {},
+                        translateX: {},
+                        backgroundColor: {},
+                        pathOffset: {},
+                    }}
+                />
+            )
+        }
+
+        render(<Component />)
+    })
 })

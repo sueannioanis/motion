@@ -30,13 +30,18 @@ const external = [
     ...Object.keys(pkg.dependencies || {}),
     ...Object.keys(pkg.peerDependencies || {}),
     ...Object.keys(pkg.optionalDependencies || {}),
+    "react",
+    "react-dom",
     "react/jsx-runtime",
+    "motion-dom",
+    "motion-utils",
+    "framer-motion",
     "framer-motion/dom",
+    "framer-motion/dom/mini",
     "framer-motion/client",
     "framer-motion/m",
     "framer-motion/mini",
     "framer-motion/debug",
-    "framer-motion/dom-mini",
     
 ]
 
@@ -131,7 +136,7 @@ export const es = Object.assign({}, config, {
         dir: "dist/es",
     },
     plugins: [resolve(), replaceSettings(), preserveDirectives()],
-    external: ["react", "react-dom", "react/jsx-runtime"],
+    external,
     onwarn(warning, warn) {
         if (warning.code === 'MODULE_LEVEL_DIRECTIVE') {
             return

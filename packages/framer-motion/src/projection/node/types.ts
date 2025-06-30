@@ -37,6 +37,7 @@ export type LayoutEvents =
 export interface IProjectionNode<I = unknown> {
     id: number
     animationId: number
+    animationCommitId: number
     parent?: IProjectionNode
     relativeParent?: IProjectionNode
     root?: IProjectionNode

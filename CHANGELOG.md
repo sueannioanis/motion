@@ -4,11 +4,50 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
-## [12.19.0] 2025-06-17
+## [12.20.0] 2025-06-30
 
 ### Fixed
 
 -   Allowing custom DOM element for injecting styles when using AnimatePresence with mode === `popLayout`. Fixes shadow DOM issue [#2508](https://github.com/framer/motion/issues/2508) by passing the shadow root into the new `root` prop.
+
+## [12.19.4] 2025-06-30
+
+### Fixed
+
+-   Ensure animations are removed from scope when finished.
+
+## [12.19.3] 2025-06-27
+
+### Fixed
+
+-   Restore some deprecated types.
+-   Add `transformPerspective` to `TargetAndTransition`.
+-   Filter number-indexed and function props from `CSSStyleDeclaration`.
+
+## [12.19.2] 2025-06-27
+
+### Fixed
+
+-   React: Prevent duplicate layout animation commits within Suspense boundaries.
+
+## [12.19.1] 2025-06-23
+
+### Fixed
+
+-   React: Fix `export *` error message in Next.js.
+
+## [12.19.0] 2025-06-23
+
+### Added
+
+-   React: `usePageInView` for tracking document visibility.
+
+## [12.18.2] 2025-06-23
+
+### Fixed
+
+-   Fixed es bundle dependency imports for `"motion"`.
+-   Restored `translateX`, `originX` etc values in animation targets.
 
 ## [12.18.1] 2025-06-13
 

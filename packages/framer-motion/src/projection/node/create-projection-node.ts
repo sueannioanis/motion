@@ -160,6 +160,8 @@ export function createProjectionNode<I>({
          */
         animationId: number = 0
 
+        animationCommitId = 0
+
         /**
          * A reference to the platform-native node (currently this will be a HTMLElement).
          */
@@ -668,6 +670,7 @@ export function createProjectionNode<I>({
             }
 
             !this.root.isUpdating && this.root.startUpdate()
+
             if (this.isLayoutDirty) return
 
             this.isLayoutDirty = true
@@ -712,9 +715,19 @@ export function createProjectionNode<I>({
                 return
             }
 
+            /**
+             * If this is a repeat of didUpdate then ignore the animation.
+             */
+            if (this.animationId <= this.animationCommitId) {
+                this.nodes!.forEach(clearIsLayoutDirty)
+                return
+            }
+
             if (!this.isUpdating) {
                 this.nodes!.forEach(clearIsLayoutDirty)
             }
+
+            this.animationCommitId = this.animationId
 
             this.isUpdating = false
 
