@@ -216,7 +216,7 @@ export interface MotionNodeAnimationOptions {
      * Variants allow you to define animation states and organise them by name. They allow
      * you to control animations throughout a component tree by switching a single `animate` prop.
      *
-     * Using `transition` options like `delayChildren` and `staggerChildren`, you can orchestrate
+     * Using `transition` options like `delayChildren` and `when`, you can orchestrate
      * when children animations play relative to their parent.
 
      *

@@ -1,5 +1,5 @@
-import { DynamicOption } from "motion-dom"
 import { Easing, easingDefinitionToFunction } from "motion-utils"
+import { DynamicOption } from "../animation/types"
 
 export type StaggerOrigin = "first" | "last" | "center" | number
 

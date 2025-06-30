@@ -15,6 +15,5 @@ export * from "./animation/sequence/types"
 /**
  * Utils
  */
-export { stagger } from "./animation/utils/stagger"
 export { delayInSeconds as delay, DelayedFunction } from "./utils/delay"
 export * from "./utils/distance"

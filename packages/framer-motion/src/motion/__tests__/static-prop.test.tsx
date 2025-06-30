@@ -1,4 +1,4 @@
-import { motionValue } from "motion-dom"
+import { motionValue, stagger } from "motion-dom"
 import { useEffect } from "react"
 import { motion, useMotionValue } from "../.."
 import { MotionConfig } from "../../components/MotionConfig"
@@ -181,9 +181,8 @@ describe("isStatic prop", () => {
 
     it("accepts externally-defined transition", () => {
         const transition = {
-            staggerChildren: 10,
+            delayChildren: stagger(10, { from: "last" }),
             when: "beforeChildren",
-            staggerDirection: 1,
         }
         function Test() {
             return (

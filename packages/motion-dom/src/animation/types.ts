@@ -375,11 +375,13 @@ export interface AnimationOrchestrationOptions {
 
     /**
      * When using variants, children animations will start after this duration
-     * (in seconds). You can add the `transition` property to both the `Frame` and the `variant` directly. Adding it to the `variant` generally offers more flexibility, as it allows you to customize the delay per visual state.
+     * (in seconds). You can add the `transition` property to both the `motion.div` and the
+     * `variant` directly. Adding it to the `variant` generally offers more flexibility,
+     * as it allows you to customize the delay per visual state.
      *
      * @public
      */
-    delayChildren?: number
+    delayChildren?: number | DynamicOption<number>
 
     /**
      * When using variants, animations of child components can be staggered by this
@@ -391,7 +393,7 @@ export interface AnimationOrchestrationOptions {
      *
      * The calculated stagger delay will be added to `delayChildren`.
      *
-     * @public
+     * @deprecated - Use `delayChildren: stagger(interval)` instead.
      */
     staggerChildren?: number
 
@@ -401,7 +403,7 @@ export interface AnimationOrchestrationOptions {
      * A value of `1` staggers from the first to the last while `-1`
      * staggers from the last to the first.
      *
-     * @public
+     * @deprecated - Use `delayChildren: stagger(interval, { from: "last" })` instead.
      */
     staggerDirection?: number
 }

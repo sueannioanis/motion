@@ -1,4 +1,4 @@
-import { motionValue, Variants } from "motion-dom"
+import { motionValue, stagger, Variants } from "motion-dom"
 import { motion } from "../.."
 import { render } from "../../jest.setup"
 
@@ -142,6 +142,43 @@ describe("delay attr", () => {
                 visible: {
                     x: 10,
                     transition: { delay: 0, staggerChildren: 1, type: false },
+                },
+            }
+
+            const child: Variants = {
+                visible: {
+                    x: 10,
+                    transition: { type: false },
+                },
+            }
+
+            const Component = () => (
+                <motion.div variants={parent} animate="visible">
+                    <motion.div variants={child} />
+                    <motion.div variants={child} style={{ x }} />
+                </motion.div>
+            )
+
+            const { rerender } = render(<Component />)
+            rerender(<Component />)
+
+            requestAnimationFrame(() => resolve(x.get()))
+        })
+
+        return expect(promise).resolves.toBe(0)
+    })
+    test("in variant children via delayChildren: stagger(interval)", async () => {
+        const promise = new Promise((resolve) => {
+            const x = motionValue(0)
+
+            const parent: Variants = {
+                visible: {
+                    x: 10,
+                    transition: {
+                        delay: 0,
+                        delayChildren: stagger(1),
+                        type: false,
+                    },
                 },
             }
 
