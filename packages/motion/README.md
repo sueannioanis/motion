@@ -3,7 +3,7 @@
 </p>
 <h1 align="center">Motion</h1>
 <h3 align="center">
-  An open source animation library for JavaScript, React and Vue.
+  An open source animation library for JavaScript, React and Vue
 </h3>
 
 <br>

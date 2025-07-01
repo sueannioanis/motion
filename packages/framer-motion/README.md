@@ -3,9 +3,9 @@
 </p>
 <h1 align="center">Motion for React</h1>
 <h3 align="center">
-  An open source, production-ready animation library.
+  An open source, production-ready animation library
 </h3>
-<p align="center">Previously Framer Motion. Also available for <a href="https://github.com/motiondivision/motion/tree/main/packages/motion">JavaScript</a> and <a href="https://github.com/motiondivision/motion-vue">Vue</a>.</p>
+<p align="center">Previously Framer Motion. Also available for <a href="https://github.com/motiondivision/motion/tree/main/packages/motion">JavaScript</a> and <a href="https://github.com/motiondivision/motion-vue">Vue</a></p>
 
 <br>
 
@@ -21,8 +21,6 @@
   </a>
 </p>
 
-<br>
-<hr>
 <br>
 
 Motion for React is an open source, production-ready library that’s designed for all creative developers.
