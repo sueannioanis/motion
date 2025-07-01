@@ -1,4 +1,9 @@
-import { getDefaultValueType, MotionValue, transformProps } from "motion-dom"
+import {
+    AnyResolvedKeyframe,
+    getDefaultValueType,
+    MotionValue,
+    transformProps,
+} from "motion-dom"
 import { MotionProps, MotionStyle } from "../../motion/types"
 import { createBox } from "../../projection/geometry/models"
 import { IProjectionNode } from "../../projection/node/types"
@@ -26,7 +31,7 @@ export class SVGVisualElement extends DOMVisualElement<
     getBaseTargetFromProps(
         props: MotionProps,
         key: string
-    ): string | number | MotionValue<any> | undefined {
+    ): AnyResolvedKeyframe | MotionValue<any> | undefined {
         return props[key as keyof MotionProps]
     }
 

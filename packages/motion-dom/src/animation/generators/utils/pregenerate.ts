@@ -1,8 +1,8 @@
 import { millisecondsToSeconds } from "motion-utils"
-import { KeyframeGenerator } from "../../types"
+import { AnyResolvedKeyframe, KeyframeGenerator } from "../../types"
 
 export interface KeyframesMetadata {
-    keyframes: Array<string | number>
+    keyframes: Array<AnyResolvedKeyframe>
     duration: number
 }
 
@@ -13,7 +13,7 @@ export function pregenerateKeyframes(
 ): KeyframesMetadata {
     let timestamp = timeStep
     let state = generator.next(0)
-    const keyframes: Array<string | number> = [state.value]
+    const keyframes: Array<AnyResolvedKeyframe> = [state.value]
 
     while (!state.done && timestamp < maxDuration) {
         state = generator.next(timestamp)

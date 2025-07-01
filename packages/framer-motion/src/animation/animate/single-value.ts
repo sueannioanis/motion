@@ -1,5 +1,6 @@
 import {
     AnimationPlaybackControlsWithThen,
+    AnyResolvedKeyframe,
     motionValue as createMotionValue,
     isMotionValue,
     MotionValue,
@@ -8,7 +9,7 @@ import {
 } from "motion-dom"
 import { animateMotionValue } from "../interfaces/motion-value"
 
-export function animateSingleValue<V extends string | number>(
+export function animateSingleValue<V extends AnyResolvedKeyframe>(
     value: MotionValue<V> | V,
     keyframes: V | UnresolvedValueKeyframe<V>[],
     options?: ValueAnimationTransition

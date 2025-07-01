@@ -1,6 +1,7 @@
 import { isZeroValueString } from "motion-utils"
+import { AnyResolvedKeyframe } from "../../types"
 
-export function isNone(value: string | number | null) {
+export function isNone(value: AnyResolvedKeyframe | null) {
     if (typeof value === "number") {
         return value === 0
     } else if (value !== null) {

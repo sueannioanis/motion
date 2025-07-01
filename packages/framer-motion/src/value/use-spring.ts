@@ -1,4 +1,5 @@
 import {
+    AnyResolvedKeyframe,
     attachSpring,
     isMotionValue,
     MotionValue,
@@ -45,7 +46,7 @@ export function useSpring(
     options?: SpringOptions
 ): MotionValue<number>
 export function useSpring(
-    source: MotionValue<string> | MotionValue<number> | string | number,
+    source: MotionValue<string> | MotionValue<number> | AnyResolvedKeyframe,
     options: SpringOptions = {}
 ) {
     const { isStatic } = useContext(MotionConfigContext)

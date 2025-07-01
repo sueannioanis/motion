@@ -9,6 +9,7 @@ import {
     motionValue,
     time,
     transformProps,
+    type AnyResolvedKeyframe,
     type MotionValue,
 } from "motion-dom"
 import type { Box } from "motion-utils"
@@ -96,7 +97,7 @@ export abstract class VisualElement<
     abstract getBaseTargetFromProps(
         props: MotionProps,
         key: string
-    ): string | number | undefined | MotionValue
+    ): AnyResolvedKeyframe | undefined | MotionValue
 
     /**
      * When we first animate to a value we need to animate it *from* a value.
@@ -107,7 +108,7 @@ export abstract class VisualElement<
         instance: Instance,
         key: string,
         options: Options
-    ): string | number | null | undefined
+    ): AnyResolvedKeyframe | null | undefined
 
     /**
      * When a value has been removed from the VisualElement we use this to remove
@@ -165,7 +166,7 @@ export abstract class VisualElement<
         _prevProps: MotionProps,
         _visualElement: VisualElement
     ): {
-        [key: string]: MotionValue | string | number
+        [key: string]: MotionValue | AnyResolvedKeyframe
     } {
         return {}
     }
@@ -459,7 +460,7 @@ export abstract class VisualElement<
 
         const removeOnChange = value.on(
             "change",
-            (latestValue: string | number) => {
+            (latestValue: AnyResolvedKeyframe) => {
                 this.latestValues[key] = latestValue
 
                 this.props.onUpdate && frame.preRender(this.notifyUpdate)
@@ -583,7 +584,7 @@ export abstract class VisualElement<
         return this.latestValues[key]
     }
 
-    setStaticValue(key: string, value: string | number) {
+    setStaticValue(key: string, value: AnyResolvedKeyframe) {
         this.latestValues[key] = value
     }
 
@@ -713,10 +714,10 @@ export abstract class VisualElement<
      * value, we'll create one if none exists.
      */
     getValue(key: string): MotionValue | undefined
-    getValue(key: string, defaultValue: string | number | null): MotionValue
+    getValue(key: string, defaultValue: AnyResolvedKeyframe | null): MotionValue
     getValue(
         key: string,
-        defaultValue?: string | number | null
+        defaultValue?: AnyResolvedKeyframe | null
     ): MotionValue | undefined {
         if (this.props.values && this.props.values[key]) {
             return this.props.values[key]
@@ -740,7 +741,7 @@ export abstract class VisualElement<
      * we need to check for it in our state and as a last resort read it
      * directly from the instance (which might have performance implications).
      */
-    readValue(key: string, target?: string | number | null) {
+    readValue(key: string, target?: AnyResolvedKeyframe | null) {
         let value =
             this.latestValues[key] !== undefined || !this.current
                 ? this.latestValues[key]
@@ -768,7 +769,7 @@ export abstract class VisualElement<
      * Set the base target to later animate back to. This is currently
      * only hydrated on creation and when we first read a value.
      */
-    setBaseTarget(key: string, value: string | number) {
+    setBaseTarget(key: string, value: AnyResolvedKeyframe) {
         this.baseTarget[key] = value
     }
 

@@ -1,6 +1,7 @@
 import {
     AnimationPlaybackControlsWithThen,
     AnimationScope,
+    AnyResolvedKeyframe,
     DOMKeyframesDefinition,
     AnimationOptions as DynamicAnimationOptions,
     ElementOrSelector,
@@ -27,7 +28,7 @@ export type AnimationSubject = Element | MotionValue<any> | any
 function isSingleValue(
     subject: unknown,
     keyframes: unknown
-): subject is MotionValue | string | number {
+): subject is MotionValue | AnyResolvedKeyframe {
     return (
         isMotionValue(subject) ||
         typeof subject === "number" ||

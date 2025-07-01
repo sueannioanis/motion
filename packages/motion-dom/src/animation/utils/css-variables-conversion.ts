@@ -1,4 +1,5 @@
 import { invariant, isNumericalString } from "motion-utils"
+import { AnyResolvedKeyframe } from "../types"
 import { CSSVariableToken, isCSSVariableToken } from "./is-css-variable"
 
 /**
@@ -27,7 +28,7 @@ export function getVariableValue(
     current: CSSVariableToken,
     element: Element,
     depth = 1
-): string | number | undefined {
+): AnyResolvedKeyframe | undefined {
     invariant(
         depth <= maxDepth,
         `Max CSS variable fallback depth detected in property "${current}". This may indicate a circular fallback dependency.`

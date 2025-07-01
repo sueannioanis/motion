@@ -1,6 +1,7 @@
 import { SubscriptionManager, velocityPerSecond, warnOnce } from "motion-utils"
 import {
     AnimationPlaybackControlsWithThen,
+    AnyResolvedKeyframe,
     TransformProperties,
 } from "../animation/types"
 import { frame } from "../frameloop"
@@ -40,7 +41,7 @@ const isFloat = (value: any): value is string => {
 }
 
 interface ResolvedValues {
-    [key: string]: string | number
+    [key: string]: AnyResolvedKeyframe
 }
 
 export interface Owner {

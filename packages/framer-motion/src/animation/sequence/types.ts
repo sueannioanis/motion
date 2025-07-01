@@ -1,4 +1,4 @@
-import type { MotionValue } from "motion-dom"
+import type { AnyResolvedKeyframe, MotionValue } from "motion-dom"
 import {
     AnimationPlaybackOptions,
     DOMKeyframesDefinition,
@@ -77,7 +77,7 @@ export interface SequenceOptions extends AnimationPlaybackOptions {
 }
 
 export interface AbsoluteKeyframe {
-    value: string | number | null
+    value: AnyResolvedKeyframe | null
     at: number
     easing?: Easing
 }

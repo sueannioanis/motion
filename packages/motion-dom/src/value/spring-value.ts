@@ -1,6 +1,6 @@
 import { MotionValue, motionValue } from "."
 import { JSAnimation } from "../animation/JSAnimation"
-import { SpringOptions } from "../animation/types"
+import { AnyResolvedKeyframe, SpringOptions } from "../animation/types"
 import { frame } from "../frameloop"
 import { isMotionValue } from "./utils/is-motion-value"
 
@@ -18,7 +18,7 @@ import { isMotionValue } from "./utils/is-motion-value"
  *
  * @public
  */
-export function springValue<T extends string | number>(
+export function springValue<T extends AnyResolvedKeyframe>(
     source: T | MotionValue<T>,
     options?: SpringOptions
 ) {
@@ -30,7 +30,7 @@ export function springValue<T extends string | number>(
     return value
 }
 
-export function attachSpring<T extends string | number>(
+export function attachSpring<T extends AnyResolvedKeyframe>(
     value: MotionValue<T>,
     source: T | MotionValue<T>,
     options?: SpringOptions
@@ -86,10 +86,10 @@ export function attachSpring<T extends string | number>(
     return unsubscribe
 }
 
-function parseValue(v: string | number, unit?: string) {
+function parseValue(v: AnyResolvedKeyframe, unit?: string) {
     return unit ? v + unit : v
 }
 
-function asNumber(v: string | number) {
+function asNumber(v: AnyResolvedKeyframe) {
     return typeof v === "number" ? v : parseFloat(v)
 }
