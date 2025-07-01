@@ -1,12 +1,13 @@
 import { frame } from "../../frameloop"
 import { MotionValue } from "../../value"
+import { AnyResolvedKeyframe } from "../types"
 import { WithRender } from "./types"
 import { fillWildcards } from "./utils/fill-wildcards"
 import { removeNonTranslationalTransform } from "./utils/unit-conversion"
 
-export type UnresolvedKeyframes<T extends string | number> = Array<T | null>
+export type UnresolvedKeyframes<T extends AnyResolvedKeyframe> = Array<T | null>
 
-export type ResolvedKeyframes<T extends string | number> = Array<T>
+export type ResolvedKeyframes<T extends AnyResolvedKeyframe> = Array<T>
 
 const toResolve = new Set<KeyframeResolver>()
 let isScheduled = false
@@ -23,7 +24,7 @@ function measureAllKeyframes() {
         )
         const transformsToRestore = new Map<
             WithRender,
-            [string, string | number][]
+            [string, AnyResolvedKeyframe][]
         >()
 
         /**
@@ -92,19 +93,19 @@ export function flushKeyframeResolvers() {
     isForced = false
 }
 
-export type OnKeyframesResolved<T extends string | number> = (
+export type OnKeyframesResolved<T extends AnyResolvedKeyframe> = (
     resolvedKeyframes: ResolvedKeyframes<T>,
     finalKeyframe: T,
     forced: boolean
 ) => void
 
-export class KeyframeResolver<T extends string | number = any> {
+export class KeyframeResolver<T extends AnyResolvedKeyframe = any> {
     name?: string
     element?: WithRender
     finalKeyframe?: T
     suspendedScrollY?: number
 
-    protected unresolvedKeyframes: UnresolvedKeyframes<string | number>
+    protected unresolvedKeyframes: UnresolvedKeyframes<AnyResolvedKeyframe>
 
     private motionValue?: MotionValue<T>
     private onComplete: OnKeyframesResolved<T>
@@ -125,7 +126,7 @@ export class KeyframeResolver<T extends string | number = any> {
     needsMeasurement = false
 
     constructor(
-        unresolvedKeyframes: UnresolvedKeyframes<string | number>,
+        unresolvedKeyframes: UnresolvedKeyframes<AnyResolvedKeyframe>,
         onComplete: OnKeyframesResolved<T>,
         name?: string,
         motionValue?: MotionValue<T>,

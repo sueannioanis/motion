@@ -5,6 +5,7 @@ import { MotionValue } from "../../../value"
 import { number } from "../../../value/types/numbers"
 import { px } from "../../../value/types/numbers/units"
 import { ValueType } from "../../../value/types/types"
+import { AnyResolvedKeyframe } from "../../types"
 import { WithRender } from "../types"
 
 export const isNumOrPxType = (v?: ValueType): v is ValueType =>
@@ -20,12 +21,12 @@ const nonTranslationalTransformKeys = transformPropOrder.filter(
     (key) => !transformKeys.has(key)
 )
 
-type RemovedTransforms = [string, string | number][]
+type RemovedTransforms = [string, AnyResolvedKeyframe][]
 export function removeNonTranslationalTransform(visualElement: WithRender) {
     const removedTransforms: RemovedTransforms = []
 
     nonTranslationalTransformKeys.forEach((key) => {
-        const value: MotionValue<string | number> | undefined =
+        const value: MotionValue<AnyResolvedKeyframe> | undefined =
             visualElement.getValue(key)
         if (value !== undefined) {
             removedTransforms.push([key, value.get()])

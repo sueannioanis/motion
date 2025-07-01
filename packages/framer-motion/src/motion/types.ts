@@ -1,4 +1,8 @@
-import type { MotionNodeOptions, MotionValue } from "motion-dom"
+import type {
+    AnyResolvedKeyframe,
+    MotionNodeOptions,
+    MotionValue,
+} from "motion-dom"
 import { CSSProperties } from "react"
 
 /**
@@ -10,13 +14,21 @@ export type VariantLabels = string | string[]
 import { SVGPathProperties, TransformProperties } from "motion-dom"
 export { SVGPathProperties, TransformProperties }
 
-export type MakeMotion<T> = {
-    [K in keyof T]:
-        | T[K]
-        | MotionValue<number>
-        | MotionValue<string>
-        | MotionValue<any> // A permissive type for Custom value types
+export type MotionValueString = MotionValue<string>
+export type MotionValueNumber = MotionValue<number>
+export type MotionValueAny = MotionValue<any>
+export type AnyMotionValue =
+    | MotionValueNumber
+    | MotionValueString
+    | MotionValueAny
+
+type MotionValueHelper<T> = T | AnyMotionValue
+type MakeMotionHelper<T> = {
+    [K in keyof T]: MotionValueHelper<T[K]>
 }
+
+type MakeCustomValueTypeHelper<T> = MakeMotionHelper<T>
+export type MakeMotion<T> = MakeCustomValueTypeHelper<T>
 
 export type MotionCSS = MakeMotion<
     Omit<CSSProperties, "rotate" | "scale" | "perspective">
@@ -27,24 +39,28 @@ export type MotionCSS = MakeMotion<
  */
 export type MotionTransform = MakeMotion<TransformProperties>
 
+type MotionCSSVariable =
+    | MotionValueNumber
+    | MotionValueString
+    | AnyResolvedKeyframe
+
 /**
  * TODO: Currently unused, would like to reimplement with the ability
  * to still accept React.CSSProperties.
  */
-export type MotionCSSVariables = {
-    [key: `--${string}`]:
-        | MotionValue<number>
-        | MotionValue<string>
-        | string
-        | number
+export interface MotionCSSVariables {
+    [key: `--${string}`]: MotionCSSVariable
 }
+
+type MotionSVGProps = MakeMotion<SVGPathProperties>
 
 /**
  * @public
  */
-export type MotionStyle = MotionCSS &
-    MotionTransform &
-    MakeMotion<SVGPathProperties>
+export interface MotionStyle
+    extends MotionCSS,
+        MotionTransform,
+        MotionSVGProps {}
 
 /**
  * Props for `motion` components.
@@ -66,5 +82,5 @@ export interface MotionProps extends MotionNodeOptions {
      */
     style?: MotionStyle
 
-    children?: React.ReactNode | MotionValue<number> | MotionValue<string>
+    children?: React.ReactNode | MotionValueNumber | MotionValueString
 }

@@ -1,5 +1,6 @@
 import type {
     AnimationDefinition,
+    AnyResolvedKeyframe,
     UnresolvedValueKeyframe,
     ValueKeyframesDefinition,
 } from "motion-dom"
@@ -15,7 +16,7 @@ import { resolveVariant } from "./resolve-dynamic-variants"
 function setMotionValue(
     visualElement: VisualElement,
     key: string,
-    value: string | number
+    value: AnyResolvedKeyframe
 ) {
     if (visualElement.hasValue(key)) {
         visualElement.getValue(key)!.set(value)
@@ -44,6 +45,6 @@ export function setTarget(
         const value = resolveFinalValueInKeyframes(
             target[key as keyof typeof target] as any
         )
-        setMotionValue(visualElement, key, value as string | number)
+        setMotionValue(visualElement, key, value as AnyResolvedKeyframe)
     }
 }

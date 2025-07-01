@@ -5,6 +5,8 @@ import { Driver } from "./drivers/types"
 import { KeyframeResolver } from "./keyframes/KeyframesResolver"
 import { WithRender } from "./keyframes/types"
 
+export type AnyResolvedKeyframe = string | number
+
 export interface ProgressTimeline {
     currentTime: null | { value: number }
 
@@ -12,7 +14,7 @@ export interface ProgressTimeline {
 }
 
 export interface ValueAnimationOptionsWithRenderContext<
-    V extends string | number = number
+    V extends AnyResolvedKeyframe = number
 > extends ValueAnimationOptions<V> {
     KeyframeResolver?: typeof KeyframeResolver
     motionValue?: MotionValue<V>
@@ -110,8 +112,9 @@ export interface KeyframeGenerator<V> {
     toString: () => string
 }
 
-export interface DOMValueAnimationOptions<V extends string | number = number>
-    extends ValueAnimationTransition<V> {
+export interface DOMValueAnimationOptions<
+    V extends AnyResolvedKeyframe = number
+> extends ValueAnimationTransition<V> {
     element: HTMLElement | SVGElement
     keyframes: ValueKeyframesDefinition
     name: string
@@ -119,7 +122,7 @@ export interface DOMValueAnimationOptions<V extends string | number = number>
     allowFlatten?: boolean
 }
 
-export interface ValueAnimationOptions<V extends string | number = number>
+export interface ValueAnimationOptions<V extends AnyResolvedKeyframe = number>
     extends ValueAnimationTransition {
     keyframes: V[]
     element?: any // TODO: Replace with VisualElement when moved into motion-dom
@@ -479,7 +482,7 @@ export type SVGTransitions = {
     [K in keyof Omit<SVGAttributes, "from">]: ValueTransition
 }
 
-export type VariableTransitions = {
+export interface VariableTransitions {
     [key: `--${string}`]: ValueTransition
 }
 
@@ -487,10 +490,11 @@ export type StyleTransitions = {
     [K in keyof CSSStyleDeclarationWithTransform]?: ValueTransition
 }
 
-export type ValueKeyframe<T extends string | number = string | number> = T
+export type ValueKeyframe<T extends AnyResolvedKeyframe = AnyResolvedKeyframe> =
+    T
 
 export type UnresolvedValueKeyframe<
-    T extends string | number = string | number
+    T extends AnyResolvedKeyframe = AnyResolvedKeyframe
 > = ValueKeyframe<T> | null
 
 export type ResolvedValueKeyframe = ValueKeyframe | ValueKeyframe[]
@@ -508,7 +512,7 @@ export type SVGKeyframesDefinition = {
     [K in keyof Omit<SVGAttributes, "from">]?: ValueKeyframesDefinition
 }
 
-export type VariableKeyframesDefinition = {
+export interface VariableKeyframesDefinition {
     [key: `--${string}`]: ValueKeyframesDefinition
 }
 
@@ -526,9 +530,11 @@ export type DOMKeyframesDefinition = StyleKeyframesDefinition &
     SVGForcedAttrKeyframesDefinition &
     VariableKeyframesDefinition
 
+export interface Target extends DOMKeyframesDefinition {}
+
 type CSSPropertyKeys = {
     [K in keyof CSSStyleDeclaration as K extends string
-        ? CSSStyleDeclaration[K] extends string | number
+        ? CSSStyleDeclaration[K] extends AnyResolvedKeyframe
             ? K
             : never
         : never]: CSSStyleDeclaration[K]
@@ -559,45 +565,64 @@ export interface CSSStyleDeclarationWithTransform
     transformPerspective: number
 }
 
-export type Transition<V = any> = StyleTransitions &
+export type TransitionWithValueOverrides<V> = ValueAnimationTransition<V> &
+    StyleTransitions &
     SVGPathTransitions &
     SVGForcedAttrTransitions &
     SVGTransitions &
-    VariableTransitions &
-    ValueAnimationTransition<V> & {
+    VariableTransitions & {
         default?: ValueTransition
         layout?: ValueTransition
     }
 
+export type Transition<V = any> =
+    | ValueAnimationTransition<V>
+    | TransitionWithValueOverrides<V>
+
 export type DynamicOption<T> = (i: number, total: number) => T
 
-export interface AnimationOptions extends Omit<Transition, "delay"> {
+export type ValueAnimationWithDynamicDelay = Omit<
+    ValueAnimationTransition<any>,
+    "delay"
+> & {
     delay?: number | DynamicOption<number>
 }
 
+export type AnimationOptions =
+    | ValueAnimationWithDynamicDelay
+    | (ValueAnimationWithDynamicDelay &
+          StyleTransitions &
+          SVGPathTransitions &
+          SVGForcedAttrTransitions &
+          SVGTransitions &
+          VariableTransitions & {
+              default?: ValueTransition
+              layout?: ValueTransition
+          })
+
 export interface TransformProperties {
-    x?: string | number
-    y?: string | number
-    z?: string | number
-    translateX?: string | number
-    translateY?: string | number
-    translateZ?: string | number
-    rotate?: string | number
-    rotateX?: string | number
-    rotateY?: string | number
-    rotateZ?: string | number
-    scale?: string | number
-    scaleX?: string | number
-    scaleY?: string | number
-    scaleZ?: string | number
-    skew?: string | number
-    skewX?: string | number
-    skewY?: string | number
-    originX?: string | number
-    originY?: string | number
-    originZ?: string | number
-    perspective?: string | number
-    transformPerspective?: string | number
+    x?: AnyResolvedKeyframe
+    y?: AnyResolvedKeyframe
+    z?: AnyResolvedKeyframe
+    translateX?: AnyResolvedKeyframe
+    translateY?: AnyResolvedKeyframe
+    translateZ?: AnyResolvedKeyframe
+    rotate?: AnyResolvedKeyframe
+    rotateX?: AnyResolvedKeyframe
+    rotateY?: AnyResolvedKeyframe
+    rotateZ?: AnyResolvedKeyframe
+    scale?: AnyResolvedKeyframe
+    scaleX?: AnyResolvedKeyframe
+    scaleY?: AnyResolvedKeyframe
+    scaleZ?: AnyResolvedKeyframe
+    skew?: AnyResolvedKeyframe
+    skewX?: AnyResolvedKeyframe
+    skewY?: AnyResolvedKeyframe
+    originX?: AnyResolvedKeyframe
+    originY?: AnyResolvedKeyframe
+    originZ?: AnyResolvedKeyframe
+    perspective?: AnyResolvedKeyframe
+    transformPerspective?: AnyResolvedKeyframe
 }
 
 export interface SVGForcedAttrProperties {

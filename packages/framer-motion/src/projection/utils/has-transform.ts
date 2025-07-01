@@ -1,6 +1,7 @@
+import { type AnyResolvedKeyframe } from "motion-dom"
 import { ResolvedValues } from "../../render/types"
 
-function isIdentityScale(scale: string | number | undefined) {
+function isIdentityScale(scale: AnyResolvedKeyframe | undefined) {
     return scale === undefined || scale === 1
 }
 
@@ -29,6 +30,6 @@ export function has2DTranslate(values: ResolvedValues) {
     return is2DTranslate(values.x) || is2DTranslate(values.y)
 }
 
-function is2DTranslate(value: string | number | undefined) {
+function is2DTranslate(value: AnyResolvedKeyframe | undefined) {
     return value && value !== "0%"
 }

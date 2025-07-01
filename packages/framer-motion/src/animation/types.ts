@@ -1,6 +1,10 @@
-import { KeyframeResolver, OnKeyframesResolved } from "motion-dom"
+import {
+    AnyResolvedKeyframe,
+    KeyframeResolver,
+    OnKeyframesResolved,
+} from "motion-dom"
 
-export type ResolveKeyframes<V extends string | number> = (
+export type ResolveKeyframes<V extends AnyResolvedKeyframe> = (
     keyframes: V[],
     onComplete: OnKeyframesResolved<V>,
     name?: string,

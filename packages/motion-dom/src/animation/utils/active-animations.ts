@@ -1,8 +1,9 @@
 import { NativeAnimation } from "../NativeAnimation"
+import { AnyResolvedKeyframe } from "../types"
 
 const animationMaps = new WeakMap<
     Element,
-    Map<string, NativeAnimation<string | number>>
+    Map<string, NativeAnimation<AnyResolvedKeyframe>>
 >()
 export const animationMapKey = (name: string, pseudoElement: string = "") =>
     `${name}:${pseudoElement}`

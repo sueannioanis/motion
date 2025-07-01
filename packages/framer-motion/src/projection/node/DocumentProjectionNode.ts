@@ -1,5 +1,5 @@
-import { createProjectionNode } from "./create-projection-node"
 import { addDomEvent } from "../../events/add-dom-event"
+import { createProjectionNode } from "./create-projection-node"
 
 export const DocumentProjectionNode = createProjectionNode<Window>({
     attachResizeListener: (

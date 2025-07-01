@@ -23,6 +23,7 @@ interface PanSessionHandlers {
 interface PanSessionOptions {
     transformPagePoint?: TransformPoint
     dragSnapToOrigin?: boolean
+    distanceThreshold?: number
     contextWindow?: (Window & typeof globalThis) | null
 }
 
@@ -77,6 +78,13 @@ export class PanSession {
     private dragSnapToOrigin: boolean
 
     /**
+     * The distance after which panning should start.
+     *
+     * @internal
+     */
+    private distanceThreshold: number
+
+    /**
      * @internal
      */
     private contextWindow: PanSessionOptions["contextWindow"] = window
@@ -86,8 +94,9 @@ export class PanSession {
         handlers: Partial<PanSessionHandlers>,
         {
             transformPagePoint,
-            contextWindow,
+            contextWindow = window,
             dragSnapToOrigin = false,
+            distanceThreshold = 3,
         }: PanSessionOptions = {}
     ) {
         // If we have more than one touch, don't start detecting this gesture
@@ -96,6 +105,7 @@ export class PanSession {
         this.dragSnapToOrigin = dragSnapToOrigin
         this.handlers = handlers
         this.transformPagePoint = transformPagePoint
+        this.distanceThreshold = distanceThreshold
         this.contextWindow = contextWindow || window
 
         const info = extractEventInfo(event)
@@ -137,9 +147,9 @@ export class PanSession {
 
         // Only start panning if the offset is larger than 3 pixels. If we make it
         // any larger than this we'll want to reset the pointer history
-        // on the first update to avoid visual snapping to the cursoe.
+        // on the first update to avoid visual snapping to the cursor.
         const isDistancePastThreshold =
-            distance2D(info.offset, { x: 0, y: 0 }) >= 3
+            distance2D(info.offset, { x: 0, y: 0 }) >= this.distanceThreshold
 
         if (!isPanStarted && !isDistancePastThreshold) return
 

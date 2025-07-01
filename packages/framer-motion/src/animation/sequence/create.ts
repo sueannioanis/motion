@@ -1,4 +1,3 @@
-import type { MotionValue } from "motion-dom"
 import {
     AnimationScope,
     createGeneratorEasing,
@@ -11,6 +10,8 @@ import {
     isMotionValue,
     Transition,
     UnresolvedValueKeyframe,
+    type AnyResolvedKeyframe,
+    type MotionValue,
 } from "motion-dom"
 import {
     Easing,
@@ -256,7 +257,7 @@ export function createAnimationsFromSequence(
         if (isMotionValue(subject)) {
             const subjectSequence = getSubjectSequence(subject, sequences)
             resolveValueSequence(
-                keyframes as string | number,
+                keyframes as AnyResolvedKeyframe,
                 transition,
                 getValueSequence("default", subjectSequence)
             )

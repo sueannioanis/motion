@@ -1,11 +1,11 @@
 import { secondsToMilliseconds } from "motion-utils"
 import { JSAnimation } from "./JSAnimation"
 import { NativeAnimation, NativeAnimationOptions } from "./NativeAnimation"
-import { ValueAnimationOptions } from "./types"
+import { AnyResolvedKeyframe, ValueAnimationOptions } from "./types"
 import { replaceTransitionType } from "./utils/replace-transition-type"
 import { replaceStringEasing } from "./waapi/utils/unsupported-easing"
 
-export type NativeAnimationOptionsExtended<T extends string | number> =
+export type NativeAnimationOptionsExtended<T extends AnyResolvedKeyframe> =
     NativeAnimationOptions & ValueAnimationOptions<T> & NativeAnimationOptions
 
 /**
@@ -16,7 +16,7 @@ export type NativeAnimationOptionsExtended<T extends string | number> =
 const sampleDelta = 10 //ms
 
 export class NativeAnimationExtended<
-    T extends string | number
+    T extends AnyResolvedKeyframe
 > extends NativeAnimation<T> {
     options: NativeAnimationOptionsExtended<T>
 

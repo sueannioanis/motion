@@ -36,16 +36,22 @@ export const elementDragControls = new WeakMap<
 >()
 
 export interface DragControlOptions {
+    /**
+     * This distance after which dragging starts and a direction is locked in.
+     *
+     * @public
+     */
+    distanceThreshold?: number
+
+    /**
+     * Whether to immediately snap to the cursor when dragging starts.
+     *
+     * @public
+     */
     snapToCursor?: boolean
-    cursorProgress?: Point
 }
 
 type DragDirection = "x" | "y"
-
-/**
- *
- */
-// let latestPointerEvent: PointerEvent
 
 export class VisualElementDragControls {
     private visualElement: VisualElement<HTMLElement>
@@ -77,7 +83,7 @@ export class VisualElementDragControls {
 
     start(
         originEvent: PointerEvent,
-        { snapToCursor = false }: DragControlOptions = {}
+        { snapToCursor = false, distanceThreshold }: DragControlOptions = {}
     ) {
         /**
          * Don't start dragging if this component is exiting
@@ -225,6 +231,7 @@ export class VisualElementDragControls {
             {
                 transformPagePoint: this.visualElement.getTransformPagePoint(),
                 dragSnapToOrigin,
+                distanceThreshold,
                 contextWindow: getContextWindow(this.visualElement),
             }
         )

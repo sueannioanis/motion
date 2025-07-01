@@ -1,4 +1,4 @@
-import { mixNumber, percent, px } from "motion-dom"
+import { type AnyResolvedKeyframe, mixNumber, percent, px } from "motion-dom"
 import {
     progress as calcProgress,
     circOut,
@@ -10,10 +10,10 @@ import { ResolvedValues } from "../../render/types"
 const borders = ["TopLeft", "TopRight", "BottomLeft", "BottomRight"]
 const numBorders = borders.length
 
-const asNumber = (value: string | number) =>
+const asNumber = (value: AnyResolvedKeyframe) =>
     typeof value === "string" ? parseFloat(value) : value
 
-const isPx = (value: string | number) =>
+const isPx = (value: AnyResolvedKeyframe) =>
     typeof value === "number" || px.test(value)
 
 export function mixValues(
