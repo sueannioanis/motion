@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.20.2] 2025-07-01
+
+### Fixed
+
+-   Updated `Transition` type to be more permissive.
+
 ## [12.20.1] 2025-06-30
 
 ### Fixed
