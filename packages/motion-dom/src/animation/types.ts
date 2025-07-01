@@ -559,15 +559,19 @@ export interface CSSStyleDeclarationWithTransform
     transformPerspective: number
 }
 
-export type Transition<V = any> = Partial<StyleTransitions> &
-    Partial<SVGPathTransitions> &
-    Partial<SVGForcedAttrTransitions> &
-    Partial<SVGTransitions> &
-    Partial<VariableTransitions> &
-    ValueAnimationTransition<V> & {
+export type TransitionWithValueOverrides<V> = ValueAnimationTransition<V> &
+    StyleTransitions &
+    SVGPathTransitions &
+    SVGForcedAttrTransitions &
+    SVGTransitions &
+    VariableTransitions & {
         default?: ValueTransition
         layout?: ValueTransition
     }
+
+export type Transition<V = any> =
+    | ValueAnimationTransition<V>
+    | TransitionWithValueOverrides<V>
 
 export type DynamicOption<T> = (i: number, total: number) => T
 
