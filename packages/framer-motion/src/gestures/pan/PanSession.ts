@@ -23,7 +23,7 @@ interface PanSessionHandlers {
 interface PanSessionOptions {
     transformPagePoint?: TransformPoint
     dragSnapToOrigin?: boolean
-    distanceThreshold?: number;
+    distanceThreshold?: number
     contextWindow?: (Window & typeof globalThis) | null
 }
 
@@ -94,7 +94,7 @@ export class PanSession {
         handlers: Partial<PanSessionHandlers>,
         {
             transformPagePoint,
-            contextWindow,
+            contextWindow = window,
             dragSnapToOrigin = false,
             distanceThreshold = 3,
         }: PanSessionOptions = {}

@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.21.0] 2025-07-01
+
+### Added
+
+-   Allow `distanceThreshold` to be configurable via `useDragControls`.
+
 ## [12.20.5] 2025-07-01
 
 ### Fixed

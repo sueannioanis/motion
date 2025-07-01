@@ -36,9 +36,18 @@ export const elementDragControls = new WeakMap<
 >()
 
 export interface DragControlOptions {
-    /** The distance after which dragging starts. */
-    distanceThreshold?: number;
-    /** Whether to immediately snap to the cursor when dragging starts. */
+    /**
+     * This distance after which dragging starts and a direction is locked in.
+     *
+     * @public
+     */
+    distanceThreshold?: number
+
+    /**
+     * Whether to immediately snap to the cursor when dragging starts.
+     *
+     * @public
+     */
     snapToCursor?: boolean
 }
 
