@@ -4,6 +4,16 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.22.0] 2025-07-01
+
+### Added
+
+-   Allow `delayChildren` to accept `stagger()`. This enables `from` and `ease` options when staggering variant children.
+
+### Deprecated
+
+-   `staggerChildren` and `staggerDirection` options.
+
 ## [12.21.0] 2025-07-01
 
 ### Added
