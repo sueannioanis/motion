@@ -1,3 +1,4 @@
+import { AnyResolvedKeyframe } from "../../../animation/types"
 import { CSSVariableToken } from "../../../animation/utils/is-css-variable"
 import { color } from "../color"
 import { Color } from "../types"
@@ -21,9 +22,11 @@ const VAR_TOKEN = "var"
 const VAR_FUNCTION_TOKEN = "var("
 const SPLIT_TOKEN = "${}"
 
-export type ComplexValues = Array<CSSVariableToken | string | number | Color>
+export type ComplexValues = Array<
+    CSSVariableToken | AnyResolvedKeyframe | Color
+>
 
-export type ValueIndexes = {
+export interface ValueIndexes {
     color: number[]
     number: number[]
     var: number[]
@@ -40,7 +43,9 @@ export interface ComplexValueInfo {
 const complexRegex =
     /var\s*\(\s*--(?:[\w-]+\s*|[\w-]+\s*,(?:\s*[^)(\s]|\s*\((?:[^)(]|\([^)(]*\))*\))+\s*)\)|#[\da-f]{3,8}|(?:rgb|hsl)a?\((?:-?[\d.]+%?[,\s]+){2}-?[\d.]+%?\s*(?:[,/]\s*)?(?:\b\d+(?:\.\d+)?|\.\d+)?%?\)|-?(?:\d+(?:\.\d+)?|\.\d+)/giu
 
-export function analyseComplexValue(value: string | number): ComplexValueInfo {
+export function analyseComplexValue(
+    value: AnyResolvedKeyframe
+): ComplexValueInfo {
     const originalValue = value.toString()
 
     const values: ComplexValues = []
@@ -74,11 +79,11 @@ export function analyseComplexValue(value: string | number): ComplexValueInfo {
     return { values, split, indexes, types }
 }
 
-function parseComplexValue(v: string | number) {
+function parseComplexValue(v: AnyResolvedKeyframe) {
     return analyseComplexValue(v).values
 }
 
-function createTransformer(source: string | number) {
+function createTransformer(source: AnyResolvedKeyframe) {
     const { split, types } = analyseComplexValue(source)
 
     const numSections = split.length
@@ -103,9 +108,9 @@ function createTransformer(source: string | number) {
 }
 
 const convertNumbersToZero = (v: number | string) =>
-    typeof v === "number" ? 0 : v
+    typeof v === "number" ? 0 : color.test(v) ? color.getAnimatableNone(v) : v
 
-function getAnimatableNone(v: string | number) {
+function getAnimatableNone(v: AnyResolvedKeyframe) {
     const parsed = parseComplexValue(v)
     const transformer = createTransformer(v)
     return transformer(parsed.map(convertNumbersToZero))

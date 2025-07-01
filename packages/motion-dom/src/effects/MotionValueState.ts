@@ -1,10 +1,11 @@
+import { AnyResolvedKeyframe } from "../animation/types"
 import { cancelFrame, frame } from "../frameloop/frame"
 import { MotionValue } from "../value"
 import { numberValueTypes } from "../value/types/maps/number"
 import { getValueAsType } from "../value/types/utils/get-as-type"
 
 export class MotionValueState {
-    latest: { [name: string]: string | number } = {}
+    latest: { [name: string]: AnyResolvedKeyframe } = {}
 
     private values = new Map<
         string,

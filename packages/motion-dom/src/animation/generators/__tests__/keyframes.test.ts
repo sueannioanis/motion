@@ -1,15 +1,15 @@
 import { easeInOut, noop } from "motion-utils"
 import { defaultOffset } from "../../keyframes/offsets/default"
 import { convertOffsetToTimes } from "../../keyframes/offsets/time"
-import { KeyframeGenerator } from "../../types"
+import { AnyResolvedKeyframe, KeyframeGenerator } from "../../types"
 import { defaultEasing, keyframes } from "../keyframes"
 
 function animateSync(
-    animation: KeyframeGenerator<string | number>,
+    animation: KeyframeGenerator<AnyResolvedKeyframe>,
     timeStep = 200,
     round = true
 ) {
-    const output: Array<string | number> = []
+    const output: Array<AnyResolvedKeyframe> = []
     let step = 0
     let done = false
 

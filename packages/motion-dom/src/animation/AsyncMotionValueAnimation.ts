@@ -10,6 +10,7 @@ import {
 import { NativeAnimationExtended } from "./NativeAnimationExtended"
 import {
     AnimationPlaybackControls,
+    AnyResolvedKeyframe,
     TimelineWithFallback,
     ValueAnimationOptions,
 } from "./types"
@@ -27,12 +28,12 @@ import { supportsBrowserAnimation } from "./waapi/supports/waapi"
  */
 const MAX_RESOLVE_DELAY = 40
 
-type OptionsWithoutKeyframes<T extends string | number> = Omit<
+type OptionsWithoutKeyframes<T extends AnyResolvedKeyframe> = Omit<
     ValueAnimationOptions<T>,
     "keyframes"
 >
 
-export class AsyncMotionValueAnimation<T extends string | number>
+export class AsyncMotionValueAnimation<T extends AnyResolvedKeyframe>
     extends WithPromise
     implements AnimationPlaybackControls
 {

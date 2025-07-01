@@ -4,6 +4,116 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.20.4] 2025-07-01
+
+### Fixed
+
+-   Improve performance of render loop.
+-   Improve performance of types.
+
+## [12.20.3] 2025-07-01
+
+### Fixed
+
+-   Always skip layout animation check on tree mount.
+
+## [12.20.2] 2025-07-01
+
+### Fixed
+
+-   Updated `Transition` type to be more permissive.
+
+## [12.20.1] 2025-06-30
+
+### Fixed
+
+-   Updated `Target` type to match previous definition.
+
+## [12.20.0] 2025-06-30
+
+### Added
+
+-   Pass a shadow DOM root element via `AnimatePresence` `root` prop to attach `"popLayout"` styles to a different root element.
+
+## [12.19.4] 2025-06-30
+
+### Fixed
+
+-   Ensure animations are removed from scope when finished.
+
+## [12.19.3] 2025-06-27
+
+### Fixed
+
+-   Restore some deprecated types.
+-   Add `transformPerspective` to `TargetAndTransition`.
+-   Filter number-indexed and function props from `CSSStyleDeclaration`.
+
+## [12.19.2] 2025-06-27
+
+### Fixed
+
+-   React: Prevent duplicate layout animation commits within Suspense boundaries.
+
+## [12.19.1] 2025-06-23
+
+### Fixed
+
+-   React: Fix `export *` error message in Next.js.
+
+## [12.19.0] 2025-06-23
+
+### Added
+
+-   React: `usePageInView` for tracking document visibility.
+
+## [12.18.2] 2025-06-23
+
+### Fixed
+
+-   Fixed es bundle dependency imports for `"motion"`.
+-   Restored `translateX`, `originX` etc values in animation targets.
+
+## [12.18.1] 2025-06-13
+
+### Fixed
+
+-   Removed `"react"` import from `"motion-dom"`.
+
+## [12.18.0] 2025-06-13
+
+### Added
+
+-   Support for defining a timeline position relative to the start of the most recently added animation (e.g. `<+0.5`, `<-1`)
+
+## [12.17.3] 2025-06-12
+
+### Changed
+
+-   Refactored `MotionProps` into vanilla `MotionNodeOptions` type within `"motion-dom"` package.
+
+## [12.17.2] 2025-06-12
+
+### Changed
+
+-   Handle colors when creating animatable `"none"` keyframes for complex strings.
+
+## [12.17.1] 2025-06-12
+
+### Fixed
+
+-   Fixes `isValidProp` check with Rolldown.
+
+## [12.17.0] 2025-06-10
+
+### Added
+
+-   MCP server.
+
+### Fixed
+
+-   Improved rounding for `linear()` easing curves.
+
 ## [12.16.0] 2025-06-03
 
 ### Added

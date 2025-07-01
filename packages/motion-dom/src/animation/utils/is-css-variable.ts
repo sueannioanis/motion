@@ -1,10 +1,12 @@
+import { AnyResolvedKeyframe } from "../types"
+
 export type CSSVariableName = `--${string}`
 
 export type CSSVariableToken = `var(${CSSVariableName})`
 
 const checkStringStartsWith =
     <T extends string>(token: string) =>
-    (key?: string | number | null): key is T =>
+    (key?: AnyResolvedKeyframe | null): key is T =>
         typeof key === "string" && key.startsWith(token)
 
 export const isCSSVariableName =

@@ -14,6 +14,7 @@ import {
     motionValue,
     statsBuffer,
     time,
+    Transition,
     ValueAnimationOptions,
     type Process,
 } from "motion-dom"
@@ -34,7 +35,6 @@ import { HTMLVisualElement } from "../../projection"
 import { ResolvedValues } from "../../render/types"
 import { FlatTree } from "../../render/utils/flat-tree"
 import { VisualElement } from "../../render/VisualElement"
-import { Transition } from "../../types"
 import { delay } from "../../utils/delay"
 import { resolveMotionValue } from "../../value/utils/resolve-motion-value"
 import { mixValues } from "../animation/mix-values"
@@ -159,6 +159,8 @@ export function createProjectionNode<I>({
          * An id that represents a unique session instigated by startUpdate.
          */
         animationId: number = 0
+
+        animationCommitId = 0
 
         /**
          * A reference to the platform-native node (currently this will be a HTMLElement).
@@ -643,6 +645,7 @@ export function createProjectionNode<I>({
 
         willUpdate(shouldNotifyListeners = true) {
             this.root.hasTreeAnimated = true
+
             if (this.root.isUpdateBlocked()) {
                 this.options.onExitComplete && this.options.onExitComplete()
                 return
@@ -668,6 +671,7 @@ export function createProjectionNode<I>({
             }
 
             !this.root.isUpdating && this.root.startUpdate()
+
             if (this.isLayoutDirty) return
 
             this.isLayoutDirty = true
@@ -712,28 +716,39 @@ export function createProjectionNode<I>({
                 return
             }
 
-            if (!this.isUpdating) {
+            /**
+             * If this is a repeat of didUpdate then ignore the animation.
+             */
+            if (this.animationId <= this.animationCommitId) {
                 this.nodes!.forEach(clearIsLayoutDirty)
+                return
             }
 
-            this.isUpdating = false
+            this.animationCommitId = this.animationId
 
-            /**
-             * Write
-             */
-            this.nodes!.forEach(resetTransformStyle)
+            if (!this.isUpdating) {
+                this.nodes!.forEach(clearIsLayoutDirty)
+            } else {
+                this.isUpdating = false
 
-            /**
-             * Read ==================
-             */
-            // Update layout measurements of updated children
-            this.nodes!.forEach(updateLayout)
+                /**
+                 * Write
+                 */
+                this.nodes!.forEach(resetTransformStyle)
 
-            /**
-             * Write
-             */
-            // Notify listeners that the layout is updated
-            this.nodes!.forEach(notifyLayoutUpdate)
+                /**
+                 * Read ==================
+                 */
+                // Update layout measurements of updated children
+                this.nodes!.forEach(updateLayout)
+
+                /**
+                 * Write
+                 */
+                // Notify listeners that the layout is updated
+                this.nodes!.forEach(notifyLayoutUpdate)
+            }
+
             this.clearAllSnapshots()
 
             /**
@@ -844,7 +859,6 @@ export function createProjectionNode<I>({
         updateLayout() {
             if (!this.instance) return
 
-            // TODO: Incorporate into a forwarded scroll offset
             this.updateScroll()
 
             if (

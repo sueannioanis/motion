@@ -14,7 +14,7 @@ export function renderHTML(
         // CSSStyleDeclaration has [index: number]: string; in the types, so we use that as key type.
         elementStyle[key as unknown as number] = style[key] as string
     }
-
+  
     // this writes to elementStyle
     projection?.getProjectionStyles(styleProp, elementStyle)
 

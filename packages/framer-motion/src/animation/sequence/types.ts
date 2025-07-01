@@ -1,4 +1,4 @@
-import type { MotionValue } from "motion-dom"
+import type { AnyResolvedKeyframe, MotionValue } from "motion-dom"
 import {
     AnimationPlaybackOptions,
     DOMKeyframesDefinition,
@@ -8,10 +8,9 @@ import {
     UnresolvedValueKeyframe,
 } from "motion-dom"
 import { Easing } from "motion-utils"
-import { GenericKeyframesTarget } from "../../types"
 
 export type ObjectTarget<O> = {
-    [K in keyof O]?: O[K] | GenericKeyframesTarget<O[K]>
+    [K in keyof O]?: O[K] | UnresolvedValueKeyframe[]
 }
 
 export type SequenceTime =
@@ -78,7 +77,7 @@ export interface SequenceOptions extends AnimationPlaybackOptions {
 }
 
 export interface AbsoluteKeyframe {
-    value: string | number | null
+    value: AnyResolvedKeyframe | null
     at: number
     easing?: Easing
 }
