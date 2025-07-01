@@ -1,11 +1,10 @@
-import { JSAnimation } from "motion-dom"
+import type { JSAnimation, Transition, ValueTransition } from "motion-dom"
 import { Box, Delta, Point } from "motion-utils"
 import { InitialPromotionConfig } from "../../context/SwitchLayoutGroupContext"
 import { MotionStyle } from "../../motion/types"
 import { ResolvedValues } from "../../render/types"
 import { FlatTree } from "../../render/utils/flat-tree"
 import type { VisualElement } from "../../render/VisualElement"
-import { Transition } from "../../types"
 import { NodeStack } from "../shared/stack"
 
 export interface Measurements {
@@ -38,6 +37,7 @@ export type LayoutEvents =
 export interface IProjectionNode<I = unknown> {
     id: number
     animationId: number
+    animationCommitId: number
     parent?: IProjectionNode
     relativeParent?: IProjectionNode
     root?: IProjectionNode
@@ -114,7 +114,7 @@ export interface IProjectionNode<I = unknown> {
     isAnimationBlocked?: boolean
     isTreeAnimationBlocked: () => boolean
     setAnimationOrigin(delta: Delta): void
-    startAnimation(transition: Transition): void
+    startAnimation(transition: ValueTransition): void
     finishAnimation(): void
     hasCheckedOptimisedAppear: boolean
 

@@ -3,22 +3,16 @@
 </p>
 <h1 align="center">Motion</h1>
 <h3 align="center">
-  An open source motion library for JavaScript and React.
+  An open source animation library for JavaScript, React and Vue
 </h3>
 
 <br>
 
-Motion is the only animation library with first-class APIs for both JavaScript and React.
+Motion is an animation library and suite of developer tools for making beautiful animations.
 
-It's the only animation library with a hybrid engine, combining the power of JavaScript animations with the performance of native browser APIs.
+It's the only library with first-class APIs for JS, React and Vue. It's also the only library with a **hybrid engine**, combining the power of JS animations with the performance of native browser APIs.
 
-## 🏎️ Quick start
-
-Install `motion` via your package manager:
-
-```
-npm install motion
-```
+## 🍦 Flavours
 
 ### JavaScript
 
@@ -28,9 +22,13 @@ import { animate } from "motion"
 animate("#box", { x: 100 })
 ```
 
-Read the full [JavaScript docs](https://motion.dev/docs/quick-start).
+Get started with [JavaScript](https://motion.dev/docs/quick-start).
 
 ### React
+
+```bash
+npm install motion
+```
 
 ```jsx
 import { motion } from "motion/react"
@@ -40,15 +38,54 @@ function Component() {
 }
 ```
 
-Read the full [React docs](https://motion.dev/docs/react-quick-start).
+Get started with [Motion for React](https://motion.dev/docs/react-quick-start).
 
-## 💎 Contribute
+### Vue
 
--   Want to contribute to Motion? Our [contributing guide](https://github.com/motiondivision/motion/blob/master/CONTRIBUTING.md) has you covered.
+```html
+<script>
+    import { motion } from "motion-v"
+</script>
+
+<template> <motion.div :animate={{ x: 100 }} /> </template>
+```
+
+Get started with [Motion for Vue](https://motion.dev/docs/vue).
+
+## 🎨 Studio
+
+![Video of bezier curve editing](https://framerusercontent.com/images/KO5dnHOUSNGb9S73p1J7nLhoFI.gif)
+
+Motion Studio is a versatile suite of developer tools allowing you to:
+
+-   Visually edit CSS and Motion easing curves in VS Code
+-   Generate CSS springs with LLMs
+-   Load Motion docs into your LLM
+
+Get started with [Motion Studio](https://motion.dev/docs/tools-quick-start).
+
+## 🎓 Examples
+
+[Motion Examples](https://examples.motion.dev) offers 100s of free and Motion+ examples for beginners and advanced users alike. Easy copy/paste code to kickstart your next project.
+
+## ⚡️ Motion+
+
+[Motion+](https://motion.dev/plus) is a one-time fee, lifetime membership that unlocks over 100 premium examples, early access, powerful Studio tools, a private Discord, and exclusive APIs like:
+
+-   Cursor
+-   Ticker
+-   AnimateNumber
+-   splitText
+
+[Get Motion+](https://motion.dev/plus)
 
 ## 👩🏻‍⚖️ License
 
 -   Motion is MIT licensed.
+
+## 💎 Contribute
+
+-   Want to contribute to Motion? Our [contributing guide](https://github.com/motiondivision/motion/blob/master/CONTRIBUTING.md) has you covered.
 
 ## ✨ Sponsors
 

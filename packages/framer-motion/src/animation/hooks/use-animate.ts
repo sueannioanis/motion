@@ -1,7 +1,7 @@
+import { AnimationScope } from "motion-dom"
 import { useConstant } from "../../utils/use-constant"
 import { useUnmountEffect } from "../../utils/use-unmount-effect"
 import { createScopedAnimate } from "../animate"
-import { AnimationScope } from "motion-dom"
 
 export function useAnimate<T extends Element = any>() {
     const scope: AnimationScope<T> = useConstant(() => ({
@@ -13,6 +13,7 @@ export function useAnimate<T extends Element = any>() {
 
     useUnmountEffect(() => {
         scope.animations.forEach((animation) => animation.stop())
+        scope.animations.length = 0
     })
 
     return [scope, animate] as [AnimationScope<T>, typeof animate]

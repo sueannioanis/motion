@@ -1,5 +1,5 @@
 {
-    "extends": "config/tsconfig.json",
+    "extends": "../config/tsconfig.json",
     "filesGlob": ["./src/**/*.ts"],
     "exclude": [
         "node_modules",
