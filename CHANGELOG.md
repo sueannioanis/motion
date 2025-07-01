@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.20.3] 2025-07-01
+
+### Fixed
+
+-   Always skip layout animation check on tree mount.
+
 ## [12.20.2] 2025-07-01
 
 ### Fixed
