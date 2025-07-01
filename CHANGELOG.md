@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.20.4] 2025-07-01
+
+### Fixed
+
+-   Improve performance of render loop.
+
 ## [12.20.3] 2025-07-01
 
 ### Fixed
