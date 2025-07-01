@@ -9,6 +9,7 @@ Undocumented APIs should be considered internal and may change without warning.
 ### Fixed
 
 -   Improve performance of projection styles by writing directly to `element.style`.
+-   Only block layout animations when window has changed width.
 
 ## [12.20.4] 2025-07-01
 
