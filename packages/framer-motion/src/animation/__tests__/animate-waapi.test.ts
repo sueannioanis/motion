@@ -1,7 +1,7 @@
+import { stagger } from "motion-dom"
 import { nextFrame } from "../../gestures/__tests__/utils"
 import { animate } from "../animate"
 import { defaultOptions } from "../animators/waapi/__tests__/setup"
-import { stagger } from "../utils/stagger"
 
 describe("animate() with WAAPI", () => {
     test("Can override transition options per-value", async () => {

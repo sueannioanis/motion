@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from "framer-motion"
+import { AnimatePresence, motion, stagger } from "framer-motion"
 import { useEffect, useState } from "react"
 
 /**
@@ -26,14 +26,13 @@ const itemVariants = {
 const listVariants = {
     open: {
         opacity: 1,
-        transition: { staggerChildren: 1, when: "beforeChildren" },
+        transition: { delayChildren: stagger(1), when: "beforeChildren" },
     },
     closed: {
         opacity: 0,
         transition: {
             when: "afterChildren",
-            staggerChildren: 0.3,
-            staggerDirection: -1,
+            delayChildren: stagger(0.3, { from: "last" }),
         },
     },
 }

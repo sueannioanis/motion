@@ -1,3 +1,4 @@
+import { DynamicOption } from "motion-dom"
 import { resolveVariant } from "../../render/utils/resolve-dynamic-variants"
 import { VisualElement } from "../../render/VisualElement"
 import { VisualElementAnimationOptions } from "./types"
@@ -47,7 +48,8 @@ export function animateVariant(
                   return animateChildren(
                       visualElement,
                       variant,
-                      delayChildren + forwardDelay,
+                      forwardDelay,
+                      delayChildren,
                       staggerChildren,
                       staggerDirection,
                       options
@@ -75,20 +77,24 @@ export function animateVariant(
 function animateChildren(
     visualElement: VisualElement,
     variant: string,
-    delayChildren = 0,
+    delay: number = 0,
+    delayChildren: number | DynamicOption<number> = 0,
     staggerChildren = 0,
     staggerDirection = 1,
     options: VisualElementAnimationOptions
 ) {
     const animations: Promise<any>[] = []
+    const numChildren = visualElement.variantChildren!.size
 
-    const maxStaggerDuration =
-        (visualElement.variantChildren!.size - 1) * staggerChildren
+    const maxStaggerDuration = (numChildren - 1) * staggerChildren
+    const delayIsFunction = typeof delayChildren === "function"
 
-    const generateStaggerDuration =
+    const generateStaggerDuration = delayIsFunction
+        ? (i: number) => delayChildren(i, numChildren)
+        : // Support deprecated staggerChildren
         staggerDirection === 1
-            ? (i = 0) => i * staggerChildren
-            : (i = 0) => maxStaggerDuration - i * staggerChildren
+        ? (i = 0) => i * staggerChildren
+        : (i = 0) => maxStaggerDuration - i * staggerChildren
 
     Array.from(visualElement.variantChildren!)
         .sort(sortByTreeOrder)
@@ -97,7 +103,10 @@ function animateChildren(
             animations.push(
                 animateVariant(child, variant, {
                     ...options,
-                    delay: delayChildren + generateStaggerDuration(i),
+                    delay:
+                        delay +
+                        (delayIsFunction ? 0 : delayChildren) +
+                        generateStaggerDuration(i),
                 }).then(() => child.notify("AnimationComplete", variant))
             )
         })
