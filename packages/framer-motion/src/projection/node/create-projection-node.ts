@@ -1887,7 +1887,7 @@ export function createProjectionNode<I>({
         }
 
         applyProjectionStyles(
-            targetStyle: CSSStyleDeclaration,
+            targetStyle: any, // CSSStyleDeclaration - doesn't allow numbers to be assigned to properties
             styleProp?: MotionStyle
         ) {
             if (!this.instance || this.isSVG) return
