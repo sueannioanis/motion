@@ -645,6 +645,7 @@ export function createProjectionNode<I>({
 
         willUpdate(shouldNotifyListeners = true) {
             this.root.hasTreeAnimated = true
+
             if (this.root.isUpdateBlocked()) {
                 this.options.onExitComplete && this.options.onExitComplete()
                 return
@@ -723,30 +724,31 @@ export function createProjectionNode<I>({
                 return
             }
 
-            if (!this.isUpdating) {
-                this.nodes!.forEach(clearIsLayoutDirty)
-            }
-
             this.animationCommitId = this.animationId
 
-            this.isUpdating = false
+            if (!this.isUpdating) {
+                this.nodes!.forEach(clearIsLayoutDirty)
+            } else {
+                this.isUpdating = false
 
-            /**
-             * Write
-             */
-            this.nodes!.forEach(resetTransformStyle)
+                /**
+                 * Write
+                 */
+                this.nodes!.forEach(resetTransformStyle)
 
-            /**
-             * Read ==================
-             */
-            // Update layout measurements of updated children
-            this.nodes!.forEach(updateLayout)
+                /**
+                 * Read ==================
+                 */
+                // Update layout measurements of updated children
+                this.nodes!.forEach(updateLayout)
 
-            /**
-             * Write
-             */
-            // Notify listeners that the layout is updated
-            this.nodes!.forEach(notifyLayoutUpdate)
+                /**
+                 * Write
+                 */
+                // Notify listeners that the layout is updated
+                this.nodes!.forEach(notifyLayoutUpdate)
+            }
+
             this.clearAllSnapshots()
 
             /**
@@ -857,7 +859,6 @@ export function createProjectionNode<I>({
         updateLayout() {
             if (!this.instance) return
 
-            // TODO: Incorporate into a forwarded scroll offset
             this.updateScroll()
 
             if (
