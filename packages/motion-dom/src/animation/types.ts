@@ -559,11 +559,11 @@ export interface CSSStyleDeclarationWithTransform
     transformPerspective: number
 }
 
-export type Transition<V = any> = StyleTransitions &
-    SVGPathTransitions &
-    SVGForcedAttrTransitions &
-    SVGTransitions &
-    VariableTransitions &
+export type Transition<V = any> = Partial<StyleTransitions> &
+    Partial<SVGPathTransitions> &
+    Partial<SVGForcedAttrTransitions> &
+    Partial<SVGTransitions> &
+    Partial<VariableTransitions> &
     ValueAnimationTransition<V> & {
         default?: ValueTransition
         layout?: ValueTransition
