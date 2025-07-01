@@ -64,7 +64,7 @@ export function animateElements(
      */
     for (let i = 0; i < numElements; i++) {
         const element = elements[i]
-        const elementTransition = { ...options }
+        const elementTransition: DynamicAnimationOptions = { ...options }
 
         /**
          * Resolve stagger function if provided.
