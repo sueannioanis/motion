@@ -103,7 +103,10 @@ export interface IProjectionNode<I = unknown> {
     applyTransform(box: Box, transformOnly?: boolean): Box
     resolveTargetDelta(force?: boolean): void
     calcProjection(): void
-    getProjectionStyles(styleProp?: MotionStyle): MotionStyle | undefined
+    applyProjectionStyles(
+        targetStyle: CSSStyleDeclaration,
+        styleProp?: MotionStyle
+    ): void
     clearMeasurements(): void
     resetTree(): void
 
