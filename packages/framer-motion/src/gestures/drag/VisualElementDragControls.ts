@@ -1,4 +1,4 @@
-import type { PanInfo, ResolvedConstraints, Transition } from "motion-dom"
+import { PanInfo, ResolvedConstraints, Transition } from "motion-dom"
 import { frame, mixNumber, percent, setDragLock } from "motion-dom"
 import { Axis, Point, invariant } from "motion-utils"
 import { animateMotionValue } from "../../animation/interfaces/motion-value"
@@ -77,6 +77,16 @@ export class VisualElementDragControls {
      */
     private elastic = createBox()
 
+    /**
+     * The latest pointer event. Used as fallback when the `cancel` and `stop` functions are called without arguments.
+     */
+    private latestPointerEvent: PointerEvent | null = null
+
+    /**
+     * The latest pan info. Used as fallback when the `cancel` and `stop` functions are called without arguments.
+     */
+    private latestPanInfo: PanInfo | null = null
+
     constructor(visualElement: VisualElement<HTMLElement>) {
         this.visualElement = visualElement
     }
@@ -116,6 +126,8 @@ export class VisualElementDragControls {
                 if (!this.openDragLock) return
             }
 
+            this.latestPointerEvent = event
+            this.latestPanInfo = info
             this.isDragging = true
 
             this.currentDirection = null
@@ -164,7 +176,8 @@ export class VisualElementDragControls {
         }
 
         const onMove = (event: PointerEvent, info: PanInfo) => {
-            // latestPointerEvent = event
+            this.latestPointerEvent = event
+            this.latestPanInfo = info
 
             const {
                 dragPropagation,
@@ -208,9 +221,16 @@ export class VisualElementDragControls {
             onDrag && onDrag(event, info)
         }
 
-        const onSessionEnd = (event: PointerEvent, info: PanInfo) =>
+        const onSessionEnd = (event: PointerEvent, info: PanInfo) => {
+            this.latestPointerEvent = event
+            this.latestPanInfo = info
+
             this.stop(event, info)
 
+            this.latestPointerEvent = null
+            this.latestPanInfo = null
+        }
+            
         const resumeAnimation = () =>
             eachAxis(
                 (axis) =>
@@ -237,33 +257,45 @@ export class VisualElementDragControls {
         )
     }
 
-    private stop(event: PointerEvent, info: PanInfo) {
-        const isDragging = this.isDragging
-        this.cancel()
-        if (!isDragging) return
-
-        const { velocity } = info
-        this.startAnimation(velocity)
-
-        const { onDragEnd } = this.getProps()
-        if (onDragEnd) {
-            frame.postRender(() => onDragEnd(event, info))
+    /**
+     * @internal
+     */
+    stop(event?: PointerEvent, panInfo?: PanInfo) {
+        const finalPanInfo = panInfo || this.latestPanInfo
+   
+        if (this.isDragging && finalPanInfo) {
+            this.startAnimation(finalPanInfo.velocity)
         }
+
+        this.cancel(event, panInfo)
     }
 
-    private cancel() {
-        this.isDragging = false
+    /**
+     * @internal
+     */
+    cancel(event?: PointerEvent, panInfo?: PanInfo) {
+        const isDragging = this.isDragging
         const { projection, animationState } = this.visualElement
+
+        this.isDragging = false
+
         if (projection) {
             projection.isAnimationBlocked = false
         }
         this.panSession && this.panSession.end()
         this.panSession = undefined
 
-        const { dragPropagation } = this.getProps()
+        const { dragPropagation, onDragEnd } = this.getProps()
+        const finalEvent = event || this.latestPointerEvent
+        const finalPanInfo = panInfo || this.latestPanInfo
+
         if (!dragPropagation && this.openDragLock) {
             this.openDragLock()
             this.openDragLock = null
+        }
+
+        if (isDragging && onDragEnd && finalEvent && finalPanInfo) {
+            frame.postRender(() => onDragEnd(finalEvent, finalPanInfo))
         }
 
         animationState && animationState.setActive("whileDrag", false)
