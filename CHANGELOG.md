@@ -9,6 +9,7 @@ Undocumented APIs should be considered internal and may change without warning.
 ### Fixed
 
 -   Improve performance of render loop.
+-   Improve performance of types.
 
 ## [12.20.3] 2025-07-01
 
