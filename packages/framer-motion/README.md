@@ -16,8 +16,8 @@
   <a href="https://www.npmjs.com/package/framer-motion" target="_blank">
   <img src="https://img.shields.io/npm/dm/framer-motion.svg?style=flat-square" />
   </a>
-  <a href="https://twitter.com/motiondotdev" target="_blank">
-  <img src="https://img.shields.io/twitter/follow/framer.svg?style=social&label=Follow"  />
+  <a href="https://twitter.com/mattgperry" target="_blank">
+  <img src="https://img.shields.io/twitter/follow/mattgperry.svg?style=social&label=Follow"  />
   </a>
 </p>
 
