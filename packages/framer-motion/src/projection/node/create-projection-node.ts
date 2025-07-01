@@ -459,11 +459,22 @@ export function createProjectionNode<I>({
 
             if (attachResizeListener) {
                 let cancelDelay: VoidFunction
+                let innerWidth = 0
 
                 const resizeUnblockUpdate = () =>
                     (this.root.updateBlockedByResize = false)
 
+                // Set initial innerWidth in a frame.read callback to batch the read
+                frame.read(() => {
+                    innerWidth = window.innerWidth
+                })
+
                 attachResizeListener(instance, () => {
+                    const newInnerWidth = window.innerWidth
+                    if (newInnerWidth === innerWidth) return
+
+                    innerWidth = newInnerWidth
+
                     this.root.updateBlockedByResize = true
 
                     cancelDelay && cancelDelay()
