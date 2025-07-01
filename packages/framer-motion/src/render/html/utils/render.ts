@@ -9,14 +9,15 @@ export function renderHTML(
     projection?: IProjectionNode
 ) {
     const elementStyle = element.style
+
     let key: string
     for (key in style) {
         // CSSStyleDeclaration has [index: number]: string; in the types, so we use that as key type.
         elementStyle[key as unknown as number] = style[key] as string
     }
-  
-    // this writes to elementStyle
-    projection?.getProjectionStyles(styleProp, elementStyle)
+
+    // Write projection styles directly to element style
+    projection?.applyProjectionStyles(elementStyle, styleProp)
 
     for (key in vars) {
         // Loop over any CSS variables and assign those.

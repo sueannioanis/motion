@@ -86,8 +86,6 @@ const metrics = {
 
 const transformAxes = ["", "X", "Y", "Z"]
 
-const hiddenVisibility: ResolvedValues = { visibility: "hidden" }
-
 /**
  * We use 1000 as the animation target as 0-1000 maps better to pixels than 0-1
  * which has a noticeable difference in spring animations
@@ -1888,18 +1886,15 @@ export function createProjectionNode<I>({
             visualElement.scheduleRender()
         }
 
-        getProjectionStyles(styleProp?: MotionStyle, _writeStyle?: CSSStyleDeclaration): ResolvedValues | undefined {
+        applyProjectionStyles(
+            targetStyle: CSSStyleDeclaration,
+            styleProp?: MotionStyle
+        ) {
             if (!this.instance || this.isSVG) return
 
             if (!this.isVisible) {
-                if (_writeStyle) {
-                    _writeStyle.visibility = "hidden"
-                }
-                return hiddenVisibility
-            }
-
-            const styles: ResolvedValues = _writeStyle as unknown as ResolvedValues ?? {
-                visibility: "",
+                targetStyle.visibility = "hidden"
+                return
             }
 
             const transformTemplate = this.getTransformTemplate()
@@ -1907,61 +1902,64 @@ export function createProjectionNode<I>({
             if (this.needsReset) {
                 this.needsReset = false
 
-                styles.opacity = ""
-                styles.pointerEvents =
+                targetStyle.visibility = ""
+                targetStyle.opacity = ""
+                targetStyle.pointerEvents =
                     resolveMotionValue(styleProp?.pointerEvents) || ""
-                styles.transform = transformTemplate
+                targetStyle.transform = transformTemplate
                     ? transformTemplate(this.latestValues, "")
                     : "none"
-                return styles
+                return
             }
 
             const lead = this.getLead()
             if (!this.projectionDelta || !this.layout || !lead.target) {
-                const emptyStyles: ResolvedValues = _writeStyle as unknown as ResolvedValues ?? {}
                 if (this.options.layoutId) {
-                    emptyStyles.opacity =
+                    targetStyle.opacity =
                         this.latestValues.opacity !== undefined
                             ? this.latestValues.opacity
                             : 1
-                    emptyStyles.pointerEvents =
+                    targetStyle.pointerEvents =
                         resolveMotionValue(styleProp?.pointerEvents) || ""
                 }
                 if (this.hasProjected && !hasTransform(this.latestValues)) {
-                    emptyStyles.transform = transformTemplate
+                    targetStyle.transform = transformTemplate
                         ? transformTemplate({}, "")
                         : "none"
                     this.hasProjected = false
                 }
 
-                return emptyStyles
+                return
             }
+
+            targetStyle.visibility = ""
 
             const valuesToRender = lead.animationValues || lead.latestValues
             this.applyTransformsToTarget()
 
-            styles.transform = buildProjectionTransform(
+            let transform = buildProjectionTransform(
                 this.projectionDeltaWithTransform!,
                 this.treeScale,
                 valuesToRender
             )
 
             if (transformTemplate) {
-                styles.transform = transformTemplate(
-                    valuesToRender,
-                    styles.transform
-                )
+                transform = transformTemplate(valuesToRender, transform)
             }
 
+            targetStyle.transform = transform
+
             const { x, y } = this.projectionDelta
-            styles.transformOrigin = `${x.origin * 100}% ${y.origin * 100}% 0`
+            targetStyle.transformOrigin = `${x.origin * 100}% ${
+                y.origin * 100
+            }% 0`
 
             if (lead.animationValues) {
                 /**
                  * If the lead component is animating, assign this either the entering/leaving
                  * opacity
                  */
-                styles.opacity =
+                targetStyle.opacity =
                     lead === this
                         ? valuesToRender.opacity ??
                           this.latestValues.opacity ??
@@ -1974,7 +1972,7 @@ export function createProjectionNode<I>({
                  * Or we're not animating at all, set the lead component to its layout
                  * opacity and other components to hidden.
                  */
-                styles.opacity =
+                targetStyle.opacity =
                     lead === this
                         ? valuesToRender.opacity !== undefined
                             ? valuesToRender.opacity
@@ -1999,14 +1997,14 @@ export function createProjectionNode<I>({
                  * a corresponding layout animation.
                  */
                 const corrected =
-                    styles.transform === "none"
+                    transform === "none"
                         ? valuesToRender[key]
                         : correct(valuesToRender[key], lead)
 
                 if (applyTo) {
                     const num = applyTo.length
                     for (let i = 0; i < num; i++) {
-                        styles[applyTo[i]] = corrected
+                        targetStyle[applyTo[i] as any] = corrected
                     }
                 } else {
                     // If this is a CSS variable, set it directly on the instance.
@@ -2017,7 +2015,7 @@ export function createProjectionNode<I>({
                             this.options.visualElement as HTMLVisualElement
                         ).renderState.vars[key] = corrected
                     } else {
-                        styles[key] = corrected
+                        targetStyle[key as any] = corrected
                     }
                 }
             }
@@ -2028,13 +2026,11 @@ export function createProjectionNode<I>({
              * pointer events on the lead.
              */
             if (this.options.layoutId) {
-                styles.pointerEvents =
+                targetStyle.pointerEvents =
                     lead === this
                         ? resolveMotionValue(styleProp?.pointerEvents) || ""
                         : "none"
             }
-
-            return styles
         }
 
         clearSnapshot() {
