@@ -1,6 +1,9 @@
 import { memo } from "motion-utils"
 import { isHTMLElement } from "../../../utils/is-html-element"
-import { ValueAnimationOptionsWithRenderContext } from "../../types"
+import {
+    AnyResolvedKeyframe,
+    ValueAnimationOptionsWithRenderContext,
+} from "../../types"
 
 /**
  * A list of values that can be hardware-accelerated.
@@ -18,7 +21,7 @@ const supportsWaapi = /*@__PURE__*/ memo(() =>
     Object.hasOwnProperty.call(Element.prototype, "animate")
 )
 
-export function supportsBrowserAnimation<T extends string | number>(
+export function supportsBrowserAnimation<T extends AnyResolvedKeyframe>(
     options: ValueAnimationOptionsWithRenderContext<T>
 ) {
     const { motionValue, name, repeatDelay, repeatType, damping, type } =

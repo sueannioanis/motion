@@ -1,3 +1,4 @@
+import { AnyResolvedKeyframe } from "motion-dom"
 import { useContext } from "react"
 import { isAnimationControls } from "../../animation/utils/is-animation-controls"
 import { MotionContext, MotionContextProps } from "../../context/MotionContext"
@@ -122,13 +123,13 @@ function makeLatestValues(
                     }
 
                     if (valueTarget !== null) {
-                        values[key] = valueTarget as string | number
+                        values[key] = valueTarget as AnyResolvedKeyframe
                     }
                 }
                 for (const key in transitionEnd) {
                     values[key] = transitionEnd[
                         key as keyof typeof transitionEnd
-                    ] as string | number
+                    ] as AnyResolvedKeyframe
                 }
             }
         }

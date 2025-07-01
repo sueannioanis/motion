@@ -1,4 +1,5 @@
 import {
+    AnyResolvedKeyframe,
     defaultTransformValue,
     isCSSVariableName,
     readTransformValue,
@@ -31,7 +32,7 @@ export class HTMLVisualElement extends DOMVisualElement<
     readValueFromInstance(
         instance: HTMLElement,
         key: string
-    ): string | number | null | undefined {
+    ): AnyResolvedKeyframe | null | undefined {
         if (transformProps.has(key)) {
             return this.projection?.isProjecting
                 ? defaultTransformValue(key)

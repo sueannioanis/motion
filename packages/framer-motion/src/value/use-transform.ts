@@ -1,4 +1,9 @@
-import { MotionValue, transform, TransformOptions } from "motion-dom"
+import {
+    AnyResolvedKeyframe,
+    MotionValue,
+    transform,
+    TransformOptions,
+} from "motion-dom"
 import { useConstant } from "../utils/use-constant"
 import { useCombineMotionValues } from "./use-combine-values"
 import { useComputed } from "./use-computed"
@@ -13,7 +18,7 @@ type Transformer<I, O> =
      * more accurately requires the tuple support in TypeScript 4:
      * https://gist.github.com/InventingWithMonster/c4d23752a0fae7888596c4ff6d92733a
      */
-    | MultiTransformer<string | number, O>
+    | MultiTransformer<AnyResolvedKeyframe, O>
 
 /**
  * Create a `MotionValue` that transforms the output of another `MotionValue` by mapping it from one range of values into another.
@@ -115,7 +120,7 @@ export function useTransform<I, O>(
     input:
         | MotionValue<string>[]
         | MotionValue<number>[]
-        | MotionValue<string | number>[],
+        | MotionValue<AnyResolvedKeyframe>[],
     transformer: MultiTransformer<I, O>
 ): MotionValue<O>
 export function useTransform<I, O>(transformer: () => O): MotionValue<O>
@@ -124,7 +129,7 @@ export function useTransform<I, O>(
         | MotionValue<I>
         | MotionValue<string>[]
         | MotionValue<number>[]
-        | MotionValue<string | number>[]
+        | MotionValue<AnyResolvedKeyframe>[]
         | (() => O),
     inputRangeOrTransformer?: InputRange | Transformer<I, O>,
     outputRange?: O[],
@@ -142,7 +147,7 @@ export function useTransform<I, O>(
     return Array.isArray(input)
         ? useListTransform(
               input,
-              transformer as MultiTransformer<string | number, O>
+              transformer as MultiTransformer<AnyResolvedKeyframe, O>
           )
         : useListTransform([input], ([latest]) =>
               (transformer as SingleTransformer<I, O>)(latest)

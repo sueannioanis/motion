@@ -9,6 +9,7 @@ import { defaultOffset } from "../keyframes/offsets/default"
 import { convertOffsetToTimes } from "../keyframes/offsets/time"
 import {
     AnimationState,
+    AnyResolvedKeyframe,
     KeyframeGenerator,
     ValueAnimationOptions,
 } from "../types"
@@ -20,7 +21,7 @@ export function defaultEasing(
     return values.map(() => easing || easeInOut).splice(0, values.length - 1)
 }
 
-export function keyframes<T extends string | number>({
+export function keyframes<T extends AnyResolvedKeyframe>({
     duration = 300,
     keyframes: keyframeValues,
     times,
