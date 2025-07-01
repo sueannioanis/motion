@@ -1,5 +1,5 @@
 import type { AnimationDefinition } from "motion-dom"
-import { MotionValue } from "motion-dom"
+import { AnyResolvedKeyframe, MotionValue } from "motion-dom"
 import type { Axis, Box } from "motion-utils"
 import { ReducedMotionConfig } from "../context/MotionConfigContext"
 import type { PresenceContextProps } from "../context/PresenceContext"
@@ -7,8 +7,8 @@ import { MotionProps } from "../motion/types"
 import { VisualState } from "../motion/utils/use-visual-state"
 import type { VisualElement } from "./VisualElement"
 
-export type GenericValues = {
-    [key: string]: string | number
+export interface GenericValues {
+    [key: string]: AnyResolvedKeyframe
 }
 
 export interface MotionPoint {
@@ -21,12 +21,12 @@ export type ScrapeMotionValuesFromProps = (
     prevProps: MotionProps,
     visualElement?: VisualElement
 ) => {
-    [key: string]: MotionValue | string | number
+    [key: string]: MotionValue | AnyResolvedKeyframe
 }
 
 export type UseRenderState<RenderState = any> = () => RenderState
 
-export type VisualElementOptions<Instance, RenderState = any> = {
+export interface VisualElementOptions<Instance, RenderState = any> {
     visualState: VisualState<Instance, RenderState>
     parent?: VisualElement<unknown>
     variantParent?: VisualElement<unknown>
@@ -40,7 +40,7 @@ export type VisualElementOptions<Instance, RenderState = any> = {
  * A generic set of string/number values
  */
 export interface ResolvedValues {
-    [key: string]: string | number
+    [key: string]: AnyResolvedKeyframe
 }
 
 export interface VisualElementEventCallbacks {

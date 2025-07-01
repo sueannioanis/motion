@@ -1,4 +1,5 @@
 import {
+    AnyResolvedKeyframe,
     Batcher,
     MotionValue,
     startWaapiAnimation,
@@ -183,7 +184,7 @@ export function startOptimizedAppearAnimation(
 
             const removeSyncCheck = value.on(
                 "change",
-                (latestValue: string | number) => {
+                (latestValue: AnyResolvedKeyframe) => {
                     if (externalAnimationValue.get() !== latestValue) {
                         window.MotionCancelOptimisedAnimation?.(
                             appearId,

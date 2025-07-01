@@ -1,5 +1,6 @@
 import { analyseComplexValue } from "../../../value/types/complex"
 import { getAnimatableNone } from "../../../value/types/utils/animatable-none"
+import { AnyResolvedKeyframe } from "../../types"
 import { UnresolvedKeyframes } from "../KeyframesResolver"
 
 /**
@@ -11,7 +12,7 @@ import { UnresolvedKeyframes } from "../KeyframesResolver"
 const invalidTemplates = new Set(["auto", "none", "0"])
 
 export function makeNoneKeyframesAnimatable(
-    unresolvedKeyframes: UnresolvedKeyframes<string | number>,
+    unresolvedKeyframes: UnresolvedKeyframes<AnyResolvedKeyframe>,
     noneKeyframeIndexes: number[],
     name?: string
 ) {

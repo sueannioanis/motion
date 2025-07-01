@@ -1,6 +1,7 @@
 import { positionalKeys } from "../../render/utils/keys-position"
 import { MotionValue } from "../../value"
 import { findDimensionValueType } from "../../value/types/dimensions"
+import { AnyResolvedKeyframe } from "../types"
 import { getVariableValue } from "../utils/css-variables-conversion"
 import { isCSSVariableToken } from "../utils/is-css-variable"
 import {
@@ -14,16 +15,16 @@ import { makeNoneKeyframesAnimatable } from "./utils/make-none-animatable"
 import { isNumOrPxType, positionalValues } from "./utils/unit-conversion"
 
 export class DOMKeyframesResolver<
-    T extends string | number
+    T extends AnyResolvedKeyframe
 > extends KeyframeResolver<T> {
     name: string
     element?: WithRender
 
-    private removedTransforms?: [string, string | number][]
-    private measuredOrigin?: string | number
+    private removedTransforms?: [string, AnyResolvedKeyframe][]
+    private measuredOrigin?: AnyResolvedKeyframe
 
     constructor(
-        unresolvedKeyframes: UnresolvedKeyframes<string | number>,
+        unresolvedKeyframes: UnresolvedKeyframes<AnyResolvedKeyframe>,
         onComplete: OnKeyframesResolved<T>,
         name?: string,
         motionValue?: MotionValue<T>,

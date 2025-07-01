@@ -9,6 +9,7 @@ import { supportsScrollTimeline } from "../utils/supports/scroll-timeline"
 import { getFinalKeyframe } from "./keyframes/get-final"
 import {
     AnimationPlaybackControlsWithThen,
+    AnyResolvedKeyframe,
     DOMValueAnimationOptions,
     TimelineWithFallback,
 } from "./types"
@@ -16,7 +17,7 @@ import { WithPromise } from "./utils/WithPromise"
 import { startWaapiAnimation } from "./waapi/start-waapi-animation"
 import { applyGeneratorOptions } from "./waapi/utils/apply-generator"
 
-export interface NativeAnimationOptions<V extends string | number = number>
+export interface NativeAnimationOptions<V extends AnyResolvedKeyframe = number>
     extends DOMValueAnimationOptions<V> {
     pseudoElement?: string
     startTime?: number
@@ -25,7 +26,7 @@ export interface NativeAnimationOptions<V extends string | number = number>
 /**
  * NativeAnimation implements AnimationPlaybackControls for the browser's Web Animations API.
  */
-export class NativeAnimation<T extends string | number>
+export class NativeAnimation<T extends AnyResolvedKeyframe>
     extends WithPromise
     implements AnimationPlaybackControlsWithThen
 {

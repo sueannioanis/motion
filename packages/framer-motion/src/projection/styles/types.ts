@@ -1,9 +1,10 @@
+import { type AnyResolvedKeyframe } from "motion-dom"
 import { IProjectionNode } from "../node/types"
 
 export type ScaleCorrector = (
-    latest: string | number,
+    latest: AnyResolvedKeyframe,
     node: IProjectionNode
-) => string | number
+) => AnyResolvedKeyframe
 
 export interface ScaleCorrectorDefinition {
     correct: ScaleCorrector

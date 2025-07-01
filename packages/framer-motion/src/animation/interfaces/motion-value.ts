@@ -1,4 +1,5 @@
 import type {
+    AnyResolvedKeyframe,
     MotionValue,
     StartAnimation,
     UnresolvedKeyframes,
@@ -18,7 +19,7 @@ import { getDefaultTransition } from "../utils/default-transitions"
 import { isTransitionDefined } from "../utils/is-transition-defined"
 
 export const animateMotionValue =
-    <V extends string | number>(
+    <V extends AnyResolvedKeyframe>(
         name: string,
         value: MotionValue<V>,
         target: V | UnresolvedKeyframes<V>,

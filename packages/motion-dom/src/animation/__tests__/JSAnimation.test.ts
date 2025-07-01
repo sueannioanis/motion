@@ -1,7 +1,7 @@
 import { noop, reverseEasing } from "motion-utils"
 import { frame } from "../../frameloop"
 import { JSAnimation, animateValue } from "../JSAnimation"
-import { ValueAnimationOptions } from "../types"
+import { AnyResolvedKeyframe, ValueAnimationOptions } from "../types"
 import { syncDriver } from "./utils"
 
 async function nextFrame() {
@@ -12,7 +12,7 @@ async function nextFrame() {
 
 const linear = noop
 
-function testAnimate<V extends string | number>(
+function testAnimate<V extends AnyResolvedKeyframe>(
     options: ValueAnimationOptions<V>,
     expected: V[],
     resolve: () => void
