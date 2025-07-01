@@ -26,6 +26,10 @@ Get started with [JavaScript](https://motion.dev/docs/quick-start).
 
 ### React
 
+```bash
+npm install motion
+```
+
 ```jsx
 import { motion } from "motion/react"
 
@@ -40,12 +44,10 @@ Get started with [Motion for React](https://motion.dev/docs/react-quick-start).
 
 ```html
 <script>
-import { motion } from "motion-v"
+    import { motion } from "motion-v"
 </script>
 
-<template>
-  <motion.div :animate={{ x: 100 }} />
-</template>
+<template> <motion.div :animate={{ x: 100 }} /> </template>
 ```
 
 Get started with [Motion for Vue](https://motion.dev/docs/vue).
@@ -70,10 +72,10 @@ Get started with [Motion Studio](https://motion.dev/docs/tools-quick-start).
 
 [Motion+](https://motion.dev/plus) is a one-time fee, lifetime membership that unlocks over 100 premium examples, early access, powerful Studio tools, a private Discord, and exclusive APIs like:
 
-- Cursor
-- Ticker 
-- AnimateNumber
-- splitText
+-   Cursor
+-   Ticker
+-   AnimateNumber
+-   splitText
 
 [Get Motion+](https://motion.dev/plus)
 
