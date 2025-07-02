@@ -1,8 +1,8 @@
 import * as React from "react"
 import { useConstant } from "../../utils/use-constant"
 import {
-    VisualElementDragControls,
     DragControlOptions,
+    VisualElementDragControls,
 } from "./VisualElementDragControls"
 
 /**
@@ -63,6 +63,36 @@ export class DragControls {
                 (event as React.PointerEvent).nativeEvent || event,
                 options
             )
+        })
+    }
+
+    /**
+     * Cancels a drag gesture.
+     *
+     * ```jsx
+     * dragControls.cancel()
+     * ```
+     *
+     * @public
+     */
+    cancel() {
+        this.componentControls.forEach((controls) => {
+            controls.cancel()
+        })
+    }
+
+    /**
+     * Stops a drag gesture.
+     *
+     * ```jsx
+     * dragControls.stop()
+     * ```
+     *
+     * @public
+     */
+    stop() {
+        this.componentControls.forEach((controls) => {
+            controls.stop()
         })
     }
 }
