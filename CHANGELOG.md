@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.0] 2025-07-02
+
+### Added
+
+-   Add `.stop()` and `.cancel()` methods to `useDragControls()`.
+
 ## [12.22.0] 2025-07-01
 
 ### Added
