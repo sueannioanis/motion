@@ -288,9 +288,9 @@ export class VisualElementDragControls {
      * @internal
      */
     cancel() {
-        const { projection, animationState } = this.visualElement
-
         this.isDragging = false
+
+        const { projection, animationState } = this.visualElement
 
         if (projection) {
             projection.isAnimationBlocked = false
