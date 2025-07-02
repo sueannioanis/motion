@@ -1,5 +1,12 @@
-import { PanInfo, ResolvedConstraints, Transition } from "motion-dom"
-import { frame, mixNumber, percent, setDragLock } from "motion-dom"
+import {
+    PanInfo,
+    ResolvedConstraints,
+    Transition,
+    frame,
+    mixNumber,
+    percent,
+    setDragLock,
+} from "motion-dom"
 import { Axis, Point, invariant } from "motion-utils"
 import { animateMotionValue } from "../../animation/interfaces/motion-value"
 import { addDomEvent } from "../../events/add-dom-event"
@@ -230,7 +237,7 @@ export class VisualElementDragControls {
             this.latestPointerEvent = null
             this.latestPanInfo = null
         }
-            
+
         const resumeAnimation = () =>
             eachAxis(
                 (axis) =>
@@ -261,20 +268,26 @@ export class VisualElementDragControls {
      * @internal
      */
     stop(event?: PointerEvent, panInfo?: PanInfo) {
+        const finalEvent = event || this.latestPointerEvent
         const finalPanInfo = panInfo || this.latestPanInfo
-   
-        if (this.isDragging && finalPanInfo) {
-            this.startAnimation(finalPanInfo.velocity)
-        }
 
-        this.cancel(event, panInfo)
+        const isDragging = this.isDragging
+        this.cancel()
+        if (!isDragging || !finalPanInfo || !finalEvent) return
+
+        const { velocity } = finalPanInfo
+        this.startAnimation(velocity)
+
+        const { onDragEnd } = this.getProps()
+        if (onDragEnd) {
+            frame.postRender(() => onDragEnd(finalEvent, finalPanInfo))
+        }
     }
 
     /**
      * @internal
      */
-    cancel(event?: PointerEvent, panInfo?: PanInfo) {
-        const isDragging = this.isDragging
+    cancel() {
         const { projection, animationState } = this.visualElement
 
         this.isDragging = false
@@ -282,20 +295,15 @@ export class VisualElementDragControls {
         if (projection) {
             projection.isAnimationBlocked = false
         }
+
         this.panSession && this.panSession.end()
         this.panSession = undefined
 
-        const { dragPropagation, onDragEnd } = this.getProps()
-        const finalEvent = event || this.latestPointerEvent
-        const finalPanInfo = panInfo || this.latestPanInfo
+        const { dragPropagation } = this.getProps()
 
         if (!dragPropagation && this.openDragLock) {
             this.openDragLock()
             this.openDragLock = null
-        }
-
-        if (isDragging && onDragEnd && finalEvent && finalPanInfo) {
-            frame.postRender(() => onDragEnd(finalEvent, finalPanInfo))
         }
 
         animationState && animationState.setActive("whileDrag", false)
