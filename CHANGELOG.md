@@ -4,6 +4,13 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.1] 2025-07-08
+
+### Changed
+
+-   Allow `useScroll` to retry initialising scroll animation within a `useEffect`.
+-   Changed unhydrated ref warning to error.
+
 ## [12.23.0] 2025-07-02
 
 ### Added

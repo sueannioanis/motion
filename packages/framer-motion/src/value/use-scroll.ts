@@ -1,6 +1,6 @@
 import { motionValue } from "motion-dom"
-import { warning } from "motion-utils"
-import { RefObject, useEffect } from "react"
+import { invariant } from "motion-utils"
+import { RefObject, useCallback, useEffect, useRef } from "react"
 import { scroll } from "../render/dom/scroll"
 import { ScrollInfoOptions } from "../render/dom/scroll/types"
 import { useConstant } from "../utils/use-constant"
@@ -10,14 +10,6 @@ export interface UseScrollOptions
     extends Omit<ScrollInfoOptions, "container" | "target"> {
     container?: RefObject<HTMLElement | null>
     target?: RefObject<HTMLElement | null>
-    layoutEffect?: boolean
-}
-
-function refWarning(name: string, ref?: RefObject<HTMLElement | null>) {
-    warning(
-        Boolean(!ref || ref.current),
-        `You have defined a ${name} options but the provided ref is not yet hydrated, probably because it's defined higher up the tree. Try calling useScroll() in the same component as the ref, or setting its \`layoutEffect: false\` option.`
-    )
 }
 
 const createScrollMotionValues = () => ({
@@ -27,23 +19,22 @@ const createScrollMotionValues = () => ({
     scrollYProgress: motionValue(0),
 })
 
+const isRefPending = (ref?: RefObject<HTMLElement | null>) => {
+    if (!ref) return false
+    return !ref.current
+}
+
 export function useScroll({
     container,
     target,
-    layoutEffect = true,
     ...options
 }: UseScrollOptions = {}) {
     const values = useConstant(createScrollMotionValues)
+    const scrollAnimation = useRef<VoidFunction | null>(null)
+    const needsStart = useRef(false)
 
-    const useLifecycleEffect = layoutEffect
-        ? useIsomorphicLayoutEffect
-        : useEffect
-
-    useLifecycleEffect(() => {
-        refWarning("target", target)
-        refWarning("container", container)
-
-        return scroll(
+    const start = useCallback(() => {
+        scrollAnimation.current = scroll(
             (
                 _progress: number,
                 {
@@ -65,7 +56,38 @@ export function useScroll({
                 target: target?.current || undefined,
             }
         )
+
+        return () => {
+            scrollAnimation.current?.()
+        }
     }, [container, target, JSON.stringify(options.offset)])
+
+    useIsomorphicLayoutEffect(() => {
+        needsStart.current = false
+
+        if (isRefPending(container) || isRefPending(target)) {
+            needsStart.current = true
+            return
+        } else {
+            return start()
+        }
+    }, [start])
+
+    useEffect(() => {
+        if (needsStart.current) {
+            invariant(
+                !isRefPending(container),
+                "Container ref is defined but not hydrated"
+            )
+            invariant(
+                !isRefPending(target),
+                "Target ref is defined but not hydrated"
+            )
+            return start()
+        } else {
+            return
+        }
+    }, [start])
 
     return values
 }
