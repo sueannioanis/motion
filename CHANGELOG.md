@@ -8,8 +8,7 @@ Undocumented APIs should be considered internal and may change without warning.
 
 ### Changed
 
--   Allow `useScroll` to retry initialising scroll animation within a `useEffect`.
--   Changed unhydrated ref warning to error.
+-   `useScroll`: Re-attempt to initialise scroll animation within a `useEffect` if refs weren't hydrated during the `useLayoutEffect`. Throw if refs are still not hydrated during the `useEffect`.
 
 ## [12.23.0] 2025-07-02
 
