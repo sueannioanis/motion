@@ -113,7 +113,8 @@ export class JSAnimation<T extends number | string>
         ) {
             invariant(
                 keyframes.length <= 2,
-                `Only two keyframes currently supported with spring and inertia animations. Trying to animate ${keyframes}`
+                `Only two keyframes currently supported with spring and inertia animations. Trying to animate ${keyframes}`,
+                "spring-two-frames"
             )
         }
 
@@ -433,7 +434,6 @@ export class JSAnimation<T extends number | string>
      * animation.stop is returned as a reference from a useEffect.
      */
     stop = () => {
-        
         const { motionValue } = this.options
         if (motionValue && motionValue.updatedAt !== time.now()) {
             this.tick(time.now())

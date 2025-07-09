@@ -197,7 +197,8 @@ export function createAnimationsFromSequence(
             if (repeat) {
                 invariant(
                     repeat < MAX_REPEAT,
-                    "Repeat count too high, must be less than 20"
+                    "Repeat count too high, must be less than 20",
+                    "repeat-count-high"
                 )
 
                 duration = calculateRepeatDuration(
