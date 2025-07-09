@@ -1,18 +1,28 @@
-export type DevMessage = (check: boolean, message: string) => void
+export type DevMessage = (
+    check: boolean,
+    message: string,
+    errorCode?: string
+) => void
 
 let warning: DevMessage = () => {}
 let invariant: DevMessage = () => {}
 
 if (process.env.NODE_ENV !== "production") {
-    warning = (check, message) => {
+    const formatMessage = (message: string, errorCode?: string) => {
+        return errorCode
+            ? `${message}. For more information and steps for solving, visit https://motion.dev/error/${errorCode}`
+            : message
+    }
+
+    warning = (check, message, errorCode) => {
         if (!check && typeof console !== "undefined") {
-            console.warn(message)
+            console.warn(formatMessage(message, errorCode))
         }
     }
 
-    invariant = (check, message) => {
+    invariant = (check, message, errorCode) => {
         if (!check) {
-            throw new Error(message)
+            throw new Error(formatMessage(message, errorCode))
         }
     }
 }
