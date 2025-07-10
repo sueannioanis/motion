@@ -10,7 +10,7 @@ let invariant: DevMessage = () => {}
 if (process.env.NODE_ENV !== "production") {
     const formatMessage = (message: string, errorCode?: string) => {
         return errorCode
-            ? `${message}. For more information and steps for solving, visit https://motion.dev/error/${errorCode}`
+            ? `${message}. For more information and steps for solving, visit https://motion.dev/troubleshooting/${errorCode}`
             : message
     }
 

@@ -14,7 +14,7 @@ export const isAnimatable = (
     value: ValueKeyframesDefinition,
     name?: string
 ) => {
-    // If the list of keys tat might be non-animatable grows, replace with Set
+    // If the list of keys that might be non-animatable grows, replace with Set
     if (name === "zIndex") return false
 
     // If it's a number or a keyframes array, we can animate it. We might at some point
