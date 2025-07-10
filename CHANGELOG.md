@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.3] 2025-07-10
+
+### Changed
+
+-   `useScroll`: Re-attempt to initialise scroll animation within a `useEffect` if refs weren't hydrated during the `useLayoutEffect`. Throw if refs are still not hydrated during the `useEffect`.
+
 ## [12.23.2] 2025-07-10
 
 ### Added
