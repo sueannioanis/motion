@@ -309,15 +309,13 @@ describe("scroll() full height target", () => {
 describe("scroll() container tracking", () => {
     it("correctly tracks position of a target with container of fixed height", () => {
         cy.visit("?test=scroll-explicit-height")
-            .wait(100)
-            .get("#scroll-container")
-            .viewport(800, 500)
-            .scrollTo(0, 1000)
+            .viewport(800, 800)
             .wait(100)
             .get("#item-0")
             .should(([$element]: any) => {
                 expect($element.style.opacity).to.equal("0")
             })
+            .get("#scroll-container")
             .scrollTo(0, 1000)
             .wait(100)
             .get("#item-2")

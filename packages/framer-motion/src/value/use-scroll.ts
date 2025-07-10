@@ -77,11 +77,13 @@ export function useScroll({
         if (needsStart.current) {
             invariant(
                 !isRefPending(container),
-                "Container ref is defined but not hydrated"
+                "Container ref is defined but not hydrated",
+                "use-scroll-ref"
             )
             invariant(
                 !isRefPending(target),
-                "Target ref is defined but not hydrated"
+                "Target ref is defined but not hydrated",
+                "use-scroll-ref"
             )
             return start()
         } else {
