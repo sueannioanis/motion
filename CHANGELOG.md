@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.4] 2025-07-10
+
+### Added
+
+-   Checks before attempting to perform animations on `null`.
+
 ## [12.23.3] 2025-07-10
 
 ### Changed
