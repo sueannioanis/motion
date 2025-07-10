@@ -3,9 +3,9 @@
 import { invariant } from "motion-utils"
 import * as React from "react"
 import { forwardRef, FunctionComponent, useEffect, useRef } from "react"
-import type { HTMLElements } from "../../render/html/supported-elements"
 import { ReorderContext } from "../../context/ReorderContext"
 import { motion } from "../../render/components/motion/proxy"
+import type { HTMLElements } from "../../render/html/supported-elements"
 import { HTMLMotionProps } from "../../render/html/types"
 import { useConstant } from "../../utils/use-constant"
 import { ItemData, ReorderContextProps } from "./types"
@@ -79,7 +79,11 @@ export function ReorderGroupComponent<V>(
     const order: ItemData<V>[] = []
     const isReordering = useRef(false)
 
-    invariant(Boolean(values), "Reorder.Group must be provided a values prop")
+    invariant(
+        Boolean(values),
+        "Reorder.Group must be provided a values prop",
+        "reorder-values"
+    )
 
     const context: ReorderContextProps<V> = {
         axis,

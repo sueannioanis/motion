@@ -31,7 +31,8 @@ export function getVariableValue(
 ): AnyResolvedKeyframe | undefined {
     invariant(
         depth <= maxDepth,
-        `Max CSS variable fallback depth detected in property "${current}". This may indicate a circular fallback dependency.`
+        `Max CSS variable fallback depth detected in property "${current}". This may indicate a circular fallback dependency.`,
+        "max-css-var-depth"
     )
 
     const [token, fallback] = parseCSSVariable(current)

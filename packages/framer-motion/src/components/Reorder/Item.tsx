@@ -72,7 +72,11 @@ export function ReorderItemComponent<V>(
         latestX || latestY ? 1 : "unset"
     )
 
-    invariant(Boolean(context), "Reorder.Item must be a child of Reorder.Group")
+    invariant(
+        Boolean(context),
+        "Reorder.Item must be a child of Reorder.Group",
+        "reorder-item-child"
+    )
 
     const { axis, registerItem, updateOrder } = context!
 

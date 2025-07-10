@@ -33,7 +33,8 @@ export const easingDefinitionToFunction = (
         // If cubic bezier definition, create bezier curve
         invariant(
             definition.length === 4,
-            `Cubic bezier arrays must contain four numerical values.`
+            `Cubic bezier arrays must contain four numerical values.`,
+            "cubic-bezier-length"
         )
 
         const [x1, y1, x2, y2] = definition
@@ -42,7 +43,8 @@ export const easingDefinitionToFunction = (
         // Else lookup from table
         invariant(
             easingLookup[definition] !== undefined,
-            `Invalid easing type '${definition}'`
+            `Invalid easing type '${definition}'`,
+            "invalid-easing-type"
         )
         return easingLookup[definition]
     }

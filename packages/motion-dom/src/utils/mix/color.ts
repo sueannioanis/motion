@@ -25,7 +25,8 @@ function asRGBA(color: Color | string) {
 
     warning(
         Boolean(type),
-        `'${color}' is not an animatable color. Use the equivalent color code instead.`
+        `'${color}' is not an animatable color. Use the equivalent color code instead.`,
+        "color-not-animatable"
     )
 
     if (!Boolean(type)) return false

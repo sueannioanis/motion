@@ -68,7 +68,8 @@ export function interpolate<T>(
 
     invariant(
         inputLength === output.length,
-        "Both input and output ranges must be the same length"
+        "Both input and output ranges must be the same length",
+        "range-length"
     )
 
     /**

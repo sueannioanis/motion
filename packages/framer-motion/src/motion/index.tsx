@@ -161,8 +161,8 @@ function useStrictMode(
         const strictMessage =
             "You have rendered a `motion` component within a `LazyMotion` component. This will break tree shaking. Import and render a `m` component instead."
         configAndProps.ignoreStrict
-            ? warning(false, strictMessage)
-            : invariant(false, strictMessage)
+            ? warning(false, strictMessage, "lazy-strict-mode")
+            : invariant(false, strictMessage, "lazy-strict-mode")
     }
 }
 

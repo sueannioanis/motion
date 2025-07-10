@@ -26,7 +26,8 @@ export function findSpring({
 
     warning(
         duration <= secondsToMilliseconds(springDefaults.maxDuration),
-        "Spring duration must be 10 seconds or less"
+        "Spring duration must be 10 seconds or less",
+        "spring-duration-limit"
     )
 
     let dampingRatio = 1 - bounce

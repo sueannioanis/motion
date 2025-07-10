@@ -39,7 +39,10 @@ export function canAnimate(
 
     warning(
         isOriginAnimatable === isTargetAnimatable,
-        `You are trying to animate ${name} from "${originKeyframe}" to "${targetKeyframe}". ${originKeyframe} is not an animatable value - to enable this animation set ${originKeyframe} to a value animatable to ${targetKeyframe} via the \`style\` property.`
+        `You are trying to animate ${name} from "${originKeyframe}" to "${targetKeyframe}". "${
+            isOriginAnimatable ? targetKeyframe : originKeyframe
+        }" is not an animatable value.`,
+        "value-not-animatable"
     )
 
     // Always skip if any of these are true

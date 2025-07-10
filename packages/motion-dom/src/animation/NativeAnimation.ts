@@ -67,8 +67,10 @@ export class NativeAnimation<T extends AnyResolvedKeyframe>
 
         invariant(
             typeof options.type !== "string",
-            `animateMini doesn't support "type" as a string. Did you mean to import { spring } from "motion"?`
+            `Mini animate() doesn't support "type" as a string.`,
+            "mini-spring"
         )
+
         const transition = applyGeneratorOptions(options)
 
         this.animation = startWaapiAnimation(
