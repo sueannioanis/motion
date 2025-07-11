@@ -1,5 +1,4 @@
 import { memo } from "motion-utils"
-import { isHTMLElement } from "../../../utils/is-html-element"
 import {
     AnyResolvedKeyframe,
     ValueAnimationOptionsWithRenderContext,
@@ -27,11 +26,19 @@ export function supportsBrowserAnimation<T extends AnyResolvedKeyframe>(
     const { motionValue, name, repeatDelay, repeatType, damping, type } =
         options
 
-    if (!isHTMLElement(motionValue?.owner?.current)) {
+    const subject = motionValue?.owner?.current
+
+    /**
+     * We use this check instead of isHTMLElement() because we explicitly
+     * **don't** want elements in different timing contexts (i.e. popups)
+     * to be accelerated, as it's not possible to sync these animations
+     * properly with those driven from the main window frameloop.
+     */
+    if (!(subject instanceof HTMLElement)) {
         return false
     }
 
-    const { onUpdate, transformTemplate } = motionValue.owner.getProps()
+    const { onUpdate, transformTemplate } = motionValue!.owner!.getProps()
 
     return (
         supportsWaapi() &&
