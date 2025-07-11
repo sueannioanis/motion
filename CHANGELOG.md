@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.5] 2025-07-11
+
+### Fixed
+
+-   Fix animation timings within dynamically-generated popups.
+
 ## [12.23.4] 2025-07-10
 
 ### Added
