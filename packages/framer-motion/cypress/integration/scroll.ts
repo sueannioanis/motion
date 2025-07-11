@@ -313,6 +313,7 @@ describe("scroll() container tracking", () => {
             .wait(100)
             .get("#scroll-container")
             .scrollTo(0, 139)
+            .wait(100)
             .get("#item-0")
             .should(([$element]: any) => {
                 expect(parseInt($element.style.opacity)).to.equal(1)
