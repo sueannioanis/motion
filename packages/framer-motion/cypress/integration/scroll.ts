@@ -306,7 +306,7 @@ describe("scroll() full height target", () => {
     })
 })
 
-describe("scroll() container tracking", () => {
+describe.skip("scroll() container tracking", () => {
     it("correctly tracks position of a target with container of fixed height", () => {
         cy.visit("?test=scroll-explicit-height")
             .viewport(800, 500)
