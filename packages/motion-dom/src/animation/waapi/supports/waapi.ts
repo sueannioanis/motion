@@ -27,11 +27,13 @@ export function supportsBrowserAnimation<T extends AnyResolvedKeyframe>(
     const { motionValue, name, repeatDelay, repeatType, damping, type } =
         options
 
-    if (!isHTMLElement(motionValue?.owner?.current)) {
+    const subject = motionValue?.owner?.current
+
+    if (!isHTMLElement(subject) || !(subject instanceof Element)) {
         return false
     }
 
-    const { onUpdate, transformTemplate } = motionValue.owner.getProps()
+    const { onUpdate, transformTemplate } = motionValue!.owner!.getProps()
 
     return (
         supportsWaapi() &&
