@@ -6,6 +6,7 @@ import {
     getAnimatableNone,
     isMotionValue,
     KeyframeResolver,
+    microtask,
     motionValue,
     time,
     transformProps,
@@ -837,5 +838,9 @@ export abstract class VisualElement<
         if (this.events[eventName]) {
             this.events[eventName].notify(...args)
         }
+    }
+
+    scheduleRenderMicrotask() {
+        microtask.render(this.render)
     }
 }

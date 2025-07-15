@@ -1,9 +1,6 @@
 import { createMotionComponent, MotionComponentOptions } from "../../../motion"
-import { animations } from "../../../motion/features/animations"
-import { drag } from "../../../motion/features/drag"
-import { gestureAnimations } from "../../../motion/features/gestures"
-import { layout } from "../../../motion/features/layout"
 import { createDomVisualElement } from "../../dom/create-visual-element"
+import { featureBundle } from "./feature-bundle"
 
 export function createMotionComponentWithFeatures(
     Component: string,
@@ -12,12 +9,7 @@ export function createMotionComponentWithFeatures(
     return createMotionComponent(
         Component,
         options,
-        {
-            ...animations,
-            ...gestureAnimations,
-            ...drag,
-            ...layout,
-        },
+        featureBundle,
         createDomVisualElement
     )
 }

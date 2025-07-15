@@ -1,4 +1,3 @@
-import { microtask } from "motion-dom"
 import * as React from "react"
 import { useContext, useEffect, useInsertionEffect, useRef } from "react"
 import { optimizedAppearDataAttribute } from "../../animation/optimized-appear/data-id"
@@ -108,8 +107,7 @@ export function useVisualElement(
         window.MotionIsMounted = true
 
         visualElement.updateFeatures()
-
-        microtask.render(visualElement.render)
+        visualElement.scheduleRenderMicrotask()
 
         /**
          * Ideally this function would always run in a useEffect.
