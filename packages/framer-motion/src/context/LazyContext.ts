@@ -4,7 +4,7 @@ import { createContext } from "react"
 import { CreateVisualElement } from "../render/types"
 
 export interface LazyContextProps {
-    renderer?: CreateVisualElement<any>
+    renderer?: CreateVisualElement
     strict: boolean
 }
 

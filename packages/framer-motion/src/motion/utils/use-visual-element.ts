@@ -11,6 +11,7 @@ import {
 } from "../../context/SwitchLayoutGroupContext"
 import { MotionProps } from "../../motion/types"
 import { IProjectionNode } from "../../projection/node/types"
+import { DOMMotionComponents } from "../../render/dom/types"
 import { HTMLRenderState } from "../../render/html/types"
 import { SVGRenderState } from "../../render/svg/types"
 import { CreateVisualElement } from "../../render/types"
@@ -19,13 +20,16 @@ import { isRefObject } from "../../utils/is-ref-object"
 import { useIsomorphicLayoutEffect } from "../../utils/use-isomorphic-effect"
 import { VisualState } from "./use-visual-state"
 
-export function useVisualElement(
-    Component: string | React.ComponentType<React.PropsWithChildren<unknown>>,
+export function useVisualElement<
+    Props,
+    TagName extends keyof DOMMotionComponents | string
+>(
+    Component: TagName | string | React.ComponentType<Props>,
     visualState:
         | VisualState<SVGElement, SVGRenderState>
         | VisualState<HTMLElement, HTMLRenderState>,
     props: MotionProps & Partial<MotionConfigContext>,
-    createVisualElement?: CreateVisualElement<HTMLElement | SVGElement>,
+    createVisualElement?: CreateVisualElement<Props, TagName>,
     ProjectionNodeConstructor?: any
 ): VisualElement<HTMLElement | SVGElement> | undefined {
     const { visualElement: parent } = useContext(MotionContext)
@@ -40,7 +44,9 @@ export function useVisualElement(
     /**
      * If we haven't preloaded a renderer, check to see if we have one lazy-loaded
      */
-    createVisualElement = createVisualElement || lazyContext.renderer
+    createVisualElement =
+        createVisualElement ||
+        (lazyContext.renderer as CreateVisualElement<Props, TagName>)
 
     if (!visualElementRef.current && createVisualElement) {
         visualElementRef.current = createVisualElement(Component, {

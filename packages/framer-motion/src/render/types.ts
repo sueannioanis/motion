@@ -5,6 +5,7 @@ import { ReducedMotionConfig } from "../context/MotionConfigContext"
 import type { PresenceContextProps } from "../context/PresenceContext"
 import { MotionProps } from "../motion/types"
 import { VisualState } from "../motion/utils/use-visual-state"
+import { DOMMotionComponents } from "./dom/types"
 import type { VisualElement } from "./VisualElement"
 
 export type ScrapeMotionValuesFromProps = (
@@ -63,7 +64,10 @@ export interface LayoutLifecycles {
     onLayoutAnimationComplete?(): void
 }
 
-export type CreateVisualElement<Instance> = (
-    Component: string | React.ComponentType<React.PropsWithChildren<unknown>>,
-    options: VisualElementOptions<Instance>
-) => VisualElement<Instance>
+export type CreateVisualElement<
+    Props = {},
+    TagName extends keyof DOMMotionComponents | string = "div"
+> = (
+    Component: TagName | string | React.ComponentType<Props>,
+    options: VisualElementOptions<HTMLElement | SVGElement>
+) => VisualElement<HTMLElement | SVGElement>

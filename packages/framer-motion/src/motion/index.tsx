@@ -26,11 +26,10 @@ import { useMotionRef } from "./utils/use-motion-ref"
 import { useVisualElement } from "./utils/use-visual-element"
 
 export interface MotionComponentConfig<
-    Instance,
     TagName extends keyof DOMMotionComponents | string = "div"
 > {
     preloadedFeatures?: FeatureBundle
-    createVisualElement?: CreateVisualElement<Instance>
+    createVisualElement?: CreateVisualElement
     Component: TagName | React.ComponentType<React.PropsWithChildren<unknown>>
     forwardMotionProps?: boolean
 }
@@ -63,14 +62,14 @@ export interface MotionComponentOptions {
  * component "offline", or outside the React render cycle.
  */
 export function createMotionComponent<
-    Props extends {},
+    Props,
     TagName extends keyof DOMMotionComponents | string = "div"
 >(
-    Component: TagName | React.ComponentType<React.PropsWithChildren<unknown>>,
+    Component: TagName | string | React.ComponentType<Props>,
     { forwardMotionProps = false }: MotionComponentOptions = {},
     preloadedFeatures?: FeaturePackages,
-    createVisualElement?: CreateVisualElement<any>
-): MotionComponent<TagName, Props> {
+    createVisualElement?: CreateVisualElement<Props, TagName>
+) {
     preloadedFeatures && loadFeatures(preloadedFeatures)
 
     const useVisualState = isSVGComponent(Component)
@@ -132,7 +131,7 @@ export function createMotionComponent<
                         {...configAndProps}
                     />
                 ) : null}
-                {useRender(
+                {useRender<Props, TagName>(
                     Component,
                     props,
                     useMotionRef<

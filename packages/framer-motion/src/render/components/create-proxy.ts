@@ -21,7 +21,7 @@ type MotionProxy = typeof createMotionComponent &
 
 export function createMotionProxy(
     preloadedFeatures?: FeaturePackages,
-    createVisualElement?: CreateVisualElement<any>
+    createVisualElement?: CreateVisualElement
 ): MotionProxy {
     if (typeof Proxy === "undefined") {
         return createMotionComponent as MotionProxy

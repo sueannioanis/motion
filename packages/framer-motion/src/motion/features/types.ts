@@ -1,7 +1,5 @@
-import * as React from "react"
 import { CreateVisualElement } from "../../render/types"
 import { MotionProps } from "../types"
-import { VisualState } from "../utils/use-visual-state"
 import type { Feature } from "./Feature"
 import { MeasureLayout } from "./layout/MeasureLayout"
 
@@ -50,16 +48,7 @@ export type FeaturePackages = {
 }
 
 export interface FeatureBundle extends FeaturePackages {
-    renderer: CreateVisualElement<any>
+    renderer: CreateVisualElement
 }
 
 export type LazyFeatureBundle = () => Promise<FeatureBundle>
-
-export type RenderComponent<Instance, RenderState> = (
-    Component: string | React.ComponentType<React.PropsWithChildren<unknown>>,
-    props: MotionProps,
-    ref: React.Ref<Instance>,
-    visualState: VisualState<Instance, RenderState>,
-    isStatic: boolean,
-    forwardMotionProps?: boolean
-) => any

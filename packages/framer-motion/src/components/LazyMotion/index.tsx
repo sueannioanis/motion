@@ -44,9 +44,7 @@ import { LazyProps } from "./types"
  */
 export function LazyMotion({ children, features, strict = false }: LazyProps) {
     const [, setIsLoaded] = useState(!isLazyBundle(features))
-    const loadedRenderer = useRef<undefined | CreateVisualElement<any>>(
-        undefined
-    )
+    const loadedRenderer = useRef<undefined | CreateVisualElement>(undefined)
 
     /**
      * If this is a synchronous load, load features immediately

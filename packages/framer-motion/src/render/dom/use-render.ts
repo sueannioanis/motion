@@ -1,24 +1,28 @@
 import { isMotionValue } from "motion-dom"
 import { Fragment, createElement, useMemo } from "react"
-import { RenderComponent } from "../../motion/features/types"
+import { MotionProps } from "../../motion/types"
+import { VisualState } from "../../motion/utils/use-visual-state"
 import { HTMLRenderState } from "../html/types"
 import { useHTMLProps } from "../html/use-props"
 import { SVGRenderState } from "../svg/types"
 import { useSVGProps } from "../svg/use-props"
+import { DOMMotionComponents } from "./types"
 import { filterProps } from "./utils/filter-props"
 import { isSVGComponent } from "./utils/is-svg-component"
 
-export const useRender: RenderComponent<
-    HTMLElement | SVGElement,
-    HTMLRenderState | SVGRenderState
-> = (
-    Component,
-    props,
-    ref,
-    { latestValues },
-    isStatic,
-    forwardMotionProps = false
-) => {
+export function useRender<
+    Props = {},
+    TagName extends keyof DOMMotionComponents | string = "div"
+>(
+    Component: TagName | string | React.ComponentType<Props>,
+    props: MotionProps,
+    ref: React.Ref<HTMLElement | SVGElement>,
+    {
+        latestValues,
+    }: VisualState<HTMLElement | SVGElement, HTMLRenderState | SVGRenderState>,
+    isStatic: boolean,
+    forwardMotionProps: boolean = false
+) {
     const useVisualProps = isSVGComponent(Component)
         ? useSVGProps
         : useHTMLProps
@@ -27,7 +31,7 @@ export const useRender: RenderComponent<
         props as any,
         latestValues,
         isStatic,
-        Component
+        Component as any
     )
     const filteredProps = filterProps(
         props,
