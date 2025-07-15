@@ -85,7 +85,6 @@ export {
     DragControls,
     useDragControls,
 } from "./gestures/drag/use-drag-controls"
-export { createRendererMotionComponent } from "./motion"
 export { isMotionComponent } from "./motion/utils/is-motion-component"
 export { unwrapMotionComponent } from "./motion/utils/unwrap-motion-component"
 export { isValidMotionProp } from "./motion/utils/valid-prop"

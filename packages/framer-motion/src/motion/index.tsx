@@ -8,28 +8,49 @@ import { LazyContext } from "../context/LazyContext"
 import { MotionConfigContext } from "../context/MotionConfigContext"
 import { MotionContext } from "../context/MotionContext"
 import { useCreateMotionContext } from "../context/MotionContext/create"
+import { DOMMotionComponents } from "../render/dom/types"
+import { useRender } from "../render/dom/use-render"
+import { isSVGComponent } from "../render/dom/utils/is-svg-component"
+import { HTMLRenderState } from "../render/html/types"
+import { useHTMLVisualState } from "../render/html/use-html-visual-state"
+import { SVGRenderState } from "../render/svg/types"
+import { useSVGVisualState } from "../render/svg/use-svg-visual-state"
 import { CreateVisualElement } from "../render/types"
 import { isBrowser } from "../utils/is-browser"
 import { featureDefinitions } from "./features/definitions"
 import { loadFeatures } from "./features/load-features"
-import { FeatureBundle, RenderComponent } from "./features/types"
+import { FeatureBundle, FeaturePackages } from "./features/types"
 import { MotionProps } from "./types"
 import { motionComponentSymbol } from "./utils/symbol"
 import { useMotionRef } from "./utils/use-motion-ref"
 import { useVisualElement } from "./utils/use-visual-element"
-import { UseVisualState } from "./utils/use-visual-state"
 
-export interface MotionComponentConfig<Instance, RenderState> {
+export interface MotionComponentConfig<
+    TagName extends keyof DOMMotionComponents | string = "div"
+> {
     preloadedFeatures?: FeatureBundle
-    createVisualElement?: CreateVisualElement<Instance>
-    useRender: RenderComponent<Instance, RenderState>
-    useVisualState: UseVisualState<Instance, RenderState>
-    Component: string | React.ComponentType<React.PropsWithChildren<unknown>>
+    createVisualElement?: CreateVisualElement
+    Component: TagName | React.ComponentType<React.PropsWithChildren<unknown>>
+    forwardMotionProps?: boolean
 }
 
 export type MotionComponentProps<Props> = {
     [K in Exclude<keyof Props, keyof MotionProps>]?: Props[K]
 } & MotionProps
+
+export type MotionComponent<T, P> = T extends keyof DOMMotionComponents
+    ? DOMMotionComponents[T]
+    : React.ComponentType<
+          Omit<MotionComponentProps<P>, "children"> & {
+              children?: "children" extends keyof P
+                  ? P["children"] | MotionComponentProps<P>["children"]
+                  : MotionComponentProps<P>["children"]
+          }
+      >
+
+export interface MotionComponentOptions {
+    forwardMotionProps?: boolean
+}
 
 /**
  * Create a `motion` component.
@@ -40,22 +61,24 @@ export type MotionComponentProps<Props> = {
  * Alongside this is a config option which provides a way of rendering the provided
  * component "offline", or outside the React render cycle.
  */
-export function createRendererMotionComponent<
-    Props extends {},
-    Instance,
-    RenderState
->({
-    preloadedFeatures,
-    createVisualElement,
-    useRender,
-    useVisualState,
-    Component,
-}: MotionComponentConfig<Instance, RenderState>) {
+export function createMotionComponent<
+    Props,
+    TagName extends keyof DOMMotionComponents | string = "div"
+>(
+    Component: TagName | string | React.ComponentType<Props>,
+    { forwardMotionProps = false }: MotionComponentOptions = {},
+    preloadedFeatures?: FeaturePackages,
+    createVisualElement?: CreateVisualElement<Props, TagName>
+) {
     preloadedFeatures && loadFeatures(preloadedFeatures)
 
-    function MotionComponent(
+    const useVisualState = isSVGComponent(Component)
+        ? useSVGVisualState
+        : useHTMLVisualState
+
+    function MotionDOMComponent(
         props: MotionComponentProps<Props>,
-        externalRef?: React.Ref<Instance>
+        externalRef?: React.Ref<HTMLElement | SVGElement>
     ) {
         /**
          * If we need to measure the element we load this functionality in a
@@ -71,7 +94,7 @@ export function createRendererMotionComponent<
 
         const { isStatic } = configAndProps
 
-        const context = useCreateMotionContext<Instance>(props)
+        const context = useCreateMotionContext<HTMLElement | SVGElement>(props)
 
         const visualState = useVisualState(props, isStatic)
 
@@ -87,7 +110,7 @@ export function createRendererMotionComponent<
              * providing a way of rendering to these APIs outside of the React render loop
              * for more performant animations and interactions
              */
-            context.visualElement = useVisualElement<Instance, RenderState>(
+            context.visualElement = useVisualElement(
                 Component,
                 visualState,
                 configAndProps,
@@ -108,32 +131,31 @@ export function createRendererMotionComponent<
                         {...configAndProps}
                     />
                 ) : null}
-                {useRender(
+                {useRender<Props, TagName>(
                     Component,
                     props,
-                    useMotionRef<Instance, RenderState>(
-                        visualState,
-                        context.visualElement,
-                        externalRef
-                    ),
+                    useMotionRef<
+                        HTMLElement | SVGElement,
+                        HTMLRenderState | SVGRenderState
+                    >(visualState, context.visualElement, externalRef),
                     visualState,
                     isStatic,
-                    context.visualElement
+                    forwardMotionProps
                 )}
             </MotionContext.Provider>
         )
     }
 
-    MotionComponent.displayName = `motion.${
+    MotionDOMComponent.displayName = `motion.${
         typeof Component === "string"
             ? Component
             : `create(${Component.displayName ?? Component.name ?? ""})`
     }`
 
-    const ForwardRefMotionComponent = forwardRef(MotionComponent as any)
+    const ForwardRefMotionComponent = forwardRef(MotionDOMComponent as any)
     ;(ForwardRefMotionComponent as any)[motionComponentSymbol] = Component
 
-    return ForwardRefMotionComponent
+    return ForwardRefMotionComponent as MotionComponent<TagName, Props>
 }
 
 function useLayoutId({ layoutId }: MotionProps) {
@@ -145,7 +167,7 @@ function useLayoutId({ layoutId }: MotionProps) {
 
 function useStrictMode(
     configAndProps: MotionProps,
-    preloadedFeatures?: FeatureBundle
+    preloadedFeatures?: FeaturePackages
 ) {
     const isStrict = useContext(LazyContext).strict
 

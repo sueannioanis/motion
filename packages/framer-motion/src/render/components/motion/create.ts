@@ -1,16 +1,20 @@
-import { animations } from "../../../motion/features/animations"
-import { drag } from "../../../motion/features/drag"
-import { gestureAnimations } from "../../../motion/features/gestures"
-import { layout } from "../../../motion/features/layout"
-import { createMotionComponentFactory } from "../create-factory"
+import { createMotionComponent, MotionComponentOptions } from "../../../motion"
 import { createDomVisualElement } from "../../dom/create-visual-element"
+import { DOMMotionComponents } from "../../dom/types"
+import { CreateVisualElement } from "../../types"
+import { featureBundle } from "./feature-bundle"
 
-export const createMotionComponent = /*@__PURE__*/ createMotionComponentFactory(
-    {
-        ...animations,
-        ...gestureAnimations,
-        ...drag,
-        ...layout,
-    },
-    createDomVisualElement
-)
+export function createMotionComponentWithFeatures<
+    Props,
+    TagName extends keyof DOMMotionComponents | string = "div"
+>(
+    Component: TagName | string | React.ComponentType<Props>,
+    options?: MotionComponentOptions
+) {
+    return createMotionComponent(
+        Component,
+        options,
+        featureBundle,
+        createDomVisualElement as CreateVisualElement<Props, TagName>
+    )
+}

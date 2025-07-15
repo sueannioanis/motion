@@ -1,6 +1,6 @@
 "use client"
 
-import { createMotionComponent } from "./create"
+import { createMotionComponentWithFeatures as createMotionComponent } from "./create"
 
 /**
  * HTML components

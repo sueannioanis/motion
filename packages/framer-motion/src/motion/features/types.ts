@@ -1,8 +1,5 @@
-import * as React from "react"
-import { MotionProps } from "../types"
-import { VisualState } from "../utils/use-visual-state"
-import { VisualElement } from "../../render/VisualElement"
 import { CreateVisualElement } from "../../render/types"
+import { MotionProps } from "../types"
 import type { Feature } from "./Feature"
 import { MeasureLayout } from "./layout/MeasureLayout"
 
@@ -10,7 +7,7 @@ interface FeatureClass<Props = unknown> {
     new (props: Props): Feature<Props>
 }
 
-export type HydratedFeatureDefinition = {
+export interface HydratedFeatureDefinition {
     isEnabled: (props: MotionProps) => boolean
     Feature: FeatureClass<unknown>
     ProjectionNode?: any
@@ -29,7 +26,7 @@ export interface HydratedFeatureDefinitions {
     layout?: HydratedFeatureDefinition
 }
 
-export type FeatureDefinition = {
+export interface FeatureDefinition {
     isEnabled: HydratedFeatureDefinition["isEnabled"]
     Feature?: HydratedFeatureDefinition["Feature"]
     ProjectionNode?: HydratedFeatureDefinition["ProjectionNode"]
@@ -40,7 +37,7 @@ export type FeatureDefinitions = {
     [K in keyof HydratedFeatureDefinitions]: FeatureDefinition
 }
 
-export type FeaturePackage = {
+export interface FeaturePackage {
     Feature?: HydratedFeatureDefinition["Feature"]
     ProjectionNode?: HydratedFeatureDefinition["ProjectionNode"]
     MeasureLayout?: HydratedFeatureDefinition["MeasureLayout"]
@@ -51,16 +48,7 @@ export type FeaturePackages = {
 }
 
 export interface FeatureBundle extends FeaturePackages {
-    renderer: CreateVisualElement<any>
+    renderer: CreateVisualElement
 }
 
 export type LazyFeatureBundle = () => Promise<FeatureBundle>
-
-export type RenderComponent<Instance, RenderState> = (
-    Component: string | React.ComponentType<React.PropsWithChildren<unknown>>,
-    props: MotionProps,
-    ref: React.Ref<Instance>,
-    visualState: VisualState<Instance, RenderState>,
-    isStatic: boolean,
-    visualElement?: VisualElement<Instance>
-) => any
