@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.6] 2025-07-11
+
+### Changed
+
+-   Added explainer for reduced motion warning.
+
 ## [12.23.5] 2025-07-11
 
 ### Fixed
