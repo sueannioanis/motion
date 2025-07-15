@@ -1,3 +1,5 @@
+import { formatErrorMessage } from "./format-error-message"
+
 const warned = new Set<string>()
 
 export function hasWarned(message: string) {
@@ -7,11 +9,10 @@ export function hasWarned(message: string) {
 export function warnOnce(
     condition: boolean,
     message: string,
-    element?: Element
+    errorCode?: string
 ) {
     if (condition || warned.has(message)) return
 
-    console.warn(message)
-    if (element) console.warn(element)
+    console.warn(formatErrorMessage(message, errorCode))
     warned.add(message)
 }

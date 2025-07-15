@@ -40,7 +40,8 @@ export function useReducedMotion() {
     if (process.env.NODE_ENV !== "production") {
         warnOnce(
             shouldReduceMotion !== true,
-            "You have Reduced Motion enabled on your device. Animations may not appear as expected."
+            "You have Reduced Motion enabled on your device. Animations may not appear as expected.",
+            "reduced-motion-disabled"
         )
     }
 
