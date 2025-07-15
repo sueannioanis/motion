@@ -7,15 +7,6 @@ import { MotionProps } from "../motion/types"
 import { VisualState } from "../motion/utils/use-visual-state"
 import type { VisualElement } from "./VisualElement"
 
-export interface GenericValues {
-    [key: string]: AnyResolvedKeyframe
-}
-
-export interface MotionPoint {
-    x: MotionValue<number>
-    y: MotionValue<number>
-}
-
 export type ScrapeMotionValuesFromProps = (
     props: MotionProps,
     prevProps: MotionProps,

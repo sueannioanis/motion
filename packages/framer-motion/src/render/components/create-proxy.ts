@@ -1,7 +1,9 @@
 import { warnOnce } from "motion-utils"
+import { createMotionComponent, MotionComponentOptions } from "../../motion"
+import { FeaturePackages } from "../../motion/features/types"
 import { MotionProps } from "../../motion/types"
 import { DOMMotionComponents } from "../dom/types"
-import type { createMotionComponent } from "./motion/create"
+import { CreateVisualElement } from "../types"
 
 /**
  * I'd rather the return type of `custom` to be implicit but this throws
@@ -14,14 +16,15 @@ export type CustomDomComponent<Props> = React.ComponentType<
     ComponentProps<Props>
 >
 
-export function createDOMMotionComponentProxy(
-    componentFactory: typeof createMotionComponent
-) {
-    type MotionProxy = typeof componentFactory &
-        DOMMotionComponents & { create: typeof componentFactory }
+type MotionProxy = typeof createMotionComponent &
+    DOMMotionComponents & { create: typeof createMotionComponent }
 
+export function createMotionProxy(
+    preloadedFeatures?: FeaturePackages,
+    createVisualElement?: CreateVisualElement<any>
+): MotionProxy {
     if (typeof Proxy === "undefined") {
-        return componentFactory as MotionProxy
+        return createMotionComponent as MotionProxy
     }
 
     /**
@@ -30,8 +33,21 @@ export function createDOMMotionComponentProxy(
      */
     const componentCache = new Map<string, any>()
 
-    const deprecatedFactoryFunction: typeof createMotionComponent = (
-        ...args
+    const factory = (Component: string, options?: MotionComponentOptions) => {
+        return createMotionComponent(
+            Component,
+            options,
+            preloadedFeatures,
+            createVisualElement
+        )
+    }
+
+    /**
+     * Support for deprecated`motion(Component)` pattern
+     */
+    const deprecatedFactoryFunction = (
+        Component: string,
+        options?: MotionComponentOptions
     ) => {
         if (process.env.NODE_ENV !== "production") {
             warnOnce(
@@ -39,7 +55,7 @@ export function createDOMMotionComponentProxy(
                 "motion() is deprecated. Use motion.create() instead."
             )
         }
-        return componentFactory(...args)
+        return factory(Component, options)
     }
 
     return new Proxy(deprecatedFactoryFunction, {
@@ -49,13 +65,21 @@ export function createDOMMotionComponentProxy(
          * DOM component with that name.
          */
         get: (_target, key: string) => {
-            if (key === "create") return componentFactory
+            if (key === "create") return factory
 
             /**
              * If this element doesn't exist in the component cache, create it and cache.
              */
             if (!componentCache.has(key)) {
-                componentCache.set(key, componentFactory(key))
+                componentCache.set(
+                    key,
+                    createMotionComponent(
+                        key,
+                        undefined,
+                        preloadedFeatures,
+                        createVisualElement
+                    )
+                )
             }
 
             return componentCache.get(key)!

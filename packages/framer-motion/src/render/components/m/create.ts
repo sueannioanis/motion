@@ -1,4 +1,8 @@
-import { createMotionComponentFactory } from "../create-factory"
+import { createMotionComponent, MotionComponentOptions } from "../../../motion"
 
-export const createMinimalMotionComponent =
-    /*@__PURE__*/ createMotionComponentFactory()
+export function createMinimalMotionComponent(
+    Component: string,
+    options?: MotionComponentOptions
+) {
+    return createMotionComponent(Component, options)
+}

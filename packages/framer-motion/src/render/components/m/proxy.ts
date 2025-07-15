@@ -1,6 +1,3 @@
-import { createDOMMotionComponentProxy } from "../create-proxy"
-import { createMinimalMotionComponent } from "./create"
+import { createMotionProxy } from "../create-proxy"
 
-export const m = /*@__PURE__*/ createDOMMotionComponentProxy(
-    createMinimalMotionComponent
-)
+export const m = /*@__PURE__*/ createMotionProxy()
