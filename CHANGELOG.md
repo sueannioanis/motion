@@ -9,6 +9,7 @@ Undocumented APIs should be considered internal and may change without warning.
 ### Changed
 
 -   Added explainer for reduced motion warning.
+-   Refactored `motion` component creation to remove indirection.
 
 ## [12.23.5] 2025-07-11
 
