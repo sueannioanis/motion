@@ -383,7 +383,7 @@ export abstract class VisualElement<
             const value = initialMotionValues[key]
 
             if (latestValues[key] !== undefined && isMotionValue(value)) {
-                value.set(latestValues[key], false)
+                value.set(latestValues[key])
             }
         }
     }
