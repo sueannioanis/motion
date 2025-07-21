@@ -51,7 +51,6 @@ describe("useMotionValue", () => {
         const Component = () => {
             const x = useMotionValue(100)
             x.on("change", onChange)
-            x.on("renderRequest", onRenderRequest)
 
             x.set(500)
 
