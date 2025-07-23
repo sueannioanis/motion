@@ -4,6 +4,13 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.7] 2025-07-23
+
+### Fixed
+
+-   `springValue` cleanup.
+-   Removed additional `removeNode` from `AnimatePresence` when using `popLayout`.
+
 ## [12.23.6] 2025-07-11
 
 ### Changed
