@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.8] 2025-07-24
+
+### Fixed
+
+-   Ensuring that when an animation is skipped via `duration = 0` that we also set `type = "keyframes"` so that `duration` takes effect.
+
 ## [12.23.7] 2025-07-23
 
 ### Fixed
