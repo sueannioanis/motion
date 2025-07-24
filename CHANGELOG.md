@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.9] 2025-07-24
+
+### Changed
+
+-   Removing redundant `renderRequest` `MotionValue` lifecycle.
+
 ## [12.23.8] 2025-07-24
 
 ### Fixed
