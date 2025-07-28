@@ -1901,7 +1901,6 @@ export function createProjectionNode<I>({
             targetStyle: any, // CSSStyleDeclaration - doesn't allow numbers to be assigned to properties
             styleProp?: MotionStyle
         ) {
-            console.log("applyProjectionStyles")
             if (!this.instance || this.isSVG) return
 
             if (!this.isVisible) {
@@ -1960,7 +1959,7 @@ export function createProjectionNode<I>({
             }
 
             targetStyle.transform = transform
-            console.log("transform", transform)
+
             const { x, y } = this.projectionDelta
             targetStyle.transformOrigin = `${x.origin * 100}% ${
                 y.origin * 100
