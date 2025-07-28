@@ -1405,9 +1405,16 @@ describe("animate prop as variant", () => {
         const { rerender } = render(<Component items={["1", "2"]} />)
 
         await nextFrame()
+        await nextFrame()
+        await nextFrame()
+        await nextFrame()
 
         rerender(<Component items={["1", "2", "3", "4", "5"]} />)
 
+        await nextFrame()
+        await nextFrame()
+        await nextFrame()
+        await nextFrame()
         await nextFrame()
         await nextFrame()
         await nextFrame()
