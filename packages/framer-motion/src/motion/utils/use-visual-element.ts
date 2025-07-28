@@ -145,6 +145,8 @@ export function useVisualElement<
 
             wantsHandoff.current = false
         }
+
+        visualElement.enteringChildren = undefined
     })
 
     return visualElement!
