@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.11] 2025-07-28
+
+### Added
+
+-   Children of variants with `delayChildren: stagger()` will now be staggered correctly alongside their newly-entering siblings.
+
 ## [12.23.10] 2025-07-28
 
 ### Fixed
