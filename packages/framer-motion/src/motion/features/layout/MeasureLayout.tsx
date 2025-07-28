@@ -137,6 +137,8 @@ class MeasureLayoutWithContext extends Component<MeasureProps> {
         } = this.props
         const { projection } = visualElement
 
+        hasTakenAnySnapshot = true
+
         if (projection) {
             projection.scheduleCheckAfterUnmount()
             if (layoutGroup && layoutGroup.group)
