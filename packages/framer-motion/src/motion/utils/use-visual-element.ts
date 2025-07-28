@@ -146,6 +146,10 @@ export function useVisualElement<
             wantsHandoff.current = false
         }
 
+        /**
+         * Now we've finished triggering animations for this element we
+         * can wipe the enteringChildren set for the next render.
+         */
         visualElement.enteringChildren = undefined
     })
 
