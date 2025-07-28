@@ -31,7 +31,7 @@ type MeasureProps = MotionProps &
  *
  * Difficult to capture in a test but to prevent flickering
  * we must set this to true either on update or unmount.
- * next-env/layout-id will show this behaviour if broken.
+ * Running `next-env/layout-id` in Safari will show this behaviour if broken.
  */
 let hasTakenAnySnapshot = false
 
