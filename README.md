@@ -1,34 +1,46 @@
-<p align="center">
-  <img width="42" height="42" alt="Motion logo" src="https://github.com/user-attachments/assets/00d6d1c3-72c4-4c2f-a664-69da13182ffc" />
-</p>
-<h1 align="center">Motion</h1>
+
+<h1 align="center"> <img width="35" height="35" alt="Motion logo" src="https://github.com/user-attachments/assets/00d6d1c3-72c4-4c2f-a664-69da13182ffc" /><br />Motion</h1>
 <h3 align="center">
-  An open source animation library for JavaScript, React and Vue
+  An open source animation library<br />for JavaScript, React and Vue
 </h3>
 
-<br>
+<p align="center">
+  <a href="https://www.npmjs.com/package/motion" rel="noopener noreferrer nofollow" ><img src="https://img.shields.io/npm/v/motion?color=0368FF&label=version" alt="npm version"></a>
+  <a href="https://www.npmjs.com/package/motion" rel="noopener noreferrer nofollow" ><img src="https://img.shields.io/npm/dm/framer-motion?color=8D30FF&label=npm" alt="npm downloads per month"></a>
+  <a target="_blank" rel="noopener noreferrer nofollow" href="https://www.jsdelivr.com/package/npm/motion"><img alt="jsDelivr hits (npm)" src="https://img.shields.io/jsdelivr/npm/hm/framer-motion?logo=jsdeliver&color=FF4FBA"></a>
+  <img alt="NPM License" src="https://img.shields.io/npm/l/motion?color=FF2B6E">
+</p>
 
-Motion is an animation library and suite of developer tools for making beautiful animations.
-
-It's the only library with first-class APIs for JS, React and Vue. It's also the only library with a **hybrid engine**, combining the power of JS animations with the performance of native browser APIs.
-
-## 🍦 Flavours
-
-### JavaScript
-
-```javascript
-import { animate } from "motion"
-
-animate("#box", { x: 100 })
-```
-
-Get started with [JavaScript](https://motion.dev/docs/quick-start).
-
-### React
 
 ```bash
 npm install motion
 ```
+
+## Table of Contents
+
+1. [Why Motion?](#why-motion)
+2. [🍦 Flavours](#-flavours)
+3. [🎓 Examples](#-examples)
+4. [🎨 Studio](#-studio)
+5. [⚡️ Motion+](#-motion)
+6. [👩🏻‍⚖️ License](#-license)
+7. [💎 Contribute](#-contribute)
+8. [✨ Sponsors](#-sponsors)
+
+## Why Motion?
+
+Motion is an animation library for making beautiful animations.
+
+* The **only** library with first‑class APIs for React, JavaScript, **and** Vue.
+* Powered by a **hybrid engine** that blends JavaScript flexibility with native browser APIs for **120fps GPU‑accelerated** motion.
+* Tiny footprint, tree‑shakable, and fully TypeScript‑typed.
+
+## 🍦 Flavours
+
+Motion is available for [React](https://motion.dev/docs/react), [JavaScript](https://motion.dev/docs/quick-start) and [Vue](https://motion.dev/docs/vue).
+
+<details>
+<summary>React ⬇</summary>
 
 ```jsx
 import { motion } from "motion/react"
@@ -38,9 +50,25 @@ function Component() {
 }
 ```
 
-Get started with [Motion for React](https://motion.dev/docs/react-quick-start).
+Get started with [Motion for React](https://motion.dev/docs/react).
 
-### Vue
+</details>
+
+<details>
+<summary>JavaScript ⬇</summary>
+
+```javascript
+import { animate } from "motion"
+
+animate("#box", { x: 100 })
+```
+
+Get started with [JavaScript](https://motion.dev/docs/quick-start).
+
+</details>
+
+<details>
+<summary>Vue ⬇</summary>
 
 ```html
 <script>
@@ -51,6 +79,23 @@ Get started with [Motion for React](https://motion.dev/docs/react-quick-start).
 ```
 
 Get started with [Motion for Vue](https://motion.dev/docs/vue).
+
+</details>
+
+## 🎓 Examples
+
+[Motion Examples](https://motion.dev/examples) offers 100s of free and Motion+ examples for beginners and advanced users alike. Easy copy/paste code to kick‑start your next project.
+
+## ⚡️ Motion+
+
+Learn, Design, Build. [Motion+](https://motion.dev/plus) is a one-time fee, lifetime update membership that provides:
+- 160+ premium Motion Examples
+- Motion UI features like Cursor and Ticker
+- Motion Studio animation editing for VS Code `alpha`
+- Early access content
+- Private Discord
+
+[Get Motion+](https://motion.dev/plus)
 
 ## 🎨 Studio
 
@@ -63,21 +108,6 @@ Motion Studio is a versatile suite of developer tools allowing you to:
 -   Load Motion docs into your LLM
 
 Get started with [Motion Studio](https://motion.dev/docs/tools-quick-start).
-
-## 🎓 Examples
-
-[Motion Examples](https://examples.motion.dev) offers 100s of free and Motion+ examples for beginners and advanced users alike. Easy copy/paste code to kickstart your next project.
-
-## ⚡️ Motion+
-
-[Motion+](https://motion.dev/plus) is a one-time fee, lifetime membership that unlocks over 100 premium examples, early access, powerful Studio tools, a private Discord, and exclusive APIs like:
-
--   Cursor
--   Ticker
--   AnimateNumber
--   splitText
-
-[Get Motion+](https://motion.dev/plus)
 
 ## 👩🏻‍⚖️ License
 
