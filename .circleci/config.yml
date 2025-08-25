@@ -73,6 +73,10 @@ jobs:
                   command: yarn install
 
             - run:
+                  name: Pre-build packages
+                  command: yarn build
+
+            - run:
                   name: React tests
                   command: make test-react
                   environment:
@@ -114,6 +118,10 @@ jobs:
                   command: yarn install
 
             - run:
+                  name: Pre-build packages
+                  command: yarn build
+
+            - run:
                   name: React tests
                   command: make test-react-19
                   environment:
@@ -152,6 +160,10 @@ jobs:
             - run:
                   name: Install dependencies
                   command: yarn install
+
+            - run:
+                  name: Pre-build packages
+                  command: yarn build
 
             - run:
                   name: HTML tests
