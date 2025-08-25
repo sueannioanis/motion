@@ -30,10 +30,6 @@ jobs:
                   key: v3-yarn-{{ checksum "yarn.lock" }}
 
             - run:
-                  name: Install dependencies
-                  command: yarn install
-
-            - run:
                   name: Test Jest
                   command: make test-jest
 
@@ -67,14 +63,6 @@ jobs:
                       - .yarn/plugins
                       - .yarn/patches
                   key: v3-yarn-{{ checksum "yarn.lock" }}
-
-            - run:
-                  name: Install dependencies
-                  command: yarn install
-
-            - run:
-                  name: Pre-build packages
-                  command: yarn build
 
             - run:
                   name: React tests
@@ -114,14 +102,6 @@ jobs:
                   key: v3-yarn-{{ checksum "yarn.lock" }}
 
             - run:
-                  name: Install dependencies
-                  command: yarn install
-
-            - run:
-                  name: Pre-build packages
-                  command: yarn build
-
-            - run:
                   name: React tests
                   command: make test-react-19
                   environment:
@@ -156,14 +136,6 @@ jobs:
                       - .yarn/plugins
                       - .yarn/patches
                   key: v3-yarn-{{ checksum "yarn.lock" }}
-
-            - run:
-                  name: Install dependencies
-                  command: yarn install
-
-            - run:
-                  name: Pre-build packages
-                  command: yarn build
 
             - run:
                   name: HTML tests
@@ -206,10 +178,6 @@ jobs:
                       - .yarn/plugins
                       - .yarn/patches
                   key: v3-yarn-{{ checksum "yarn.lock" }}
-
-            - run:
-                  name: Install dependencies
-                  command: yarn install
 
             - run:
                   name: Playwright tests
