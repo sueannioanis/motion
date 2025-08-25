@@ -7,7 +7,7 @@
         "dev": "next dev",
         "dev-server": "next dev",
         "start": "next start",
-        "build": "next build"
+        "build": "yarn exec next build"
     },
     "dependencies": {
         "motion": "^12.23.14",
