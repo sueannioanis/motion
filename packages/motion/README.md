@@ -11,7 +11,11 @@
 </p>
 
 ```bash
+# React / JavaScript
 npm install motion
+
+# Vue
+npm install motion-v
 ```
 
 ## Table of Contents
