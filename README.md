@@ -11,13 +11,17 @@
 </p>
 
 ```bash
+# React / JavaScript
 npm install motion
+
+# Vue
+npm install motion-v
 ```
 
 ## Table of Contents
 
 1. [Why Motion?](#why-motion)
-2. [🍦 Flavours](#-flavours)
+2. [🍦 Platforms](#-platforms)
 3. [🎓 Examples](#-examples)
 4. [⚡️ Motion+](#-motion)
 5. [👩🏻‍⚖️ License](#-license)
@@ -26,18 +30,17 @@ npm install motion
 
 ## Why Motion?
 
-Motion is an animation library for making beautiful animations.
+-   **Simple API:** First-class React, JavaScript, and Vue packages.
+-   **Hybrid engine:** Power of JavaScript combined with native browser APIs for 120fps, GPU-accelerated animations.
+-   **Production-ready:** TypeScript, extensive test suite, tree-shakable, tiny footprint.
+    **Batteries included:** Gestures, springs, layout transitions, scroll-linked effects, timelines.
 
--   The **only** library with first‑class APIs for React, JavaScript, **and** Vue.
--   Powered by a **hybrid engine** that blends JavaScript flexibility with native browser APIs for **120fps GPU‑accelerated** motion.
--   Tiny footprint, tree‑shakable, and fully TypeScript‑typed.
-
-## 🍦 Flavours
+## 🍦 Platforms
 
 Motion is available for [React](https://motion.dev/docs/react), [JavaScript](https://motion.dev/docs/quick-start) and [Vue](https://motion.dev/docs/vue).
 
 <details>
-<summary>React ⬇</summary>
+<summary>React</summary>
 
 ```jsx
 import { motion } from "motion/react"
@@ -52,7 +55,7 @@ Get started with [Motion for React](https://motion.dev/docs/react).
 </details>
 
 <details>
-<summary>JavaScript ⬇</summary>
+<summary>JavaScript</summary>
 
 ```javascript
 import { animate } from "motion"
@@ -65,7 +68,7 @@ Get started with [JavaScript](https://motion.dev/docs/quick-start).
 </details>
 
 <details>
-<summary>Vue ⬇</summary>
+<summary>Vue</summary>
 
 ```html
 <script>
@@ -81,17 +84,17 @@ Get started with [Motion for Vue](https://motion.dev/docs/vue).
 
 ## 🎓 Examples
 
-[Motion Examples](https://motion.dev/examples) offers 100s of free and Motion+ examples for beginners and advanced users alike. Easy copy/paste code to kick‑start your next project.
+Browse 100+ free and 180+ premium [Motion Examples](https://motion.dev/examples), with copy-paste code that'll level-up your animations whether you're a beginner or an expert.
 
 ## ⚡️ Motion+
 
-Learn, Design, Build. [Motion+](https://motion.dev/plus) is a one-time fee, lifetime update membership that provides:
+A one-time payment, lifetime-updates membership:
 
--   160+ premium Motion Examples
--   Motion UI features like Cursor and Ticker
--   Motion Studio animation editing for VS Code `alpha`
--   Early access content
--   Private Discord
+-   **180+ premium examples**
+-   **Premium APIs** like [Cursor](https://motion.dev/docs/cursor) and [Ticker](https://motion.dev/docs/react-ticker)
+-   **Visual editing** for VS Code (alpha)
+-   **Private Discord**
+-   **Early access content**
 
 [Get Motion+](https://motion.dev/plus)
 
@@ -107,6 +110,8 @@ Learn, Design, Build. [Motion+](https://motion.dev/plus) is a one-time fee, life
 
 Motion is sustainable thanks to the kind support of its sponsors.
 
+[Become a sponsor](https://motion.dev/sponsor)
+
 ### Partner
 
 Motion powers Framer animations, the web builder for creative pros. Design and ship your dream site. Zero code, maximum speed.
@@ -121,7 +126,7 @@ Motion powers Framer animations, the web builder for creative pros. Design and s
 
 ### Gold
 
-<a href="https://tailwindcss.com"><img alt="Tailwind" src="https://github.com/user-attachments/assets/1d5f2571-8bc3-4367-9fec-14d291168ff0" width="250px" height="150px"></a> <a href="https://emilkowal.ski"><img alt="Emil Kowalski" src="https://github.com/user-attachments/assets/33d1cb98-238a-4eed-a0df-9c7ab097d65b" width="250px" height="150px"></a> <a href="https://liveblocks.io"><img alt="Liveblocks" src="https://github.com/user-attachments/assets/28eddbe5-1617-4e74-969d-2eb6fcd481af" width="250px" height="150px"></a> <a href="https://vercel.com"><img alt="Vercel" src="https://github.com/user-attachments/assets/abc473bd-07ae-4a7d-9833-efe9dadb3773" width="250px" height="150px"></a> <a href="https://lu.ma"><img alt="Luma" src="https://github.com/user-attachments/assets/ac282433-6adb-4ad2-9fd2-5c6ee513c14b" width="250px" height="150px"></a>
+<a href="https://tailwindcss.com"><img alt="Tailwind" src="https://github.com/user-attachments/assets/1d5f2571-8bc3-4367-9fec-14d291168ff0" width="200px" height="120px"></a> <a href="https://emilkowal.ski"><img alt="Emil Kowalski" src="https://github.com/user-attachments/assets/33d1cb98-238a-4eed-a0df-9c7ab097d65b" width="200px" height="120px"></a> <a href="https://liveblocks.io"><img alt="Liveblocks" src="https://github.com/user-attachments/assets/28eddbe5-1617-4e74-969d-2eb6fcd481af" width="200px" height="120px"></a> <a href="https://vercel.com"><img alt="Vercel" src="https://github.com/user-attachments/assets/abc473bd-07ae-4a7d-9833-efe9dadb3773" width="200px" height="120px"></a> <a href="https://lu.ma"><img alt="Luma" src="https://github.com/user-attachments/assets/ac282433-6adb-4ad2-9fd2-5c6ee513c14b" width="200px" height="120px"></a>
 
 ### Silver
 
