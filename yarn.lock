@@ -7063,7 +7063,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"framer-motion@^12.23.13, framer-motion@workspace:packages/framer-motion":
+"framer-motion@^12.23.14, framer-motion@workspace:packages/framer-motion":
   version: 0.0.0-use.local
   resolution: "framer-motion@workspace:packages/framer-motion"
   dependencies:
@@ -7827,8 +7827,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "html-env@workspace:dev/html"
   dependencies:
-    framer-motion: ^12.23.13
-    motion: ^12.23.13
+    framer-motion: ^12.23.14
+    motion: ^12.23.14
     motion-dom: ^12.23.12
     react: ^18.3.1
     react-dom: ^18.3.1
@@ -10646,11 +10646,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"motion@^12.23.13, motion@workspace:packages/motion":
+"motion@^12.23.14, motion@workspace:packages/motion":
   version: 0.0.0-use.local
   resolution: "motion@workspace:packages/motion"
   dependencies:
-    framer-motion: ^12.23.13
+    framer-motion: ^12.23.14
     tslib: ^2.4.0
   peerDependencies:
     "@emotion/is-prop-valid": "*"
@@ -10767,7 +10767,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "next-env@workspace:dev/next"
   dependencies:
-    motion: ^12.23.13
+    motion: ^12.23.14
     next: 15.2.0
     react: 19.0.0
     react-dom: 19.0.0
@@ -12233,7 +12233,7 @@ __metadata:
     "@typescript-eslint/parser": ^7.2.0
     "@vitejs/plugin-react-swc": ^3.5.0
     eslint-plugin-react-refresh: ^0.4.6
-    motion: ^12.23.13
+    motion: ^12.23.14
     react: ^19.0.0
     react-dom: ^19.0.0
     vite: ^5.2.0
@@ -12316,7 +12316,7 @@ __metadata:
     "@typescript-eslint/parser": ^7.2.0
     "@vitejs/plugin-react-swc": ^3.5.0
     eslint-plugin-react-refresh: ^0.4.6
-    framer-motion: ^12.23.13
+    framer-motion: ^12.23.14
     react: ^18.3.1
     react-dom: ^18.3.1
     vite: ^5.2.0
@@ -15183,8 +15183,8 @@ __metadata:
   linkType: hard
 
 "vite@npm:^5.2.0":
-  version: 5.4.19
-  resolution: "vite@npm:5.4.19"
+  version: 5.4.20
+  resolution: "vite@npm:5.4.20"
   dependencies:
     esbuild: ^0.21.3
     fsevents: ~2.3.3
@@ -15221,7 +15221,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: c15af65f2370b59e674c5fab22d8e05ec5c7f8f0345ed99ffec155c77feb5636b4e0680dbd096a6f06d7c386b259dc0b9c67c4f1ec08486a2f2a677c9ea6971b
+  checksum: 67af97e818977e92d1e55bc35d45f58d41eba6fc87f2a18435d3402adb07f4c4ec1ba838d954829f80f7784e65b65f8d147db695cfaefe45f667ee283530770d
   languageName: node
   linkType: hard
 
