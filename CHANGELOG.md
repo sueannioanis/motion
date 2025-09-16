@@ -4,11 +4,15 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
-## [Unreleased]
+## [12.23.13] 2025-09-16
 
 ### Fixed
 
 -   Fixed issue where motion components don't update refs when externalRef changes. The `useMotionRef` function now properly includes `externalRef` in the dependency array to ensure ref callbacks update when the external ref changes.
+
+### Changed
+
+-   Stopped tracking yarn cache in the repo.
 
 ## [12.23.12] 2025-07-29
 
