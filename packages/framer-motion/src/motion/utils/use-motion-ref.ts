@@ -36,10 +36,9 @@ export function useMotionRef<Instance, RenderState>(
             }
         },
         /**
-         * Only pass a new ref callback to React if we've received a visual element
-         * factory. Otherwise we'll be mounting/remounting every time externalRef
-         * or other dependencies change.
+         * Include externalRef in dependencies to ensure the callback updates
+         * when the ref changes, allowing proper ref forwarding.
          */
-        [visualElement]
+        [visualElement, externalRef]
     )
 }
