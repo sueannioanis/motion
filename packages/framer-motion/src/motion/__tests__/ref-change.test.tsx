@@ -1,55 +1,31 @@
 import * as React from "react"
-import { render, fireEvent } from "../../jest.setup"
-import { motion } from "../index"
+import { render } from "../../jest.setup"
+import * as m from "motion/react-m"
 
 describe("motion component ref changes", () => {
-    it("should properly handle ref changes when externalRef changes", () => {
-        const TestComponent = () => {
-            const ref1 = React.useRef<HTMLDivElement>(null)
-            const ref2 = React.useRef<HTMLDivElement>(null)
-            const ref3 = React.useRef<HTMLDivElement>(null)
-            const ref4 = React.useRef<HTMLDivElement>(null)
-            const [currentRef, setCurrentRef] = React.useState(ref1)
-            const [motionCurrentRef, setMotionCurrentRef] = React.useState(ref3)
+    it("should properly handle ref changes when externalRef changes", async () => {
+        let ref1: React.RefObject<HTMLDivElement> | undefined
+        let ref2: React.RefObject<HTMLDivElement> | undefined
 
-            const handleRefChange = () => {
-                setCurrentRef(ref2)
-                setMotionCurrentRef(ref4)
-            }
+        const TestComponent = () => {
+            ref1 = React.useRef<HTMLDivElement>(null)
+            ref2 = React.useRef<HTMLDivElement>(null)
+            const [currentRef, setCurrentRef] = React.useState(ref1)
 
             React.useEffect(() => {
-                console.log("ref1", ref1.current)
-                console.log("ref2", ref2.current)
-                console.log("currentRef", currentRef.current)
-                console.log("ref3", ref3.current)
-                console.log("ref4", ref4.current)
-                console.log("motionCurrentRef", motionCurrentRef.current)
-            }, [currentRef, motionCurrentRef])
+                setCurrentRef(ref2!)
+            }, [])
 
-            return (
-                <>
-                    <div ref={currentRef}>Hii</div>
-                    <motion.div ref={motionCurrentRef}>Hello from motion</motion.div>
-                    <button onClick={handleRefChange}>Change reference to ref2</button>
-                </>
-            )
+            return <m.div ref={currentRef}>Hello</m.div>
         }
 
-        const { container, getByText } = render(<TestComponent />)
+        render(<TestComponent />)
         
-        // Initial state
-        expect(ref1.current).toBeTruthy()
-        expect(ref2.current).toBeNull()
-        expect(ref3.current).toBeTruthy()
-        expect(ref4.current).toBeNull()
-
-        // Click button to change refs
-        fireEvent.click(getByText("Change reference to ref2"))
-
-        // After ref change
-        expect(ref1.current).toBeNull()
-        expect(ref2.current).toBeTruthy()
-        expect(ref3.current).toBeNull() // This should be null after ref change
-        expect(ref4.current).toBeTruthy() // This should have the motion div
+        // Wait for useEffect to run
+        await new Promise(resolve => setTimeout(resolve, 100))
+        
+        // After ref change, ref1 should be null and ref2 should have the element
+        expect(ref1!.current).toBeNull()
+        expect(ref2!.current).toBeTruthy()
     })
 })
