@@ -9,10 +9,6 @@ jobs:
         steps:
             - checkout
 
-            # Corepack + Yarn version (optional but useful for logs)
-            - run:
-                  name: Enable Corepack
-                  command: corepack enable
             - run:
                   name: Yarn version
                   command: yarn --version
@@ -49,9 +45,6 @@ jobs:
         steps:
             - checkout
 
-            - run:
-                  name: Enable Corepack
-                  command: corepack enable
             - run:
                   name: Yarn version
                   command: yarn --version
@@ -90,9 +83,6 @@ jobs:
             - checkout
 
             - run:
-                  name: Enable Corepack
-                  command: corepack enable
-            - run:
                   name: Yarn version
                   command: yarn --version
 
@@ -128,9 +118,6 @@ jobs:
         steps:
             - checkout
 
-            - run:
-                  name: Enable Corepack
-                  command: corepack enable
             - run:
                   name: Yarn version
                   command: yarn --version
@@ -173,9 +160,6 @@ jobs:
         steps:
             - checkout
 
-            - run:
-                  name: Enable Corepack
-                  command: corepack enable
             - run:
                   name: Yarn version
                   command: yarn --version
