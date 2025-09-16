@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.14] 2025-09-16
+
+### Fixed
+
+-   Fixing types of `Reorder.Item` and `Reorder.Group` so incorrect HTML props are correctly flagged.
+
 ## [12.23.13] 2025-09-16
 
 ### Fixed
