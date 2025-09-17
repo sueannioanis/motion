@@ -39,6 +39,6 @@ export function useMotionRef<Instance, RenderState>(
          * Include externalRef in dependencies to ensure the callback updates
          * when the ref changes, allowing proper ref forwarding.
          */
-        [visualElement, externalRef]
+        [visualElement]
     )
 }
