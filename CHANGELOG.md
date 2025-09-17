@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.15] 2025-09-16
+
+### Fixed
+
+-   Reverting rehydration of `externalRef` when it switches.
+
 ## [12.23.14] 2025-09-16
 
 ### Fixed
