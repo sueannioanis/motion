@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.15] 2025-09-18
+
+### Fixed
+
+-   Fixing `export *` error in RSC.
+
 ## [12.23.14] 2025-09-17
 
 ### Fixed
