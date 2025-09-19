@@ -200,7 +200,6 @@ describe("parseValueFromTransform", () => {
             matrix = new CSSMatrix()
             matrix = matrix.rotate(0, 0, 60)
 
-            console.log(matrix.toString())
             expect(
                 parseValueFromTransform(matrix.toString(), "rotateZ")
             ).toBeCloseTo(60)

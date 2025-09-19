@@ -15,17 +15,25 @@ export function useMotionRef<Instance, RenderState>(
     visualElement?: VisualElement<Instance> | null,
     externalRef?: React.Ref<Instance>
 ): React.Ref<Instance> {
+    const currentInstanceRef = React.useRef<Instance | null>(null)
+
     return useCallback(
         (instance: Instance) => {
-            if (instance) {
-                visualState.onMount && visualState.onMount(instance)
-            }
+            const prevInstance = currentInstanceRef.current
+            currentInstanceRef.current = instance
 
-            if (visualElement) {
+            // Only run mount/unmount logic when the instance actually changes
+            if (instance !== prevInstance) {
                 if (instance) {
-                    visualElement.mount(instance)
-                } else {
-                    visualElement.unmount()
+                    visualState.onMount && visualState.onMount(instance)
+                }
+
+                if (visualElement) {
+                    if (instance) {
+                        visualElement.mount(instance)
+                    } else {
+                        visualElement.unmount()
+                    }
                 }
             }
 
@@ -41,6 +49,6 @@ export function useMotionRef<Instance, RenderState>(
          * Include externalRef in dependencies to ensure the callback updates
          * when the ref changes, allowing proper ref forwarding.
          */
-        [visualElement]
+        [visualElement, externalRef]
     )
 }
