@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.16] 2025-09-19
+
+### Fixed
+
+-   Fixing `ref` when passed to a child of `AnimatePresence` in `"popLayout"` mode.
+
 ## [12.23.15] 2025-09-18
 
 ### Fixed
