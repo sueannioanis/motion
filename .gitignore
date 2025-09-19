@@ -42,3 +42,6 @@ playwright-report
 test-results
 test_results
 .cache
+
+# Generated files
+changelog.csv

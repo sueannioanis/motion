@@ -20,7 +20,8 @@
         "measure": "turbo run measure --force && node dev/inc/bundlesize.mjs",
         "version": "yarn install && git stage yarn.lock",
         "prepare": "turbo run build measure",
-        "new": "yarn test-playwright && lerna publish from-package",
+        "generate-changelog-csv": "node scripts/generate-changelog.js",
+        "new": "yarn generate-changelog-csv && yarn test-playwright && lerna publish from-package",
         "new-alpha": "turbo run build && lerna publish from-package --canary --preid alpha"
     },
     "devDependencies": {
