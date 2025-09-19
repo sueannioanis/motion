@@ -101,7 +101,7 @@ export function createScopedAnimate(scope?: AnimationScope) {
             | DynamicAnimationOptions
     ): AnimationPlaybackControlsWithThen {
         let animations: AnimationPlaybackControlsWithThen[] = []
-        let groupOnComplete: VoidFunction | undefined
+        let animationOnComplete: VoidFunction | undefined
 
         if (isSequence(subjectOrSequence)) {
             animations = animateSequence(
@@ -113,7 +113,7 @@ export function createScopedAnimate(scope?: AnimationScope) {
             // Extract top-level onComplete so it doesn't get applied per-value
             const { onComplete, ...rest } = options || {}
             if (typeof onComplete === "function") {
-                groupOnComplete = onComplete as VoidFunction
+                animationOnComplete = onComplete as VoidFunction
             }
             animations = animateSubject(
                 subjectOrSequence as ElementOrSelector,
@@ -125,10 +125,8 @@ export function createScopedAnimate(scope?: AnimationScope) {
 
         const animation = new GroupAnimationWithThen(animations)
 
-        if (groupOnComplete) {
-            animation.finished.then(() => {
-                groupOnComplete?.()
-            })
+        if (animationOnComplete) {
+            animation.finished.then(animationOnComplete)
         }
 
         if (scope) {
