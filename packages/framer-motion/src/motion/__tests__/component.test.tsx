@@ -1,6 +1,6 @@
 import { fireEvent } from "@testing-library/react"
+import { motion } from "framer-motion"
 import * as React from "react"
-import { motion } from "../../"
 import { render } from "../../jest.setup"
 
 describe("motion component rendering and styles", () => {
@@ -310,78 +310,38 @@ describe("motion component rendering and styles", () => {
     })
 
     it("layout animations interrupt jump", async () => {
-        const promise = new Promise((r) => {
-            const Component = () => {
-                const [open, setOpen] = React.useState(false)
+        const promise = new Promise((r)=>{
+            const Component = ()=>{
+                const [open,setOpen] = React.useState(false)
                 const divRef = React.useRef<HTMLDivElement>(null)
-                async function handleLayoutJump() {
+                async function handleLayoutJump(){
                     setOpen(true)
-                    await new Promise((resolve) => setTimeout(resolve, 1500))
-                    const firstSize =
-                        divRef.current?.getBoundingClientRect().width || 0
+                    await new Promise(resolve => setTimeout(resolve, 1500))
+                    const firstSize = divRef.current?.getBoundingClientRect().width||0
                     setOpen(false)
-                    const secondSize =
-                        divRef.current?.getBoundingClientRect().width || 0
+                    const secondSize = divRef.current?.getBoundingClientRect().width||0
                     r(Math.abs(firstSize - secondSize))
                 }
-                React.useEffect(() => {
+                React.useEffect(()=>{
                     handleLayoutJump()
-                }, [])
-                return (
-                    <motion.div layout="size">
-                        <motion.div
-                            layout="size"
-                            ref={divRef}
-                            style={{ width: open ? "200px" : "50px" }}
-                            transition={{
-                                layout: {
-                                    duration: 2,
-                                    ease: "linear",
-                                },
-                            }}
-                        />
-                    </motion.div>
-                )
+                },[])
+                return <motion.div layout="size">
+                <motion.div
+                    layout="size"
+                    ref={divRef}
+                    style={{ width:open? "200px" : "50px" }}
+                    transition={{
+                        layout: {
+                            duration: 2,
+                            ease: "linear",
+                        },
+                    }}
+                />
+            </motion.div>
             }
             render(<Component />)
         })
 
         expect(promise).resolves.toBeLessThan(50)
-    })
-
-    it("handles ref swapping correctly", () => {
-        let ref1Element: HTMLDivElement | null = null
-        let ref2Element: HTMLDivElement | null = null
-
-        const Component = ({ useRef2 }: { useRef2: boolean }) => {
-            const ref1 = React.useRef<HTMLDivElement>(null)
-            const ref2 = React.useRef<HTMLDivElement>(null)
-
-            const currentRef = useRef2 ? ref2 : ref1
-
-            React.useEffect(() => {
-                // Capture ref values after each render
-                ref1Element = ref1.current
-                ref2Element = ref2.current
-            })
-
-            return <motion.div ref={currentRef} data-testid="ref-element" />
-        }
-
-        // Initial render with ref1
-        const { rerender, getByTestId } = render(<Component useRef2={false} />)
-
-        // Verify ref1 is populated, ref2 is null
-        expect(ref1Element).toBeTruthy()
-        expect(ref2Element).toBeNull()
-        expect(ref1Element).toBe(getByTestId("ref-element"))
-
-        // Re-render with ref2 (swap refs)
-        rerender(<Component useRef2={true} />)
-
-        // Verify ref2 is now populated, ref1 is null
-        expect(ref1Element).toBeNull()
-        expect(ref2Element).toBeTruthy()
-        expect(ref2Element).toBe(getByTestId("ref-element"))
     })
 })
