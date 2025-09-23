@@ -69,10 +69,8 @@ export class NativeAnimationExtended<
             return
         }
 
-        const sampleAnimation = new JSAnimation({
-            ...options,
-            autoplay: false,
-        })
+        const sampleAnimation = new JSAnimation(options)
+        sampleAnimation.pause()
 
         const sampleTime = secondsToMilliseconds(this.finishedTime ?? this.time)
 

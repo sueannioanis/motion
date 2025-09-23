@@ -1,5 +1,5 @@
 import { animateMini } from "framer-motion/dom"
-import { useRef, useEffect } from "react"
+import { useEffect, useRef } from "react"
 
 export const App = () => {
     const ref = useRef<HTMLDivElement>(null)
@@ -9,7 +9,7 @@ export const App = () => {
 
         const animation = animateMini(
             ref.current,
-            { width: 200 },
+            { width: [100, 200], opacity: [0, 1] },
             { duration: 0.1, autoplay: false }
         )
 
@@ -20,7 +20,8 @@ export const App = () => {
 }
 
 const style = {
-    width: 100,
+    width: 150, // main thread
+    opacity: 0.5, // waapi
     height: 100,
     backgroundColor: "#fff",
 }

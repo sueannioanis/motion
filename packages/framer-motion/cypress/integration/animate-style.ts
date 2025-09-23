@@ -30,13 +30,14 @@ describe("animateMini()", () => {
             })
     })
 
-    it("autoplay correctly pauses the animation on creation", () => {
+    it("autoplay correctly doesn't start the animation on creation", () => {
         cy.visit("?test=animate-style-autoplay")
             .wait(200)
             .get("#box")
             .should(([$element]: any) => {
-                expect($element.getBoundingClientRect().width).to.equal(100)
-                expect($element.style.width).to.equal("100px")
+                expect($element.getBoundingClientRect().width).to.equal(150)
+                expect($element.style.width).to.equal("150px")
+                expect($element.style.opacity).to.equal("0.5")
             })
     })
 
