@@ -68,6 +68,7 @@ export class AsyncMotionValueAnimation<T extends AnyResolvedKeyframe>
         this.createdAt = time.now()
 
         const optionsWithDefaults: OptionsWithoutKeyframes<T> = {
+            autoplay,
             delay,
             type,
             repeat,
@@ -99,10 +100,7 @@ export class AsyncMotionValueAnimation<T extends AnyResolvedKeyframe>
             motionValue,
             element
         )
-
-        if (autoplay) {
-            this.keyframeResolver?.scheduleResolve()
-        }
+        this.keyframeResolver?.scheduleResolve()
     }
 
     onKeyframesResolved(

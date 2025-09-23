@@ -81,6 +81,10 @@ export class NativeAnimation<T extends AnyResolvedKeyframe>
             pseudoElement
         )
 
+        if (transition.autoplay === false) {
+            this.animation.pause()
+        }
+
         this.animation.onfinish = () => {
             this.finishedTime = this.time
 
