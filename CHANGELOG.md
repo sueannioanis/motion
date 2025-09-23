@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.19] 2025-09-23
+
+### Fixed
+
+-   Remove support for changing `ref` prop.
+
 ## [12.23.18] 2025-09-19
 
 ### Fixed
