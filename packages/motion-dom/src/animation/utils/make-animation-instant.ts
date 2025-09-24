@@ -7,5 +7,5 @@ export function makeAnimationInstant(
     }>
 ): void {
     options.duration = 0
-    options.type === "keyframes"
+    options.type = "keyframes"
 }
