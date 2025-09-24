@@ -184,7 +184,7 @@ export class NativeAnimation<T extends AnyResolvedKeyframe>
 
     get iterationDuration() {
         const { delay = 0 } = this.options || {}
-        return this.duration + delay
+        return this.duration + millisecondsToSeconds(delay)
     }
 
     get time() {

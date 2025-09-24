@@ -412,6 +412,15 @@ test.describe("animate() properties", () => {
         })
     })
 
+    test(".time with delay", async ({ page }) => {
+        await waitForAnimation("animate/animate-time-delay.html", page)
+        await eachBox(page, async (box) => {
+            expect(box).toHaveText("paused")
+            const boundingBox = await box.boundingBox()
+            expect(Math.round(boundingBox!.x)).toBeCloseTo(0)
+        })
+    })
+
     test(".speed", async ({ page }) => {
         await waitForAnimation("animate/animate-speed.html", page)
         await eachBox(page, async (box) => {
