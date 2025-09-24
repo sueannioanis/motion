@@ -14,7 +14,8 @@ export function attachToAnimation(
             valueAnimation.pause()
 
             return observeTimeline((progress) => {
-                valueAnimation.time = valueAnimation.duration * progress
+                valueAnimation.time =
+                    valueAnimation.iterationDuration * progress
             }, timeline)
         },
     })

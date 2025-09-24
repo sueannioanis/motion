@@ -9,6 +9,7 @@ function createTestAnimationControls(
         time: 1,
         speed: 1,
         duration: 10,
+        iterationDuration: 10,
         startTime: 0,
         state: "running",
         stop: () => {},
