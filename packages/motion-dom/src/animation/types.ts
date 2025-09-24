@@ -62,6 +62,11 @@ export interface AnimationPlaybackControls {
     duration: number
 
     /**
+     * The duration of the animation, including any delay.
+     */
+    iterationDuration: number
+
+    /**
      * Stops the animation at its current state, and prevents it from
      * resuming when the animation is played again.
      */

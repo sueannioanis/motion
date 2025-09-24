@@ -204,6 +204,10 @@ export class AsyncMotionValueAnimation<T extends AnyResolvedKeyframe>
         return this.animation.duration
     }
 
+    get iterationDuration() {
+        return this.animation.iterationDuration
+    }
+
     get time() {
         return this.animation.time
     }

@@ -76,17 +76,17 @@ export class GroupAnimation implements AnimationPlaybackControls {
     }
 
     get duration() {
-        let max = 0
-        for (let i = 0; i < this.animations.length; i++) {
-            max = Math.max(max, this.animations[i].duration)
-        }
-        return max
+        return getMax(this.animations, "duration")
+    }
+
+    get iterationDuration() {
+        return getMax(this.animations, "iterationDuration")
     }
 
     private runAll(
         methodName: keyof Omit<
             AnimationPlaybackControls,
-            PropNames | "then" | "finished"
+            PropNames | "then" | "finished" | "iterationDuration"
         >
     ) {
         this.animations.forEach((controls) => controls[methodName]())
@@ -110,4 +110,15 @@ export class GroupAnimation implements AnimationPlaybackControls {
     complete() {
         this.runAll("complete")
     }
+}
+
+function getMax(
+    animations: GroupedAnimations,
+    propName: "iterationDuration" | "duration"
+) {
+    return Math.max(
+        ...animations
+            .map((animation) => animation[propName])
+            .filter((value) => value !== null)
+    )
 }

@@ -440,7 +440,7 @@ test.describe("animate() properties", () => {
     })
 
     test(".duration with delay", async ({ page }) => {
-        await waitForAnimation("animate/animate-duration-delay.html", page)
+        await waitForAnimation("animate/animate-iteration-duration.html", page)
         await eachBox(page, async (box) => {
             const text = await box.innerText()
             expect(text).toBe("1")

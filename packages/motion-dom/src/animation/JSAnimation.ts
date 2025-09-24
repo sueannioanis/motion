@@ -351,6 +351,11 @@ export class JSAnimation<T extends number | string>
         return millisecondsToSeconds(this.calculatedDuration)
     }
 
+    get iterationDuration() {
+        const { delay = 0 } = this.options || {}
+        return this.duration + delay
+    }
+
     get time() {
         return millisecondsToSeconds(this.currentTime)
     }
