@@ -4,6 +4,12 @@ Motion adheres to [Semantic Versioning](http://semver.org/).
 
 Undocumented APIs should be considered internal and may change without warning.
 
+## [12.23.21] 2025-09-24
+
+### Fixed
+
+-   Fixing main-thread `scroll` with animations that contain `delay`.
+
 ## [12.23.20] 2025-09-24
 
 ### Fixed
