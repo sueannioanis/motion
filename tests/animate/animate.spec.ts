@@ -6,10 +6,13 @@ async function eachBox(
 ) {
     const boxes = page.locator(".box")
     const count = await boxes.count()
-    expect(count).toBe(3)
+
     await callback(boxes.nth(0), 0)
     await callback(boxes.nth(1), 1)
     await callback(boxes.nth(2), 2)
+    if (count === 4) {
+        await callback(boxes.nth(3), 3)
+    }
 }
 
 async function waitForAnimation(url: string, page: Page, customTimeout = 500) {

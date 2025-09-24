@@ -77,6 +77,13 @@ test.describe("scroll()", () => {
         await page.goto("scroll/scroll-stagger.html")
         await page.reload()
 
+        // Record the initial bounding box x for each box
+        const initialXs: number[] = []
+        await eachStaggerBox(page, async (box) => {
+            const boundingBox = await box.boundingBox()
+            initialXs.push(boundingBox?.x ?? 0)
+        })
+
         // Get the total scroll height (400vh)
         const totalScrollHeight = await page.evaluate(() => {
             return document.documentElement.scrollHeight - window.innerHeight
@@ -90,10 +97,12 @@ test.describe("scroll()", () => {
         // Wait for animations to complete
         await page.waitForTimeout(100)
 
-        // At the bottom, all boxes should be at 100px translateX regardless of stagger
+        // At the bottom, all boxes should be at 100px translateX from their initial position regardless of stagger
+        let i = 0
         await eachStaggerBox(page, async (box) => {
             const boundingBox = await box.boundingBox()
-            expect(boundingBox?.x).toBeCloseTo(100, 1)
+            const initialX = initialXs[i++]
+            expect(boundingBox?.x).toBeCloseTo(initialX + 100, 1)
         })
     })
 })
