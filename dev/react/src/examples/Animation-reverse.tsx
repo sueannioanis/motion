@@ -16,6 +16,7 @@ export const App = () => {
                         "my label",
                         [".four", { x: 90 }, { duration: 2 }],
                     ])
+
                     animation.time = animation.duration
                     animation.speed = -1
                 }}

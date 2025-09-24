@@ -1,4 +1,4 @@
-import { motionValue, MotionValue } from "motion-dom"
+import { frame, motionValue, MotionValue } from "motion-dom"
 import { useEffect } from "react"
 import * as THREE from "three"
 import { animate } from ".."
@@ -454,5 +454,32 @@ describe("animate: Objects", () => {
         const obj = new THREE.Object3D()
         await animate([[obj.rotation, { x: 10 }, { duration: 0.01 }]])
         expect(obj.rotation.x).toBe(10)
+    })
+
+    test("sets motion value to target when animating non-animatable color with type: false", async () => {
+        const colorValue = motionValue("#000")
+
+        const animation = animate(colorValue, "transparent", { type: false })
+        await animation.finished.then((resolve) => {
+            frame.postRender(() => {
+                expect(colorValue.get()).toBe("transparent")
+                resolve()
+            })
+        })
+    })
+
+    test("does not fire console warning when animating non-animatable color with type: false", async () => {
+        const warn = jest.spyOn(console, "warn").mockImplementation(() => {})
+
+        const colorValue = motionValue("#000")
+
+        // This would normally trigger a warning because "transparent" is not
+        // recognized as an animatable color, but with type: false it should not warn
+        const animation = animate(colorValue, "transparent", { type: false })
+        await animation.finished
+
+        expect(warn).not.toHaveBeenCalled()
+
+        warn.mockRestore()
     })
 })
