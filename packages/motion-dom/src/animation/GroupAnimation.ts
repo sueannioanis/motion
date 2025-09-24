@@ -115,10 +115,12 @@ export class GroupAnimation implements AnimationPlaybackControls {
 function getMax(
     animations: GroupedAnimations,
     propName: "iterationDuration" | "duration"
-) {
-    return Math.max(
-        ...animations
-            .map((animation) => animation[propName])
-            .filter((value) => value !== null)
+): number {
+    return (
+        Math.max(
+            ...animations
+                .map((animation) => animation[propName])
+                .filter((value) => value !== null)
+        ) || 0
     )
 }
