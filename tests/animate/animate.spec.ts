@@ -438,6 +438,14 @@ test.describe("animate() properties", () => {
             expect(text).toBe("0.85")
         })
     })
+
+    test(".duration with delay", async ({ page }) => {
+        await waitForAnimation("animate/animate-duration-delay.html", page)
+        await eachBox(page, async (box) => {
+            const text = await box.innerText()
+            expect(text).toBe("1")
+        })
+    })
 })
 
 test.describe("animate() options", () => {
