@@ -116,11 +116,13 @@ function getMax(
     animations: GroupedAnimations,
     propName: "iterationDuration" | "duration"
 ): number {
-    return (
-        Math.max(
-            ...animations
-                .map((animation) => animation[propName])
-                .filter((value) => value !== null)
-        ) || 0
-    )
+    let max = 0
+
+    for (let i = 0; i < animations.length; i++) {
+        const value = animations[i][propName]
+        if (value !== null && value > max) {
+            max = value
+        }
+    }
+    return max
 }
