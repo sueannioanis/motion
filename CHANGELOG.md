@@ -8,7 +8,7 @@ Undocumented APIs should be considered internal and may change without warning.
 
 ### Added
 
--   Exporting `HTMLElements` type for internal use.
+-   Exporting `HTMLElements` and `useComposedRefs` type for internal use.
 
 ## [12.23.21] 2025-09-24
 

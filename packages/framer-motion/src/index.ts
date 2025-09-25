@@ -27,6 +27,7 @@ export { createBox } from "./projection/geometry/models"
 export { filterProps } from "./render/dom/utils/filter-props"
 export { AnimationType } from "./render/utils/types"
 export { isBrowser } from "./utils/is-browser"
+export { useComposedRefs } from "./utils/use-composed-ref"
 export { useForceUpdate } from "./utils/use-force-update"
 export { useIsomorphicLayoutEffect } from "./utils/use-isomorphic-effect"
 export { useUnmountEffect } from "./utils/use-unmount-effect"
@@ -132,7 +133,10 @@ export type {
 export type { IProjectionNode } from "./projection/node/types"
 export type { DOMMotionComponents } from "./render/dom/types"
 export type { ForwardRefComponent, HTMLMotionProps } from "./render/html/types"
-export type { SVGAttributesAsMotionValues, SVGMotionProps } from "./render/svg/types"
+export type {
+    SVGAttributesAsMotionValues,
+    SVGMotionProps,
+} from "./render/svg/types"
 export type { CreateVisualElement } from "./render/types"
 export type { FlatTree } from "./render/utils/flat-tree"
 export type { ScrollMotionValues } from "./value/scroll/utils"
