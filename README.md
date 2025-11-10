@@ -122,7 +122,7 @@ Motion powers the animations for all websites built with Framer, the web builder
 
 Motion drives the animations on the Cursor homepage, and is working with Cursor to bring powerful AI workflows to the Motion examples and docs.
 
-<a href="https://framer.link/FlnUbQY">
+<a href="https://cursor.com">
   <img alt="Cursor" src="https://github.com/user-attachments/assets/81c482d3-c2c2-4b35-bbcf-933b28d5b448" width="250px" height="150px" />
 </a>
 
