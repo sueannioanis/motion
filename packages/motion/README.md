@@ -132,7 +132,7 @@ Motion drives the animations on the Cursor homepage, and is working with Cursor 
 
 ### Gold
 
-<a href="https://tailwindcss.com"><img alt="Tailwind" src="https://github.com/user-attachments/assets/1d5f2571-8bc3-4367-9fec-14d291168ff0" width="200px" height="120px"></a> <a href="https://liveblocks.io"><img alt="Liveblocks" src="https://github.com/user-attachments/assets/28eddbe5-1617-4e74-969d-2eb6fcd481af" width="200px" height="120px"></a> <a href="https://lu.ma"><img alt="Luma" src="https://github.com/user-attachments/assets/ac282433-6adb-4ad2-9fd2-5c6ee513c14b" width="200px" height="120px"></a> <a href="https://notion.com"><img alt="Notion" src="https://github.com/user-attachments/assets/a27a6033-3cb0-4232-a6bb-625e1824517b" width="200px" height="120px"></a> <a href="https://lottiefiles.com"><img alt="LottieFiles" src="https://github.com/user-attachments/assets/4e99d8c7-4cba-43ee-93c5-93861ae708ec" width="200px" height="120px"></a>
+<a href="https://liveblocks.io"><img alt="Liveblocks" src="https://github.com/user-attachments/assets/28eddbe5-1617-4e74-969d-2eb6fcd481af" width="200px" height="120px"></a> <a href="https://lu.ma"><img alt="Luma" src="https://github.com/user-attachments/assets/ac282433-6adb-4ad2-9fd2-5c6ee513c14b" width="200px" height="120px"></a> <a href="https://notion.com"><img alt="Notion" src="https://github.com/user-attachments/assets/a27a6033-3cb0-4232-a6bb-625e1824517b" width="200px" height="120px"></a> <a href="https://lottiefiles.com"><img alt="LottieFiles" src="https://github.com/user-attachments/assets/4e99d8c7-4cba-43ee-93c5-93861ae708ec" width="200px" height="120px"></a>
 
 ### Silver
 
