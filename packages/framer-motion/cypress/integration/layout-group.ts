@@ -76,4 +76,42 @@ describe(`LayoutGroup inherit="id"`, () => {
             })
         })
     })
+
+    it("should return to original state when expander is clicked twice with delay", () => {
+        cy.viewport(500, 500).visit("?test=layout-group").wait(250)
+
+        // Measure initial position
+        let initialTop: number
+        cy.get("#button").then(($button) => {
+            initialTop = Math.round($button[0].getBoundingClientRect().top)
+        })
+
+        // Click expander
+        cy.get("#expander").click()
+
+        // Measure position after 100ms
+        let top100ms: number
+        cy.wait(100).then(() => {
+            cy.get("#button").then(($button) => {
+                top100ms = Math.round($button[0].getBoundingClientRect().top)
+                // Should not be in original or final position
+                expect(top100ms).to.not.equal(104)
+                expect(top100ms).to.not.equal(initialTop)
+            })
+        })
+
+        // Wait 50ms, then click expander again
+        cy.wait(50).get("#expander").click()
+
+        // Measure position after animation finishes
+        cy.wait(300).then(() => {
+            cy.get("#button").then(($button) => {
+                const finalTop = Math.round(
+                    $button[0].getBoundingClientRect().top
+                )
+                // Should be back to original state
+                expect(finalTop).to.equal(initialTop)
+            })
+        })
+    })
 })
