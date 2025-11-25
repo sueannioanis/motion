@@ -895,12 +895,17 @@ export function createProjectionNode<I>({
 
             const prevLayout = this.layout
             this.layout = this.measure(false)
+            this.layoutVersion++
+            console.log(
+                "updating layout version",
+                (this.options.visualElement as any)?.current.id,
+                this.layoutVersion
+            )
             this.layoutCorrected = createBox()
             this.isLayoutDirty = false
             this.projectionDelta = undefined
             this.notifyListeners("measure", this.layout.layoutBox)
 
-            this.layoutVersion++
             const { visualElement } = this.options
             visualElement &&
                 visualElement.notify(
@@ -1192,10 +1197,17 @@ export function createProjectionNode<I>({
 
             if (
                 relativeParent &&
-                this.linkedParentVersion !== relativeParent.layoutVersion
+                this.linkedParentVersion !== relativeParent.layoutVersion &&
+                !relativeParent.options.layoutRoot
             ) {
                 this.removeRelativeTarget()
             }
+
+            console.log(
+                "resolve target delta",
+                this.linkedParentVersion,
+                relativeParent?.layoutVersion
+            )
 
             /**
              * If we don't have a targetDelta but do have a layout, we can attempt to resolve
@@ -1203,12 +1215,16 @@ export function createProjectionNode<I>({
              * even if no animation has started.
              */
             if (!this.targetDelta && !this.relativeTarget) {
+                console.log(1)
                 if (relativeParent && relativeParent.layout) {
+                    console.log(2)
                     this.createRelativeTarget(
                         relativeParent,
                         this.layout.layoutBox,
                         relativeParent.layout.layoutBox
                     )
+
+                    console.log(this.relativeTarget)
                 } else {
                     this.removeRelativeTarget()
                 }
@@ -1478,6 +1494,14 @@ export function createProjectionNode<I>({
                 target,
                 this.latestValues
             )
+
+            if ((this.options.visualElement as any)?.current.id === "box") {
+                console.log(
+                    "projection delta",
+                    this.projectionDelta?.x.translate,
+                    this.projectionDelta?.y.translate
+                )
+            }
 
             if (
                 this.treeScale.x !== prevTreeScaleX ||
